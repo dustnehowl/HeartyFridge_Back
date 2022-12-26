@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface TestRepository extends JpaRepository<Test, Long> {
     Optional<Test> findTestByAge(Integer age);
-    List<Test> findTestsByName(String name);
+    List<Test> findTestsByAge(Integer age);
     Boolean existsTestByEmail(String email);
+    Optional<Test> findTestById(Long id);
 }
