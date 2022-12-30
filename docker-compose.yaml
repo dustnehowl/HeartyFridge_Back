@@ -1,0 +1,30 @@
+version: "3.1"
+
+services:
+  test_db:
+    container_name: test_db
+    image: mysql
+    environment: # -e 옵션
+      - TZ=Asia/Seoul
+      - MYSQL_DATABASE=mydb
+      - MYSQL_ROOT_PASSWORD=1234
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./Database/mysql:/var/lib/mysql
+
+  test_server:
+    container_name: test_server
+    build: ./
+    image: test:0.0.1
+    environment:
+      - TZ=Asia/Seoul
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL : jdbc:mysql://test_db:3306/mydb?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8
+    depends_on:
+      - test_db
