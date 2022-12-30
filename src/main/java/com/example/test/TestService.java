@@ -14,8 +14,7 @@ public class TestService {
     private final TestRepository testRepository;
     @Transactional
     public String testPost(){
-        int sum=10;
-        Test test = new Test("jaeyoung", 23, "dustnrkfnfn@naver.com");
+        Test test = new Test("yeonsu", 25, "dustnrkfnfn@naver.com","y8237922");
         testRepository.save(test);
 //        Optional<Test> testOptional = testRepository.findById(1L);
 //        Test test = testOptional.get();

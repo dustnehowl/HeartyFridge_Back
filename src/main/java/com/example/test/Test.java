@@ -16,14 +16,16 @@ public class Test {
     private String name;
     private Integer age;
     private String email;
+    private String password;
 
     public Test() {
     }
 
-    public Test(String name, Integer age, String email) {
+    public Test(String name, Integer age, String email, String password) {
         this.name = name;
         this.age = age;
         this.email = email;
+        this.password = password;
     }
 
 }
