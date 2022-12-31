@@ -1,8 +1,7 @@
-package com.example.test;
-import jakarta.servlet.http.HttpServletRequest;
+package com.example.test.controller;
+import com.example.test.model.Test;
+import com.example.test.service.TestService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,5 +1,6 @@
-package com.example.test;
-import jakarta.persistence.Entity;
+package com.example.test.service;
+import com.example.test.repository.TestRepository;
+import com.example.test.model.Test;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
