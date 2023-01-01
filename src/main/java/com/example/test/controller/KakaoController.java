@@ -1,6 +1,10 @@
 package com.example.test.controller;
 
+import com.example.test.repository.AuthRepository;
 import com.example.test.service.KakaoService;
+import com.example.test.service.TestService;
+import com.example.test.service.TestService1;
+import com.example.test.service.TestServiceInter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,10 @@ import java.io.IOException;
 public class KakaoController {
 
     private final KakaoService kakaoService;
+    private final TestController testController;
+    private final TestServiceInter testService; // OCP 원칙 x
+    
+    // OCP SOLID 개방폐쇠원칙 확장 열려있고 변경에는 닫혀있어야함
 
     @GetMapping("/kakao")
     public String kakaoLogin(@RequestParam("code") String code) throws IOException {

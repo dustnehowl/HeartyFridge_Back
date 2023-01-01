@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TestService {
+public class TestService implements TestServiceInter {
 
     private final TestRepository testRepository;
     @Transactional
@@ -33,8 +33,8 @@ public class TestService {
 //    }
 
     public Test getUser(Long id){
-        Optional<Test> testById = testRepository.findTestById(id);
-        return testById.get();
+        return testRepository.findTestById(id)
+                .orElseThrow(IllegalStateException::new);
     }
 
     public List<Test> getAllUsers(){

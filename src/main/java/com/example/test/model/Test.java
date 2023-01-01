@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Test {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +20,11 @@ public class Test {
     private String password;
 
     public Test() {
+    }
+
+    public Test(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
     public Test(String name, Integer age, String email, String password) {

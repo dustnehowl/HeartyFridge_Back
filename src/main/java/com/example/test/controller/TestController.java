@@ -1,6 +1,8 @@
 package com.example.test.controller;
 import com.example.test.model.Test;
 import com.example.test.service.TestService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +25,9 @@ public class TestController {
 
     @GetMapping("/users/userId")
     @ResponseBody
-    public Test getUser(@RequestParam Long id){
-        return testService.getUser(id);
+    public ResponseTest getUser(@RequestParam Long id){
+        Test user = testService.getUser(id);
+        return new ResponseTest(user.getId(), user.getName(), user.getAge() * 100);
     }
 
     @GetMapping("/users/all")
@@ -36,5 +39,15 @@ public class TestController {
     public List getUsersByAge(){
         Integer age = 23;
         return testService.getUserByAge(age);
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static class ResponseTest {
+
+        private Long id;
+        private String name;
+        private Integer age;
+
     }
 }

@@ -1,11 +1,14 @@
 package com.example.test.service;
 import com.example.test.model.Test;
 import com.example.test.repository.AuthRepository;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -19,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,26 +64,46 @@ public class KakaoService {
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> stringMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, String>>() {
-        });
+        Map<String, String> stringMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, String>>() {});
 
         String access_token = stringMap.get("access_token");
-
         headers.add("Authorization", "Bearer " + access_token);
         HttpEntity<String> map2 = new HttpEntity<>(headers);
-
         ResponseEntity<String> responseEntity = restTemplate.postForEntity("https://kapi.kakao.com/v2/user/me", map2, String.class);
-        System.out.println(responseEntity.getBody());
 
-        Map<String, Object> o = objectMapper.readValue(responseEntity.getBody(), new TypeReference<>() {});
-        saveUser(o);
 
+        String response2 = responseEntity.getBody();
+        JSONObject kakao_response = parseJSON(response2);
+        JSONObject kakao_account = (JSONObject) kakao_response.get("kakao_account");
+        JSONObject profile = (JSONObject) kakao_account.get("profile");
+        String email = (String) kakao_account.get("email");
+        String nickname = (String) profile.get("nickname");
+
+        System.out.println(email + "#####################" + nickname);
+
+        Test test = saveUser(nickname, email);
     }
 
-    private void saveUser(Map<String, Object> o){
-        Test db = new Test();
-        Object properties = o.get("kakao_account");
-        System.out.println("#######################" + properties);
+    private JSONObject parseJSON(String result) {
+        try {
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            return jsonObject;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Test saveUser(String name, String email) {
+        Optional<Test> optionalTest = authRepository.findTestByEmail(email);
+        Test test;
+        if(optionalTest.isPresent()){
+            test = optionalTest.get();
+        }
+        else{
+            test = authRepository.save(new Test(name, email));
+        }
+        return test;
     }
 
 
