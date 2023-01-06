@@ -1,4 +1,4 @@
-package com.example.test.model;
+package com.example.test.test.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

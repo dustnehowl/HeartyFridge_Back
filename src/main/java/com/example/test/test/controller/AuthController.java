@@ -1,6 +1,6 @@
-package com.example.test.controller;
-import com.example.test.service.AuthService;
-import com.example.test.model.Test;
+package com.example.test.test.controller;
+import com.example.test.test.model.Test;
+import com.example.test.test.service.AuthService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,6 @@
-package com.example.test.repository;
+package com.example.test.test.repository;
 
-import com.example.test.model.Test;
+import com.example.test.test.model.Test;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,10 +1,7 @@
-package com.example.test.controller;
+package com.example.test.test.controller;
 
-import com.example.test.repository.AuthRepository;
-import com.example.test.service.KakaoService;
-import com.example.test.service.TestService;
-import com.example.test.service.TestService1;
-import com.example.test.service.TestServiceInter;
+import com.example.test.test.service.KakaoService;
+import com.example.test.test.service.TestServiceInter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

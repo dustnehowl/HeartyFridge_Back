@@ -1,6 +1,6 @@
-package com.example.test.controller;
-import com.example.test.model.Test;
-import com.example.test.service.TestService;
+package com.example.test.test.controller;
+import com.example.test.test.model.Test;
+import com.example.test.test.service.TestService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

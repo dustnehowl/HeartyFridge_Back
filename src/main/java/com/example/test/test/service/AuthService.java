@@ -1,6 +1,6 @@
-package com.example.test.service;
-import com.example.test.repository.AuthRepository;
-import com.example.test.model.Test;
+package com.example.test.test.service;
+import com.example.test.test.repository.AuthRepository;
+import com.example.test.test.model.Test;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
