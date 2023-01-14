@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -51,20 +52,32 @@ public class MemberService {
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, String> stringMap = objectMapper.readValue(rest_reponse.getBody(), new TypeReference<Map<String, String>>() {});
 
-            String access_token = stringMap.get("access_token");
+            String access_token = stringMap.get("id_token");
             HttpHeaders headers2 = new HttpHeaders();
             String uri2 = "https://www.googleapis.com/drive/v2/userinfo";
-            uri2 = "https://oauth2.googleapis.com/tokeninfo?access_token=" + access_token;
+            uri2 = "https://oauth2.googleapis.com/tokeninfo?id_token=" + access_token;
 
-            headers2.add("Authorization","Bearer "+access_token);
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
-            ResponseEntity<String> response=restTemplate.exchange(uri2, HttpMethod.GET,request,String.class);
+            //headers2.add("Authorization","Bearer "+access_token);
+            //HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
+            //ResponseEntity<String> response=restTemplate.exchange(uri2, HttpMethod.GET,request,String.class);
+            ResponseEntity<String> response=restTemplate.getForEntity(uri2, String.class);
             System.out.println("response.getBody() = " + response.getBody());
 
             String rest_response2 = response.getBody();
+            Map<String, String> stringMap1 = objectMapper.readValue(rest_response2, new TypeReference<Map<String, String>>() {});
+            String email = stringMap1.get("email");
+            String name = stringMap1.get("name");
 
+            Optional<Member> googleMember = memberRepository.findMemberByEmail(email);
+            if(googleMember.isPresent()){
 
-            return rest_response2;
+                //System.out.println("있습니다.");
+            }
+            else{
+                //System.out.println("없습니다.");
+                memberRepository.save(new Member(name, email));
+            }
+            return email + name;
         }
         catch (Exception e){
             throw new RuntimeException(e);
