@@ -12,3 +12,9 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+
+security:
+  jwt:
+    token:
+      secret-key: hearty-fridge
+      expire-length: 3,600,000

@@ -25,12 +25,11 @@ public class MemberController {
 //        return ResponseEntity.ok().body(memberService.googleLogin(token));
 //    }
     @GetMapping("/googleLogin")
-    public String googleLogin(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<String> googleLogin(HttpServletRequest request, HttpServletResponse response){
 
         String code = request.getParameter("code");
-        String token = memberService.googleLogin(code);
-        return token;
-    }
+        return ResponseEntity.ok().body(memberService.googleLogin(code));
+}
 
     @GetMapping("/hello")
     public String hello(){

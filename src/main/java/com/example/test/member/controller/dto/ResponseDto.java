@@ -7,4 +7,9 @@ import lombok.Getter;
 @Data
 @Getter
 public class ResponseDto {
+
+    private String name;
+    private String age;
+
+
 }

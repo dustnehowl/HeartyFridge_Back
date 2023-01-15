@@ -6,7 +6,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +18,19 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    @Value("${jwt.password}")
+    private String secretKey;
     //private final TokenProvider tokenProvider;
 
     @Transactional
@@ -67,22 +75,56 @@ public class MemberService {
             Map<String, String> stringMap1 = objectMapper.readValue(rest_response2, new TypeReference<Map<String, String>>() {});
             String email = stringMap1.get("email");
             String name = stringMap1.get("name");
+            String hash = md5Hex(name);
+            String gravatar_uri = "http://www.gravatar.com/avatar/" + hash + "?d=mp&s=400";
+            System.out.println(gravatar_uri);
 
-            Optional<Member> googleMember = memberRepository.findMemberByEmail(email);
-            if(googleMember.isPresent()){
 
-                //System.out.println("있습니다.");
-            }
-            else{
-                //System.out.println("없습니다.");
-                memberRepository.save(new Member(name, email));
-            }
-            return email + name;
+            Member googleMember = memberRepository.findMemberByEmail(email)
+                    .orElseGet(() -> memberRepository.save(new Member(name, email)));
+
+            //return createToken(email);
+
+            return googleMember.getEmail() + googleMember.getName();
         }
         catch (Exception e){
             throw new RuntimeException(e);
         }
 
+    }
+
+//    public String createToken(String email){
+//        Date now = new Date();
+//        Date expiration = new Date(now.getTime() + Duration.ofHours(1).toMillis());
+//        String secretKey;
+//
+//        return Jwts.builder()
+//                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
+//                .setIssuer("test") // 토큰발급자(iss)
+//                .setIssuedAt(now) // 발급시간(iat)
+//                .setExpiration(expiration) // 만료시간(exp)
+//                .setSubject(email) //  토큰 제목(subject)
+//                .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes())) // 알고리즘, 시크릿 키
+//                .compact();
+//    }
+
+    public static String hex(byte[] array) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < array.length; ++i) {
+            sb.append(Integer.toHexString((array[i]
+                    & 0xFF) | 0x100).substring(1,3));
+        }
+        return sb.toString();
+    }
+    public static String md5Hex (String message) {
+        try {
+            MessageDigest md =
+                    MessageDigest.getInstance("MD5");
+            return hex (md.digest(message.getBytes("CP1252")));
+        } catch (NoSuchAlgorithmException e) {
+        } catch (UnsupportedEncodingException e) {
+        }
+        return null;
     }
 
     @Transactional
