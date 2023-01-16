@@ -29,7 +29,7 @@ import java.util.*;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-    @Value("${jwt.password}")
+    @Value("${security.jwt.token.secret-key}")
     private String secretKey;
     //private final TokenProvider tokenProvider;
 
@@ -83,7 +83,7 @@ public class MemberService {
             Member googleMember = memberRepository.findMemberByEmail(email)
                     .orElseGet(() -> memberRepository.save(new Member(name, email)));
 
-            //return createToken(email);
+            //return createToken(googleMember.getEmail());
 
             return googleMember.getEmail() + googleMember.getName();
         }
@@ -96,7 +96,6 @@ public class MemberService {
 //    public String createToken(String email){
 //        Date now = new Date();
 //        Date expiration = new Date(now.getTime() + Duration.ofHours(1).toMillis());
-//        String secretKey;
 //
 //        return Jwts.builder()
 //                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
@@ -104,7 +103,7 @@ public class MemberService {
 //                .setIssuedAt(now) // 발급시간(iat)
 //                .setExpiration(expiration) // 만료시간(exp)
 //                .setSubject(email) //  토큰 제목(subject)
-//                .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes())) // 알고리즘, 시크릿 키
+//                .signWith(secretKey, SignatureAlgorithm.HS512) // 알고리즘, 시크릿 키
 //                .compact();
 //    }
 
