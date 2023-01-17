@@ -1,5 +1,6 @@
 package com.example.test.member.service;
 
+import com.example.test.config.security.TokenProvider;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,6 +30,7 @@ import java.util.*;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final TokenProvider tokenProvider;
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
     //private final TokenProvider tokenProvider;
@@ -83,29 +85,15 @@ public class MemberService {
             Member googleMember = memberRepository.findMemberByEmail(email)
                     .orElseGet(() -> memberRepository.save(new Member(name, email)));
 
-            //return createToken(googleMember.getEmail());
+            return tokenProvider.generateToken(googleMember.getId());
 
-            return googleMember.getEmail() + googleMember.getName();
+            //return googleMember.getEmail() + googleMember.getName();
         }
         catch (Exception e){
             throw new RuntimeException(e);
         }
 
     }
-
-//    public String createToken(String email){
-//        Date now = new Date();
-//        Date expiration = new Date(now.getTime() + Duration.ofHours(1).toMillis());
-//
-//        return Jwts.builder()
-//                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
-//                .setIssuer("test") // 토큰발급자(iss)
-//                .setIssuedAt(now) // 발급시간(iat)
-//                .setExpiration(expiration) // 만료시간(exp)
-//                .setSubject(email) //  토큰 제목(subject)
-//                .signWith(secretKey, SignatureAlgorithm.HS512) // 알고리즘, 시크릿 키
-//                .compact();
-//    }
 
     public static String hex(byte[] array) {
         StringBuffer sb = new StringBuffer();

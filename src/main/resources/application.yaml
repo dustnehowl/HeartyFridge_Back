@@ -16,5 +16,4 @@ spring:
 security:
   jwt:
     token:
-      secret-key: hearty-fridge
-      expire-length: 3,600,000
+      secret-key: aGVhcnR5RnJpZGdlbW9kdW1vZHV3a2ZlaG9UZG1hdXN3aGdycFRla2doa2RseGxkZGxyamZmaHNtc3doYXFud2hyZ2tzcGRscmpzZGpFbw==

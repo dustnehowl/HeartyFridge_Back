@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member>findMemberByEmail(String email);
     Optional<Member>findMemberById(Long id);
-    Optional<List<Member>>findMembersByAlert(Boolean isAlert);
+    Optional<List<Member>>findMembersByIsAlert(Boolean isAlert);
 }
