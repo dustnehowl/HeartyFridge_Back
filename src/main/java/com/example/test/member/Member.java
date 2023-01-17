@@ -16,6 +16,7 @@ public class Member {
     private Long id;
     private String email;
     private String name;
+    private Boolean isAlert;
 
     public Member(){
     }
@@ -23,5 +24,6 @@ public class Member {
     public Member(String name, String email){
         this.name = name;
         this.email = email;
+        this.isAlert = false;
     }
 }
