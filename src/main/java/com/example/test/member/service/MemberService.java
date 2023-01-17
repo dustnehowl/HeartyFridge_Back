@@ -66,8 +66,7 @@ public class MemberService {
 
             String access_token = stringMap.get("id_token");
             HttpHeaders headers2 = new HttpHeaders();
-            String uri2 = "https://www.googleapis.com/drive/v2/userinfo";
-            uri2 = "https://oauth2.googleapis.com/tokeninfo?id_token=" + access_token;
+            String uri2 = "https://oauth2.googleapis.com/tokeninfo?id_token=" + access_token;
 
             //headers2.add("Authorization","Bearer "+access_token);
             //HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
@@ -114,6 +113,7 @@ public class MemberService {
                     MessageDigest.getInstance("MD5");
             return hex (md.digest(message.getBytes("CP1252")));
         } catch (NoSuchAlgorithmException e) {
+            System.err.println("I'm sorry, but MD5 is not a valid message digest algorithm");
         } catch (UnsupportedEncodingException e) {
         }
         return null;
