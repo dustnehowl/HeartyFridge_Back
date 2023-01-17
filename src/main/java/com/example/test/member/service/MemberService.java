@@ -2,6 +2,8 @@ package com.example.test.member.service;
 
 import com.example.test.config.security.TokenProvider;
 import com.example.test.member.Member;
+import com.example.test.member.controller.dto.ResponseDto;
+import com.example.test.member.controller.dto.TokenDto;
 import com.example.test.member.repository.MemberRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +38,7 @@ public class MemberService {
     //private final TokenProvider tokenProvider;
 
     @Transactional
-    public String googleLogin(String code){
+    public ResponseDto googleLogin(String code){
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -85,7 +87,10 @@ public class MemberService {
             Member googleMember = memberRepository.findMemberByEmail(email)
                     .orElseGet(() -> memberRepository.save(new Member(name, email)));
 
-            return tokenProvider.generateToken(googleMember.getId());
+            String s = tokenProvider.generateToken(googleMember.getId());
+            TokenDto tokenDto = new TokenDto(s);
+            return new ResponseDto(tokenDto, googleMember);
+            //return tokenProvider.generateToken(googleMember.getId());
 
             //return googleMember.getEmail() + googleMember.getName();
         }

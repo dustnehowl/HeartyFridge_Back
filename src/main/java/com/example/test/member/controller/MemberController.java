@@ -25,7 +25,7 @@ public class MemberController {
 //        return ResponseEntity.ok().body(memberService.googleLogin(token));
 //    }
     @GetMapping("/googleLogin")
-    public ResponseEntity<String> googleLogin(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<ResponseDto> googleLogin(HttpServletRequest request, HttpServletResponse response){
 
         String code = request.getParameter("code");
         return ResponseEntity.ok().body(memberService.googleLogin(code));
