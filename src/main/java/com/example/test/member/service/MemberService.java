@@ -80,7 +80,7 @@ public class MemberService {
             String email = stringMap1.get("email");
             String name = stringMap1.get("name");
             String hash = md5Hex(name);
-            String gravatar_uri = "http://www.gravatar.com/avatar/" + hash + "?d=mp&s=400";
+            String gravatar_uri = "http://www.gravatar.com/avatar/" + hash + "?d=mp&s=300";
             System.out.println(gravatar_uri);
 
 
