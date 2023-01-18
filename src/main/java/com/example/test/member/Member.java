@@ -18,6 +18,7 @@ public class Member {
     private String name;
     private Boolean isAlert;
     private String profileImage;
+    private Boolean isTaker;
 
     public Member(){
     }
@@ -27,11 +28,13 @@ public class Member {
         this.email = email;
         this.isAlert = false;
         this.profileImage = profileImage;
+        this.isTaker = false;
     }
     public Member(String name, String email) {
         this.name = name;
         this.email = email;
         this.isAlert = false;
         this.profileImage = "images/defaultImage.png";
+        this.isTaker = false;
     }
 }
