@@ -17,13 +17,21 @@ public class Member {
     private String email;
     private String name;
     private Boolean isAlert;
+    private String profileImage;
 
     public Member(){
     }
 
-    public Member(String name, String email){
+    public Member(String name, String email, String profileImage){
         this.name = name;
         this.email = email;
         this.isAlert = false;
+        this.profileImage = profileImage;
+    }
+    public Member(String name, String email) {
+        this.name = name;
+        this.email = email;
+        this.isAlert = false;
+        this.profileImage = "images/defaultImage.png";
     }
 }
