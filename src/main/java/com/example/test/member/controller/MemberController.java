@@ -29,7 +29,7 @@ public class MemberController {
 
         String code = request.getParameter("code");
         return ResponseEntity.ok().body(memberService.googleLogin(code));
-}
+    }
 
     @GetMapping("/hello")
     public String hello(){
