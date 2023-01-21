@@ -46,7 +46,7 @@ public class FridgeService {
                 double lat = (double) loc.get("lat");
                 double lng = (double) loc.get("lng");
 
-                Optional<Fridge> fridge = fridgeRepository.findMemberByAddress(address);
+                Optional<Fridge> fridge = fridgeRepository.findFridgeByAddress(address);
                 if(fridge.isPresent()){
                     continue;
                 }

@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface FridgeRepository extends JpaRepository<Fridge, Long> {
-    Optional<Fridge> findMemberByAddress(String address);
+    Optional<Fridge> findFridgeByAddress(String address);
+    Optional<Fridge> findFridgeById(Long id);
 }
