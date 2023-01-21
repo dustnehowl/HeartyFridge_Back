@@ -67,14 +67,12 @@ public class FridgeService {
 
     public FridgeDto getFridge(String id) {
         Long fridge_id = Long.parseLong(id);
-        Fridge fridge = fridgeRepository.findFridgeById(fridge_id)
-                .orElseGet(() -> null);
-
-        if (fridge == null){
-            return null;
+        Optional<Fridge> fridge = fridgeRepository.findFridgeById(fridge_id);
+        if (fridge.isPresent()){
+            return new FridgeDto(fridge.get());
         }
-        else{
-            return new FridgeDto(fridge);
+        else {
+            throw new RuntimeException();
         }
     }
 }
