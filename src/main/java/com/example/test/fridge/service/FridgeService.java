@@ -56,11 +56,8 @@ public class FridgeService {
             }
             return "Save Done!!";
         }
-        catch(IOException e)
+        catch(IOException | ParseException e)
         {
-            throw new RuntimeException(e);
-
-        } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
