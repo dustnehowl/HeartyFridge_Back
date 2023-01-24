@@ -2,6 +2,8 @@ package com.example.test.member.service;
 
 import com.example.test.config.security.TokenProvider;
 import com.example.test.member.Member;
+import com.example.test.member.controller.dto.AuthTakerDto;
+import com.example.test.member.controller.dto.AuthTakerRequest;
 import com.example.test.member.controller.dto.ResponseDto;
 import com.example.test.member.controller.dto.TokenDto;
 import com.example.test.member.repository.MemberRepository;
@@ -97,6 +99,20 @@ public class MemberService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public AuthTakerDto authTaker(AuthTakerRequest authTakerRequest) {
+        // 시리얼 번호로 진품 가품 확인하기!!!
+        Boolean is_taker = true;
+        if(is_taker == true){
+            Optional<Member> member = memberRepository.findMemberById(authTakerRequest.getMember_id());
+            if(member.isPresent()){
+                member.get().setIsTaker(true);
+                memberRepository.save(member.get());
+            }
+            else throw new RuntimeException();
+        }
+        return new AuthTakerDto(authTakerRequest);
     }
 
     public static String hex(byte[] array) {

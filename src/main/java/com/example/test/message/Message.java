@@ -20,6 +20,7 @@ public class Message {
     private Long receiver;
     private String message;
     private Long food;
+    private Boolean isRead;
 
     public Message() {}
 }

@@ -1,6 +1,8 @@
 package com.example.test.member.controller;
 
 import com.example.test.member.Member;
+import com.example.test.member.controller.dto.AuthTakerDto;
+import com.example.test.member.controller.dto.AuthTakerRequest;
 import com.example.test.member.controller.dto.ResponseDto;
 import com.example.test.member.controller.dto.TokenDto;
 import com.example.test.member.service.MemberService;
@@ -29,6 +31,11 @@ public class MemberController {
 
         String code = request.getParameter("code");
         return ResponseEntity.ok().body(memberService.googleLogin(code));
+    }
+
+    @PostMapping("/authTaker")
+    public ResponseEntity<AuthTakerDto> authTaker(@RequestBody AuthTakerRequest authTakerRequest){
+        return ResponseEntity.ok().body(memberService.authTaker(authTakerRequest));
     }
 
     @GetMapping("/hello")

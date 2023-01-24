@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
+
 @Entity
 @Setter
 @Getter
@@ -18,5 +20,7 @@ public class Reservation {
     private Long giver;
     private Long taker;
     private Long food;
+    private Date expiration;
+
     public Reservation (){}
 }
