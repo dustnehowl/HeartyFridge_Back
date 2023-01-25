@@ -32,6 +32,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
@@ -39,7 +40,6 @@ public class MemberService {
     private String secretKey;
     //private final TokenProvider tokenProvider;
 
-    @Transactional
     public ResponseDto googleLogin(String code){
 
         try {
