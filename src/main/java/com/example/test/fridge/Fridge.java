@@ -1,8 +1,12 @@
 package com.example.test.fridge;
 
+import com.example.test.food.Food;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,6 +19,8 @@ public class Fridge {
     private String name;
     private double lat;
     private double lng;
+    @OneToMany(mappedBy = "fridge")
+    private List<Food> foods = new ArrayList<>();
     public Fridge(String name, String address, double lat, double lng){
         this.name = name;
         this.address= address;

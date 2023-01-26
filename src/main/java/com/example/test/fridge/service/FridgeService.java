@@ -1,7 +1,8 @@
 package com.example.test.fridge.service;
 
+import com.example.test.food.Food;
 import com.example.test.fridge.Fridge;
-import com.example.test.fridge.controller.dto.FridgeDto;
+import com.example.test.fridge.controller.dto.FridgeDtoResponse;
 import com.example.test.fridge.repository.FridgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -62,11 +63,12 @@ public class FridgeService {
         }
     }
 
-    public FridgeDto getFridge(String id) {
+    public FridgeDtoResponse getFridge(String id) {
         Long fridge_id = Long.parseLong(id);
         Optional<Fridge> fridge = fridgeRepository.findFridgeById(fridge_id);
         if (fridge.isPresent()){
-            return new FridgeDto(fridge.get());
+            List<Food> foods = fridge.get().getFoods();
+            return new FridgeDtoResponse(fridge.get());
         }
         else {
             throw new RuntimeException();

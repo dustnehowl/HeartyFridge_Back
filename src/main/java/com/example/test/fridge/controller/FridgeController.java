@@ -1,7 +1,7 @@
 package com.example.test.fridge.controller;
 
 import com.example.test.fridge.Fridge;
-import com.example.test.fridge.controller.dto.FridgeDto;
+import com.example.test.fridge.controller.dto.FridgeDtoResponse;
 import com.example.test.fridge.service.FridgeService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 @RestController
@@ -35,7 +34,7 @@ public class FridgeController {
     }
 
     @GetMapping("/getFridge")
-    public ResponseEntity<FridgeDto> getFridge(HttpServletRequest request){
+    public ResponseEntity<FridgeDtoResponse> getFridge(HttpServletRequest request){
         String id = request.getParameter("id");
         return ResponseEntity.ok().body(fridgeService.getFridge(id));
     }
