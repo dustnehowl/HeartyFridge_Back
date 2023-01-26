@@ -9,11 +9,6 @@ import com.example.test.member.controller.dto.TokenDto;
 import com.example.test.member.repository.MemberRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -24,10 +19,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.Duration;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -110,6 +103,7 @@ public class MemberService {
                 member.get().setIsTaker(true);
                 memberRepository.save(member.get());
             }
+
             else throw new RuntimeException();
         }
         return new AuthTakerDto(authTakerRequest);

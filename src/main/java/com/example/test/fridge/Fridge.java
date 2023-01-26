@@ -1,10 +1,6 @@
 package com.example.test.fridge;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class Fridge {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FRIDGE_ID")
     private Long id;
     private String address;
     private String name;

@@ -1,10 +1,8 @@
 package com.example.test.food;
 
 import com.example.test.food.controller.dto.FoodDtoRequest;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.test.fridge.Fridge;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class Food {
 
-    @Id
+    @Id @Column(name = "FOOD_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
@@ -23,7 +21,9 @@ public class Food {
     private String category;
     private String message;
     private String amount;
-    private Long fridge_id;
+    @ManyToOne
+    @JoinColumn(name="FRIDGE_ID")
+    private Fridge fridge;
 
     public Food(){}
     public Food(FoodDtoRequest foodDtoRequest){
@@ -32,6 +32,5 @@ public class Food {
         this.category = foodDtoRequest.getCategory();
         this.message = foodDtoRequest.getMessage();
         this.amount = foodDtoRequest.getAmount();
-        this.fridge_id = foodDtoRequest.getFridge_id();
     }
 }

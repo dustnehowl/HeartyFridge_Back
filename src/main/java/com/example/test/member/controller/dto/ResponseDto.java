@@ -3,9 +3,7 @@ package com.example.test.member.controller.dto;
 
 import com.example.test.member.Member;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
 
 @Getter
 @AllArgsConstructor

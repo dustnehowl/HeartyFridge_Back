@@ -3,13 +3,11 @@ package com.example.test.fridge.service;
 import com.example.test.fridge.Fridge;
 import com.example.test.fridge.controller.dto.FridgeDto;
 import com.example.test.fridge.repository.FridgeRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
