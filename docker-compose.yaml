@@ -19,7 +19,7 @@ services:
   test_server:
     container_name: test_server
     build: ./
-    image: dustnehowl/test:0.0.38
+    image: dustnehowl/test:0.0.39
     environment:
       - TZ=Asia/Seoul
     ports:
