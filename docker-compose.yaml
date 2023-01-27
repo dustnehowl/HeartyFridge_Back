@@ -17,9 +17,10 @@ services:
       - ./Database/mysql:/var/lib/mysql
 
   test_server:
+
     container_name: test_server
     build: ./
-    image: dustnehowl/test:0.0.47
+    image: dustnehowl/test:0.0.55
     environment:
       - TZ=Asia/Seoul
     ports:

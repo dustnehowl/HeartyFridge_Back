@@ -24,9 +24,14 @@ public class MemberController {
 //        return ResponseEntity.ok().body(memberService.googleLogin(token));
 //    }
     @PostMapping("/googleLogin")
-    public ResponseEntity<ResponseDto> googleLogin(@RequestBody AccessTokenDto accessTokenDto, HttpServletResponse response){
+    public ResponseEntity<ResponseDto> googleLogin1(@RequestBody AccessTokenDto accessTokenDto, HttpServletResponse response){
         System.out.println(accessTokenDto.toString());
         String access_token = accessTokenDto.getAccessToken();
+        return ResponseEntity.ok().body(memberService.googleLogin1(access_token));
+    }
+    @GetMapping("/googleLogin1")
+    public ResponseEntity<ResponseDto> googleLogin(HttpServletRequest request , HttpServletResponse response){
+        String access_token = request.getParameter("code");
         return ResponseEntity.ok().body(memberService.googleLogin(access_token));
     }
 
