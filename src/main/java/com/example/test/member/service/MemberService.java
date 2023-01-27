@@ -62,12 +62,13 @@ public class MemberService {
 //            String access_token = stringMap.get("access_token");
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers2 = new HttpHeaders();
-            String uri2 = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + access_token;
+            //String uri2 = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + access_token;
+            String uri2 = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=" + access_token;
 
-            headers2.add("Authorization","Bearer "+access_token);
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
-            ResponseEntity<String> response=restTemplate.exchange(uri2, HttpMethod.GET,request,String.class);
-            //ResponseEntity<String> response=restTemplate.getForEntity(uri2, String.class);
+            //headers2.add("Authorization","Bearer "+access_token);
+            //HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
+            //ResponseEntity<String> response=restTemplate.exchange(uri2, HttpMethod.GET,request,String.class);
+            ResponseEntity<String> response=restTemplate.getForEntity(uri2, String.class);
             System.out.println("response.getBody() = " + response.getBody());
 
             String rest_response2 = response.getBody();
@@ -77,7 +78,6 @@ public class MemberService {
             String hash = md5Hex(name);
             String gravatar_uri = "http://www.gravatar.com/avatar/" + hash + "?d=mp&s=300";
             System.out.println(gravatar_uri);
-
 
             Member googleMember = memberRepository.findMemberByEmail(email)
                     .orElseGet(() -> memberRepository.save(new Member(name, email)));
