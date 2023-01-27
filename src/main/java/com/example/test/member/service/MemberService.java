@@ -64,10 +64,10 @@ public class MemberService {
             HttpHeaders headers2 = new HttpHeaders();
             String uri2 = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + access_token;
 
-            //headers2.add("Authorization","Bearer "+access_token);
-            //HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
-            //ResponseEntity<String> response=restTemplate.exchange(uri2, HttpMethod.GET,request,String.class);
-            ResponseEntity<String> response=restTemplate.getForEntity(uri2, String.class);
+            headers2.add("Authorization","Bearer "+access_token);
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
+            ResponseEntity<String> response=restTemplate.exchange(uri2, HttpMethod.GET,request,String.class);
+            //ResponseEntity<String> response=restTemplate.getForEntity(uri2, String.class);
             System.out.println("response.getBody() = " + response.getBody());
 
             String rest_response2 = response.getBody();
