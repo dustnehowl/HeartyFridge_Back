@@ -38,6 +38,7 @@ public class MemberController {
     @PostMapping("/googleLogin")
     public String googleLogin(@RequestBody AccessTokenDto accessTokenDto , HttpServletResponse response){
         String accessToken = accessTokenDto.getAccessToken();
+        System.out.println("accessToken : " + accessToken);
         return accessToken;
     }
 
