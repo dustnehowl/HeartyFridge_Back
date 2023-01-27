@@ -93,7 +93,7 @@ public class MemberService {
         }
 
     }
-    public ResponseDto googleLogin1(String access_token){
+    public ResponseDto googleLogin1(String accessToken){
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -101,12 +101,12 @@ public class MemberService {
 //
             ObjectMapper objectMapper = new ObjectMapper();
             HttpHeaders headers2 = new HttpHeaders();
-            String uri2 = "https://www.googleapis.com/oauth2/v3/userinfo";
+            String uri2 = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=" + accessToken;
 
-            headers2.add("Authorization","Bearer "+ access_token);
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
-            ResponseEntity<String> response=restTemplate.exchange(uri2, HttpMethod.GET,request,String.class);
-            //ResponseEntity<String> response=restTemplate.getForEntity(uri2, String.class);
+            //headers2.add("Authorization","Bearer "+ access_token);
+            //HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
+            //ResponseEntity<String> response=restTemplate.exchange(uri2, HttpMethod.GET,request,String.class);
+            ResponseEntity<String> response=restTemplate.getForEntity(uri2, String.class);
             System.out.println("response.getBody() = " + response.getBody());
 
             String rest_response2 = response.getBody();
