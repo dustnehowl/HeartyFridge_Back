@@ -1,10 +1,7 @@
 package com.example.test.member.controller;
 
 import com.example.test.member.Member;
-import com.example.test.member.controller.dto.AuthTakerDto;
-import com.example.test.member.controller.dto.AuthTakerRequest;
-import com.example.test.member.controller.dto.ResponseDto;
-import com.example.test.member.controller.dto.TokenDto;
+import com.example.test.member.controller.dto.*;
 import com.example.test.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,10 +24,10 @@ public class MemberController {
 //        return ResponseEntity.ok().body(memberService.googleLogin(token));
 //    }
     @GetMapping("/googleLogin")
-    public ResponseEntity<ResponseDto> googleLogin(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<ResponseDto> googleLogin(@RequestBody AccessTokenDto accessTokenDto, HttpServletResponse response){
 
-        String code = request.getParameter("code");
-        return ResponseEntity.ok().body(memberService.googleLogin(code));
+        String access_token = accessTokenDto.getAccessToken();
+        return ResponseEntity.ok().body(memberService.googleLogin(access_token));
     }
 
     @PostMapping("/authTaker")

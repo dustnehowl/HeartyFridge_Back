@@ -33,35 +33,36 @@ public class MemberService {
     private String secretKey;
     //private final TokenProvider tokenProvider;
 
-    public ResponseDto googleLogin(String code){
+    public ResponseDto googleLogin(String access_token){
 
         try {
-            HttpHeaders headers = new HttpHeaders();
-            RestTemplate restTemplate = new RestTemplate();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-            MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-            parameters.add("code", code);
-            parameters.add("client_id", "51655327015-n87va2kskoupptnhlainf021s6sdds3q.apps.googleusercontent.com");
-            parameters.add("client_secret", "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");
-            parameters.add("redirect_uri", "http://localhost:8080/api/v1/member/googleLogin");
-            parameters.add("grant_type", "authorization_code");
-
-            HttpEntity<MultiValueMap<String, String>> rest_request = new HttpEntity<>(parameters, headers);
-
-            String uri = "https://www.googleapis.com/oauth2/v4/token";
-
-            ResponseEntity<String> rest_reponse = null;
-            rest_reponse = restTemplate.postForEntity(uri, rest_request, String.class);
-            String bodys = rest_reponse.getBody();
-            System.out.println(bodys);
-
+//            HttpHeaders headers = new HttpHeaders();
+//            RestTemplate restTemplate = new RestTemplate();
+//            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//
+//            MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+//            parameters.add("code", code);
+//            parameters.add("client_id", "51655327015-n87va2kskoupptnhlainf021s6sdds3q.apps.googleusercontent.com");
+//            parameters.add("client_secret", "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");
+//            parameters.add("redirect_uri", "http://localhost:8080/api/v1/member/googleLogin");
+//            parameters.add("grant_type", "authorization_code");
+//
+//            HttpEntity<MultiValueMap<String, String>> rest_request = new HttpEntity<>(parameters, headers);
+//
+//            String uri = "https://www.googleapis.com/oauth2/v4/token";
+//
+//            ResponseEntity<String> rest_reponse = null;
+//            rest_reponse = restTemplate.postForEntity(uri, rest_request, String.class);
+//            String bodys = rest_reponse.getBody();
+//            System.out.println(bodys);
+//
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> stringMap = objectMapper.readValue(rest_reponse.getBody(), new TypeReference<Map<String, String>>() {});
-
-            String access_token = stringMap.get("id_token");
+//            Map<String, String> stringMap = objectMapper.readValue(rest_reponse.getBody(), new TypeReference<Map<String, String>>() {});
+//
+//            String access_token = stringMap.get("access_token");
+            RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers2 = new HttpHeaders();
-            String uri2 = "https://oauth2.googleapis.com/tokeninfo?id_token=" + access_token;
+            String uri2 = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + access_token;
 
             //headers2.add("Authorization","Bearer "+access_token);
             //HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers2);
