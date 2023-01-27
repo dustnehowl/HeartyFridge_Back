@@ -16,6 +16,7 @@ public class Fridge {
     @Column(name = "FRIDGE_ID")
     private Long id;
     private String address;
+    private String fridgeImage;
     private String name;
     private double lat;
     private double lng;
@@ -26,6 +27,7 @@ public class Fridge {
         this.address= address;
         this.lat = lat;
         this.lng = lng;
+        this.fridgeImage = "images/defaultFridgeImage.png";
     }
     public Fridge() {
 

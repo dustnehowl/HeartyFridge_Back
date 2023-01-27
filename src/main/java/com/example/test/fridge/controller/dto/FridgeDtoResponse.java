@@ -16,12 +16,14 @@ public class FridgeDtoResponse {
     private String address;
     private double lat;
     private double lng;
+    private String fridgeImage;
     private List<FoodsInFridgeDto> foods;
     //private List<Food> foods;
 
     public FridgeDtoResponse(Fridge fridge){
         this.name = fridge.getName();
         this.address = fridge.getAddress();
+        this.fridgeImage = fridge.getFridgeImage();
         this.lat = fridge.getLat();
         this.lng = fridge.getLng();
         this.foods = FoodsInFridgeDto.of(fridge.getFoods());
