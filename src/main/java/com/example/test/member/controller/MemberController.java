@@ -23,16 +23,22 @@ public class MemberController {
 //    public ResponseEntity<ResponseDto> googleLogin(@RequestBody String token){
 //        return ResponseEntity.ok().body(memberService.googleLogin(token));
 //    }
-    @PostMapping("/googleLogin")
+    @PostMapping("/googleLogin1")
     public ResponseEntity<ResponseDto> googleLogin1(@RequestBody AccessTokenDto accessTokenDto, HttpServletResponse response){
         System.out.println(accessTokenDto.toString());
         String access_token = accessTokenDto.getAccessToken();
         return ResponseEntity.ok().body(memberService.googleLogin1(access_token));
     }
-    @GetMapping("/googleLogin1")
-    public ResponseEntity<ResponseDto> googleLogin(HttpServletRequest request , HttpServletResponse response){
-        String access_token = request.getParameter("code");
-        return ResponseEntity.ok().body(memberService.googleLogin(access_token));
+//    @GetMapping("/googleLogin2")
+//    public ResponseEntity<ResponseDto> googleLogin2(HttpServletRequest request , HttpServletResponse response){
+//        String code = request.getParameter("code");
+//        System.out.println("인가코드 " + code);
+//        return ResponseEntity.ok().body(memberService.googleLogin(code));
+//    }
+    @PostMapping("/googleLogin")
+    public ResponseEntity<ResponseDto> googleLogin(@RequestBody AccessTokenDto accessTokenDto , HttpServletResponse response){
+        String code = accessTokenDto.getAccessToken();
+        return ResponseEntity.ok().body(memberService.googleLogin(code));
     }
 
     @PostMapping("/authTaker")
