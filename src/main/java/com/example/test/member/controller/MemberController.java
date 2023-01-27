@@ -36,9 +36,9 @@ public class MemberController {
 //        return ResponseEntity.ok().body(memberService.googleLogin(code));
 //    }
     @PostMapping("/googleLogin")
-    public ResponseEntity<ResponseDto> googleLogin(@RequestBody AccessTokenDto accessTokenDto , HttpServletResponse response){
-        String code = accessTokenDto.getAccessToken();
-        return ResponseEntity.ok().body(memberService.googleLogin(code));
+    public String googleLogin(@RequestBody AccessTokenDto accessTokenDto , HttpServletResponse response){
+        String accessToken = accessTokenDto.getAccessToken();
+        return accessToken;
     }
 
     @PostMapping("/authTaker")
