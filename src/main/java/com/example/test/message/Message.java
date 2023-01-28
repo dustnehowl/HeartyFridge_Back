@@ -1,26 +1,34 @@
 package com.example.test.message;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.test.food.Food;
+import com.example.test.member.Member;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MESSAGE_ID")
     private Long id;
     private String title;
-    private Long sender;
-    private Long receiver;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member sender;
     private String message;
-    private Long food;
-    private Boolean isRead;
 
-    public Message() {}
+    @OneToOne
+    @JoinColumn(name = "FOOD_ID")
+    private Food food;
+
+    public Message(String title, String message) {
+        this.title = title;
+        this.message = message;
+    }
 }
