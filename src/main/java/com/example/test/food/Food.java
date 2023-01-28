@@ -1,9 +1,9 @@
 package com.example.test.food;
 
-import com.example.test.food.controller.dto.FoodDtoRequest;
 import com.example.test.fridge.Fridge;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 
@@ -11,6 +11,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Food {
 
     @Id @Column(name = "FOOD_ID")
@@ -25,12 +26,5 @@ public class Food {
     @JoinColumn(name="FRIDGE_ID")
     private Fridge fridge;
 
-    public Food(){}
-    public Food(FoodDtoRequest foodDtoRequest){
-        this.name = foodDtoRequest.getName();
-        this.expiration = foodDtoRequest.getExpiration();
-        this.category = foodDtoRequest.getCategory();
-        this.message = foodDtoRequest.getMessage();
-        this.amount = foodDtoRequest.getAmount();
-    }
+    public Food(String name, String expiration, String category, String message, String amount){}
 }

@@ -1,6 +1,8 @@
 package com.example.test.fridge.controller;
 
+import com.example.test.config.generic.Result;
 import com.example.test.fridge.Fridge;
+import com.example.test.fridge.controller.dto.AllFridgeDto;
 import com.example.test.fridge.controller.dto.FridgeDtoResponse;
 import com.example.test.fridge.service.FridgeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,13 +31,14 @@ public class FridgeController {
     }
 
     @GetMapping("/all")
-    public List<Fridge> all(){
-        return fridgeService.all();
+    public Result all(){
+        return new Result<>(fridgeService.all());
     }
 
     @GetMapping("/getFridge")
-    public ResponseEntity<FridgeDtoResponse> getFridge(HttpServletRequest request){
+    public Result getFridge(HttpServletRequest request){
         String id = request.getParameter("id");
-        return ResponseEntity.ok().body(fridgeService.getFridge(id));
+        System.out.println("============= getFridge" + id+ " =============");
+        return new Result(fridgeService.getFridge(id));
     }
 }

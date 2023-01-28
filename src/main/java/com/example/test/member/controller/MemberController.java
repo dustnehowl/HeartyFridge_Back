@@ -19,27 +19,11 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-
-//    public ResponseEntity<ResponseDto> googleLogin(@RequestBody String token){
-//        return ResponseEntity.ok().body(memberService.googleLogin(token));
-//    }
-//    @PostMapping("/googleLogin1")
-//    public ResponseEntity<ResponseDto> googleLogin1(@RequestBody AccessTokenDto accessTokenDto, HttpServletResponse response){
-//        System.out.println(accessTokenDto.toString());
-//        String access_token = accessTokenDto.getAccessToken();
-//        return ResponseEntity.ok().body(memberService.googleLogin1(access_token));
-//    }
-//    @GetMapping("/googleLogin2")
-//    public ResponseEntity<ResponseDto> googleLogin2(HttpServletRequest request , HttpServletResponse response){
-//        String code = request.getParameter("code");
-//        System.out.println("인가코드 " + code);
-//        return ResponseEntity.ok().body(memberService.googleLogin(code));
-//    }
     @PostMapping("/googleLogin")
     public ResponseEntity<ResponseDto> googleLogin(@RequestBody AccessTokenDto accessTokenDto , HttpServletResponse response){
         String accessToken = accessTokenDto.getAccessToken();
         System.out.println("accessToken : " + accessToken);
-        return ResponseEntity.ok().body(memberService.googleLogin1(accessToken));
+        return ResponseEntity.ok().body(memberService.googleLogin(accessToken));
     }
 
     @PostMapping("/authTaker")

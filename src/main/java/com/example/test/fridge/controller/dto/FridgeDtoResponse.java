@@ -17,8 +17,8 @@ public class FridgeDtoResponse {
     private double lat;
     private double lng;
     private String fridgeImage;
+    private Integer numFoods;
     private List<FoodsInFridgeDto> foods;
-    //private List<Food> foods;
 
     public FridgeDtoResponse(Fridge fridge){
         this.name = fridge.getName();
@@ -27,6 +27,7 @@ public class FridgeDtoResponse {
         this.lat = fridge.getLat();
         this.lng = fridge.getLng();
         this.foods = FoodsInFridgeDto.of(fridge.getFoods());
+        this.numFoods = this.foods.size();
     }
 }
 

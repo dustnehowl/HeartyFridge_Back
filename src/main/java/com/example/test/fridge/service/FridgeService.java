@@ -2,6 +2,7 @@ package com.example.test.fridge.service;
 
 import com.example.test.food.Food;
 import com.example.test.fridge.Fridge;
+import com.example.test.fridge.controller.dto.AllFridgeDto;
 import com.example.test.fridge.controller.dto.FridgeDtoResponse;
 import com.example.test.fridge.repository.FridgeRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +30,22 @@ public class FridgeService {
         return "Fridge Test!!";
     }
 
-    public List<Fridge> all(){
-        return fridgeRepository.findAll();
+    public List<AllFridgeDto> all(){
+        List<Fridge> all = fridgeRepository.findAll();
+        List<AllFridgeDto> allFridgeDtos = new ArrayList<>();
+
+        for(Fridge fridge : all){
+            AllFridgeDto allFridgeDto = new AllFridgeDto(
+                    fridge.getId(),
+                    fridge.getAddress(),
+                    fridge.getFridgeImage(),
+                    fridge.getName(),
+                    fridge.getLat(),
+                    fridge.getLng()
+            );
+            allFridgeDtos.add(allFridgeDto);
+        }
+        return allFridgeDtos;
     }
 
     public String saveFridge(){
@@ -67,7 +83,7 @@ public class FridgeService {
         Long fridge_id = Long.parseLong(id);
         Optional<Fridge> fridge = fridgeRepository.findFridgeById(fridge_id);
         if (fridge.isPresent()){
-            List<Food> foods = fridge.get().getFoods();
+            //List<Food> foods = fridge.get().getFoods();
             return new FridgeDtoResponse(fridge.get());
         }
         else {
