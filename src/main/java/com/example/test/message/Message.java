@@ -22,6 +22,7 @@ public class Message {
     @JoinColumn(name = "MEMBER_ID")
     private Member sender;
     private String message;
+    private Long fridgeId;
 
     @OneToOne
     @JoinColumn(name = "FOOD_ID")

@@ -17,9 +17,16 @@ public class MessageController {
         return "Test!";
     }
 
-    @PostMapping("sendMessage")
+    @PostMapping("/sendMessage")
     public Result sendMessage(@RequestBody MessageRequestDto messageRequestDto){
         System.out.println("=============sendMessage=============");
         return new Result(messageService.sendMessage(messageRequestDto));
     }
+
+    @GetMapping("/all")
+    public Result getAll(){
+        System.out.println("=============getAllMessage=============");
+        return new Result(messageService.getAll());
+    }
+
 }

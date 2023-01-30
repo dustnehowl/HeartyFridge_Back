@@ -5,6 +5,7 @@ import com.example.test.food.repository.FoodRepository;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
 import com.example.test.message.Message;
+import com.example.test.message.controller.dto.AllMessageDto;
 import com.example.test.message.controller.dto.MessageRequestDto;
 import com.example.test.message.controller.dto.MessageResponseDto;
 import com.example.test.message.repository.MessageRepository;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,8 +37,23 @@ public class MessageService {
         );
         message.setSender(sender.get());
         message.setFood(food.get());
+        message.setFridgeId(food.get().getFridge().getId());
 
         messageRepository.save(message);
         return new MessageResponseDto(message);
+    }
+
+    public List<MessageResponseDto> getAll() {
+
+        List<Message> all = messageRepository.findAll();
+        List<MessageResponseDto> allMessageDtos = new ArrayList<>();
+
+        for(Message message: all){
+            MessageResponseDto messageResponseDto = new MessageResponseDto(
+                    message
+            );
+            allMessageDtos.add(messageResponseDto);
+        }
+        return allMessageDtos;
     }
 }
