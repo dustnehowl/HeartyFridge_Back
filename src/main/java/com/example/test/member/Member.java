@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,7 @@ public class Member {
     private List<Food> donateList;
     @OneToMany(mappedBy = "giver")
     private List<Give> giveList;
+    private LocalDate joinDate;
 
     public Member(){
     }
@@ -35,6 +37,7 @@ public class Member {
         this.isAlert = false;
         this.profileImage = profileImage;
         this.isTaker = false;
+        this.joinDate = LocalDate.now();
     }
     public Member(String name, String email) {
         this.name = name;
@@ -42,5 +45,6 @@ public class Member {
         this.isAlert = false;
         this.profileImage = "images/defaultImage.png";
         this.isTaker = false;
+        this.joinDate = LocalDate.now();
     }
 }

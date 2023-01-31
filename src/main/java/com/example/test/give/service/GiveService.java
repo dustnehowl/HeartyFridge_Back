@@ -5,7 +5,6 @@ import com.example.test.foodv2.repository.FoodRepositoryV2;
 import com.example.test.fridge.Fridge;
 import com.example.test.fridge.repository.FridgeRepository;
 import com.example.test.give.Give;
-import com.example.test.give.controller.dto.GiveListDto;
 import com.example.test.give.controller.dto.GiveRequestDto;
 import com.example.test.give.controller.dto.GiveResponseDto;
 import com.example.test.give.repository.GiveRepository;
@@ -15,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +45,9 @@ public class GiveService {
         LocalDateTime currentTime = LocalDateTime.now();
         Give give = new Give(currentTime, giver, foodV2);
         giveRepository.save(give);
+
         giver.getGiveList().add(give);
+        fridge.getFoods2().add(foodV2);
 
         return new GiveResponseDto(give);
     }

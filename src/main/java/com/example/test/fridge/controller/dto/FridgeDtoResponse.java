@@ -1,11 +1,10 @@
 package com.example.test.fridge.controller.dto;
 
-import com.example.test.food.Food;
+import com.example.test.foodv2.controller.dto.GiveFoodListDto;
 import com.example.test.fridge.Fridge;
+import com.example.test.give.controller.dto.GiveListDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
@@ -19,6 +18,7 @@ public class FridgeDtoResponse {
     private String fridgeImage;
     private Integer numFoods;
     private List<FoodsInFridgeDto> foods;
+    private List<GiveFoodListDto> giveList;
 
     private Integer numMessages;
 
@@ -29,7 +29,8 @@ public class FridgeDtoResponse {
         this.lat = fridge.getLat();
         this.lng = fridge.getLng();
         this.foods = FoodsInFridgeDto.of(fridge.getFoods());
-        this.numFoods = this.foods.size();
+        this.giveList = GiveFoodListDto.of(fridge.getFoods2());
+        this.numFoods = this.giveList.size();
         this.numMessages = numMessages;
     }
 }

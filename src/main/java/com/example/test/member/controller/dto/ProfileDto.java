@@ -5,6 +5,7 @@ import com.example.test.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -14,7 +15,8 @@ public class ProfileDto {
     private String name;
     private String email;
     private String profileImage;
-    private List<DonateFoodListDto> giveFoods;
+    private LocalDate joinDate;
+    private Boolean isTaker;
     private List<GiveListDto> giveList;
 
     public ProfileDto(Member member){
@@ -22,7 +24,8 @@ public class ProfileDto {
         this.name = member.getName();
         this.email = member.getEmail();
         this.profileImage = member.getProfileImage();
-        this.giveFoods = DonateFoodListDto.of(member.getDonateList());
+        this.isTaker = member.getIsTaker();
+        this.joinDate = member.getJoinDate();
         this.giveList = GiveListDto.of(member.getGiveList());
     }
 }
