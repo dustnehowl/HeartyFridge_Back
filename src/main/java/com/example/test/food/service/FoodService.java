@@ -1,14 +1,14 @@
 package com.example.test.food.service;
 
-import com.example.test.config.generic.Result;
 import com.example.test.food.Food;
 import com.example.test.food.controller.dto.AllFoodDto;
 import com.example.test.food.controller.dto.FoodDtoResponse;
 import com.example.test.food.controller.dto.FoodDtoRequest;
 import com.example.test.food.repository.FoodRepository;
 import com.example.test.fridge.Fridge;
-import com.example.test.fridge.controller.dto.AllFridgeDto;
 import com.example.test.fridge.repository.FridgeRepository;
+import com.example.test.member.Member;
+import com.example.test.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +24,9 @@ public class FoodService {
 
     private final FoodRepository foodRepository;
     private final FridgeRepository fridgeRepository;
+    private final MemberRepository memberRepository;
 
-    public FoodDtoResponse saveFood(FoodDtoRequest foodDtoRequest){
+    public FoodDtoResponse giveFood(FoodDtoRequest foodDtoRequest){
         Food food = new Food(
                 foodDtoRequest.getName(),
                 foodDtoRequest.getExpiration(),
@@ -33,16 +34,25 @@ public class FoodService {
                 foodDtoRequest.getMessage(),
                 foodDtoRequest.getAmount()
         );
-        Long fridge_id = foodDtoRequest.getFridge_id();
-        Optional<Fridge> fridge = fridgeRepository.findFridgeById(fridge_id);
+        System.out.println("getMessage ===========" + food.getMessage());
+        Long fridgeId = foodDtoRequest.getFridgeId();
+        Long giverId = foodDtoRequest.getGiverId();
+
+        Optional<Fridge> fridge = fridgeRepository.findFridgeById(fridgeId);
+        Optional<Member> giver =  memberRepository.findMemberById(giverId);
+
         food.setFridge(fridge.get());
+        food.setGiver(giver.get());
+
         fridge.get().getFoods().add(food);
+        giver.get().getDonateList().add(food);
+
         foodRepository.save(food);
         return new FoodDtoResponse(food);
     }
     public FoodDtoResponse getFood(String id) {
-        Long food_id = Long.parseLong(id);
-        Optional<Food> food = foodRepository.findFoodById(food_id);
+        Long foodId = Long.parseLong(id);
+        Optional<Food> food = foodRepository.findFoodById(foodId);
         if(food.isPresent()){
             return new FoodDtoResponse(food.get());
         }

@@ -1,6 +1,7 @@
 package com.example.test.food;
 
 import com.example.test.fridge.Fridge;
+import com.example.test.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,18 @@ public class Food {
     private String message;
     private String amount;
     @ManyToOne
+    @JoinColumn(name="MEMBER_ID")
+    private Member giver;
+    @ManyToOne
     @JoinColumn(name="FRIDGE_ID")
     private Fridge fridge;
 
-    public Food(String name, String expiration, String category, String message, String amount){}
+    public Food(String name, String expiration, String category, String message, String amount){
+        this.name = name;
+        this.expiration = expiration;
+        this.category = category;
+        this.message = message;
+        this.amount = amount;
+
+    }
 }

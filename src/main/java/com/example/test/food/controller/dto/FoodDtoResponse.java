@@ -15,7 +15,8 @@ public class FoodDtoResponse {
     private String category;
     private String message;
     private String amount;
-    private Long fridge_id;
+    private Long fridgeId;
+    //private Long giverId;
     public FoodDtoResponse(Food food){
         this.food_id = food.getId();
         this.name = food.getName();
@@ -23,6 +24,7 @@ public class FoodDtoResponse {
         this.category = food.getCategory();
         this.message = food.getMessage();
         this.amount = food.getAmount();
-        this.fridge_id = food.getFridge().getId();
+        this.fridgeId = food.getFridge().getId();
+        //this.giverId = food.getGiver().getId();
     }
 }

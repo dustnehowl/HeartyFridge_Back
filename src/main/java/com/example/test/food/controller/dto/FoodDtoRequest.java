@@ -13,7 +13,8 @@ public class FoodDtoRequest {
     private String amount;
     private String category;
     private String message;
-    private Long fridge_id;
+    private Long fridgeId;
+    private Long giverId;
 
     public FoodDtoRequest(){}
 }

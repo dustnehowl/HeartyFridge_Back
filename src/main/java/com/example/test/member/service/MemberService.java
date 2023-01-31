@@ -1,11 +1,10 @@
 package com.example.test.member.service;
 
 import com.example.test.config.security.TokenProvider;
+import com.example.test.food.Food;
+import com.example.test.food.repository.FoodRepository;
 import com.example.test.member.Member;
-import com.example.test.member.controller.dto.AuthTakerDto;
-import com.example.test.member.controller.dto.AuthTakerRequest;
-import com.example.test.member.controller.dto.ResponseDto;
-import com.example.test.member.controller.dto.TokenDto;
+import com.example.test.member.controller.dto.*;
 import com.example.test.member.repository.MemberRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +28,7 @@ import java.util.*;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
+    private final FoodRepository foodRepository;
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
     //private final TokenProvider tokenProvider;
@@ -70,6 +70,12 @@ public class MemberService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public ProfileDto getFoodsByGiver(String id){
+        Long memberId = Long.parseLong(id);
+        Member member = memberRepository.findMemberById(memberId).get();
+        return new ProfileDto(member);
     }
 
 

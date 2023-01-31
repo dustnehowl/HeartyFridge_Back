@@ -1,15 +1,12 @@
 package com.example.test.food.controller;
 
 import com.example.test.config.generic.Result;
-import com.example.test.food.Food;
 import com.example.test.food.controller.dto.FoodDtoRequest;
 import com.example.test.food.controller.dto.FoodDtoResponse;
 import com.example.test.food.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/food")
@@ -24,7 +21,7 @@ public class FoodController {
 
     @PostMapping("/giveFood")
     public ResponseEntity<FoodDtoResponse> saveFood(@RequestBody FoodDtoRequest foodDtoRequest){
-        return ResponseEntity.ok().body(foodService.saveFood(foodDtoRequest));
+        return ResponseEntity.ok().body(foodService.giveFood(foodDtoRequest));
     }
 
     @GetMapping("/all")
