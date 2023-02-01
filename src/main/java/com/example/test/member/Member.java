@@ -1,6 +1,4 @@
 package com.example.test.member;
-
-import com.example.test.food.Food;
 import com.example.test.foodv2.FoodV2;
 import com.example.test.give.Give;
 import com.example.test.take.Take;
@@ -23,8 +21,6 @@ public class Member {
     private Boolean isAlert;
     private String profileImage;
     private Boolean isTaker;
-    @OneToMany(mappedBy = "giver")
-    private List<Food> donateList;
     @OneToMany(mappedBy = "giver")
     private List<Give> giveList;
     @OneToMany(mappedBy = "taker")

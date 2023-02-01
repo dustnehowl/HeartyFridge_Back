@@ -33,5 +33,6 @@ public class ProfileDto {
         this.giveList = GiveListDto.of(member.getGiveList());
         this.numGive = this.giveList.size();
         this.takeList = TakeListDto.of(member.getTakeList());
+        this.numTake = this.takeList.size();
     }
 }

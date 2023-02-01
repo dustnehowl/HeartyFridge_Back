@@ -1,7 +1,6 @@
 package com.example.test.give;
-
-import com.example.test.food.Food;
 import com.example.test.foodv2.FoodV2;
+import com.example.test.fridge.Fridge;
 import com.example.test.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,11 +21,15 @@ public class Give {
     @OneToOne
     @JoinColumn(name = "FOODV2_ID")
     private FoodV2 food;
+    @ManyToOne
+    @JoinColumn(name = "FRIDGE_ID")
+    private Fridge fridge;
 
-    public Give(LocalDateTime giveTime, Member giver, FoodV2 food){
-        this.giveTime =giveTime;
+    public Give(LocalDateTime giveTime, Member giver, FoodV2 food, Fridge fridge){
+        this.giveTime = giveTime;
         this.giver = giver;
         this.food = food;
+        this.fridge = fridge;
     }
     public Give() {}
 }

@@ -23,7 +23,6 @@ public class MemberController {
     @PostMapping("/googleLogin")
     public ResponseEntity<ResponseDto> googleLogin(@RequestBody AccessTokenDto accessTokenDto , HttpServletResponse response){
         String accessToken = accessTokenDto.getAccessToken();
-        System.out.println("accessToken : " + accessToken);
         return ResponseEntity.ok().body(memberService.googleLogin(accessToken));
     }
 

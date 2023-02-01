@@ -1,6 +1,4 @@
 package com.example.test.fridge.service;
-
-import com.example.test.food.Food;
 import com.example.test.fridge.Fridge;
 import com.example.test.fridge.controller.dto.AllFridgeDto;
 import com.example.test.fridge.controller.dto.FridgeDtoResponse;

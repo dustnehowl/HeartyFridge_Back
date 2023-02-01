@@ -1,6 +1,4 @@
 package com.example.test.message;
-
-import com.example.test.food.Food;
 import com.example.test.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,10 +21,6 @@ public class Message {
     private Member sender;
     private String message;
     private Long fridgeId;
-
-    @OneToOne
-    @JoinColumn(name = "FOOD_ID")
-    private Food food;
 
     public Message(String title, String message) {
         this.title = title;

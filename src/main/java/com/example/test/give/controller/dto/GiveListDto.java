@@ -1,7 +1,4 @@
 package com.example.test.give.controller.dto;
-
-import com.example.test.food.Food;
-import com.example.test.fridge.controller.dto.FoodsInFridgeDto;
 import com.example.test.give.Give;
 import lombok.Data;
 

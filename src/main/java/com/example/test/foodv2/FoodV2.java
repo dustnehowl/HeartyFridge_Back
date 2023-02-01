@@ -18,16 +18,12 @@ public class FoodV2 {
     private String message;
     private String amount;
     private LocalDateTime expiration;
-    @ManyToOne
-    @JoinColumn(name = "FRIDGE_ID")
-    private Fridge fridge;
-    public FoodV2(String name, String category, String message, String amount, Fridge fridge){
+    public FoodV2(String name, String category, String message, String amount){
         this.name = name;
         this.category = category;
         this.message = message;
         this.amount = amount;
         this.expiration = LocalDateTime.now();
-        this.fridge = fridge;
     }
     public FoodV2(){}
 }

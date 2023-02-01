@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FoodRepositoryV2 extends JpaRepository<FoodV2, Long> {
-    List<FoodV2> findFoodV2sByFridge(Fridge fridge);
 }

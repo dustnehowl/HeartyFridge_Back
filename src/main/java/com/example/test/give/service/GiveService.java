@@ -35,19 +35,18 @@ public class GiveService {
                 giveRequestDto.getName(),
                 giveRequestDto.getCategory(),
                 giveRequestDto.getMessage(),
-                giveRequestDto.getAmount(),
+                giveRequestDto.getAmount()
                 //여기 프론트랑 연동할때 request들어오는 거로 바꾸기
-                //giveRequestDto.getExpiration(),
-                fridge
+                //giveRequestDto.getExpiration()
         );
         foodRepositoryV2.save(foodV2);
 
         LocalDateTime currentTime = LocalDateTime.now();
-        Give give = new Give(currentTime, giver, foodV2);
+        Give give = new Give(currentTime, giver, foodV2, fridge);
         giveRepository.save(give);
 
         giver.getGiveList().add(give);
-        fridge.getFoods2().add(foodV2);
+        fridge.getGiveList().add(give);
 
         return new GiveResponseDto(give);
     }
