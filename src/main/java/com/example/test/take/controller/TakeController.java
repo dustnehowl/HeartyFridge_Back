@@ -4,10 +4,7 @@ import com.example.test.config.generic.Result;
 import com.example.test.take.controller.dto.TakeResponseDto;
 import com.example.test.take.service.TakeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/take")
@@ -21,5 +18,9 @@ public class TakeController {
     @PostMapping("/takeFood")
     public Result takeFood(@RequestParam String memberId, String giveId){
         return new Result(takeService.takeFood(memberId, giveId));
+    }
+    @GetMapping("/numNotDone")
+    public Result numNotDone(@RequestParam String memberId){
+        return new Result(takeService.numTakesNotDone(memberId));
     }
 }

@@ -9,11 +9,14 @@ import com.example.test.take.controller.dto.TakeResponseDto;
 import com.example.test.take.repository.TakeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TakeService {
     private final TakeRepository takeRepository;
     private final GiveRepository giveRepository;
@@ -28,7 +31,7 @@ public class TakeService {
 
         Member taker = memberRepository.findMemberById(memberId).get();
         Give item = giveRepository.findGiveById(giveId).get();
-        if(item.getIsReserved() == false) {
+        if(item.getIsReserved() == false && takeRepository.findTakesByTakerAndIsDone(taker, false).size() < 2) {
             item.setIsReserved(true);
             LocalDateTime currentTime = LocalDateTime.now();
 
@@ -41,5 +44,13 @@ public class TakeService {
         else{
             throw new RuntimeException();
         }
+    }
+
+    public Integer numTakesNotDone(String member_id){
+        Long memberId = Long.parseLong(member_id);
+        Member taker = memberRepository.findMemberById(memberId).get();
+
+        List<Take> takeListNotDone = takeRepository.findTakesByTakerAndIsDone(taker, false);
+        return takeListNotDone.size();
     }
 }
