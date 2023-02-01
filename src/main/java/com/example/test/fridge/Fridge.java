@@ -1,5 +1,4 @@
 package com.example.test.fridge;
-import com.example.test.foodv2.FoodV2;
 import com.example.test.give.Give;
 import jakarta.persistence.*;
 import lombok.Getter;

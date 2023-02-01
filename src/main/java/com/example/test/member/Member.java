@@ -1,5 +1,4 @@
 package com.example.test.member;
-import com.example.test.foodv2.FoodV2;
 import com.example.test.give.Give;
 import com.example.test.take.Take;
 import jakarta.persistence.*;

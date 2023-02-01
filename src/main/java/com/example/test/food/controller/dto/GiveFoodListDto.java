@@ -1,8 +1,6 @@
-package com.example.test.foodv2.controller.dto;
+package com.example.test.food.controller.dto;
 
-import com.example.test.foodv2.FoodV2;
-import com.example.test.give.Give;
-import com.example.test.give.controller.dto.GiveListDto;
+import com.example.test.food.Food;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -23,7 +21,7 @@ public class GiveFoodListDto {
         this.expiration = expiration;
     }
 
-    public static List<GiveFoodListDto> of(List<FoodV2> foods) {
+    public static List<GiveFoodListDto> of(List<Food> foods) {
         return foods.stream()
                 .map(food -> new GiveFoodListDto(food.getId(), food.getName(), food.getAmount(), food.getExpiration()))
                 .collect(Collectors.toList());

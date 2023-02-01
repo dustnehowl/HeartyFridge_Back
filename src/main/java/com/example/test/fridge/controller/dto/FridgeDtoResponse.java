@@ -1,6 +1,5 @@
 package com.example.test.fridge.controller.dto;
 
-import com.example.test.foodv2.controller.dto.GiveFoodListDto;
 import com.example.test.fridge.Fridge;
 import com.example.test.give.controller.dto.GiveListDto;
 import lombok.AllArgsConstructor;

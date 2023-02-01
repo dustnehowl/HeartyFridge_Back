@@ -1,6 +1,6 @@
-package com.example.test.foodv2.service;
+package com.example.test.food.service;
 
-import com.example.test.foodv2.repository.FoodRepositoryV2;
+import com.example.test.food.repository.FoodRepositoryV2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

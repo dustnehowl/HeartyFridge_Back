@@ -31,7 +31,10 @@ public class TakeService {
 
         Member taker = memberRepository.findMemberById(memberId).get();
         Give item = giveRepository.findGiveById(giveId).get();
-        if(item.getIsReserved() == false && takeRepository.findTakesByTakerAndIsDone(taker, false).size() < 2) {
+        if(item.getIsReserved() == false
+                && takeRepository.findTakesByTakerAndIsDone(taker, false).size() < 2
+                && taker.getIsTaker() == true)
+        {
             item.setIsReserved(true);
             LocalDateTime currentTime = LocalDateTime.now();
 
@@ -42,6 +45,7 @@ public class TakeService {
             return new TakeResponseDto(take);
         }
         else{
+            //에러 핸들링 추가해야함...
             throw new RuntimeException();
         }
     }

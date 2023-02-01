@@ -1,6 +1,6 @@
-package com.example.test.foodv2.controller;
+package com.example.test.food.controller;
 
-import com.example.test.foodv2.service.FoodServiceV2;
+import com.example.test.food.service.FoodServiceV2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,7 +1,7 @@
 package com.example.test.give.service;
 
-import com.example.test.foodv2.FoodV2;
-import com.example.test.foodv2.repository.FoodRepositoryV2;
+import com.example.test.food.Food;
+import com.example.test.food.repository.FoodRepositoryV2;
 import com.example.test.fridge.Fridge;
 import com.example.test.fridge.repository.FridgeRepository;
 import com.example.test.give.Give;
@@ -31,7 +31,7 @@ public class GiveService {
         Member giver = memberRepository.findMemberById(giveRequestDto.getGiverId()).get();
         Fridge fridge = fridgeRepository.findFridgeById(giveRequestDto.getFridgeId()).get();
 
-        FoodV2 foodV2 = new FoodV2(
+        Food food = new Food(
                 giveRequestDto.getName(),
                 giveRequestDto.getCategory(),
                 giveRequestDto.getMessage(),
@@ -39,10 +39,10 @@ public class GiveService {
                 //여기 프론트랑 연동할때 request들어오는 거로 바꾸기
                 //giveRequestDto.getExpiration()
         );
-        foodRepositoryV2.save(foodV2);
+        foodRepositoryV2.save(food);
 
         LocalDateTime currentTime = LocalDateTime.now();
-        Give give = new Give(currentTime, giver, foodV2, fridge);
+        Give give = new Give(currentTime, giver, food, fridge);
         giveRepository.save(give);
 
         giver.getGiveList().add(give);
