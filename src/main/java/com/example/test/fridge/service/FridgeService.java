@@ -86,7 +86,6 @@ public class FridgeService {
         List<Message> messages = messageRepository.findMessagesByFridgeId(fridge_id);
         Integer numMessages = messages.size();
         if (fridge.isPresent()){
-            //List<Food> foods = fridge.get().getFoods();
             return new FridgeDtoResponse(fridge.get(), numMessages);
         }
         else {

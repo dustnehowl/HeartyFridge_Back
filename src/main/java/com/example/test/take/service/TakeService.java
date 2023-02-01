@@ -28,12 +28,18 @@ public class TakeService {
 
         Member taker = memberRepository.findMemberById(memberId).get();
         Give item = giveRepository.findGiveById(giveId).get();
-        LocalDateTime currentTime = LocalDateTime.now();
+        if(item.getIsReserved() == false) {
+            item.setIsReserved(true);
+            LocalDateTime currentTime = LocalDateTime.now();
 
-        Take take = new Take(currentTime, taker, item);
-        taker.getTakeList().add(take);
+            Take take = new Take(currentTime, taker, item);
+            taker.getTakeList().add(take);
 
-        takeRepository.save(take);
-        return new TakeResponseDto(take);
+            takeRepository.save(take);
+            return new TakeResponseDto(take);
+        }
+        else{
+            throw new RuntimeException();
+        }
     }
 }
