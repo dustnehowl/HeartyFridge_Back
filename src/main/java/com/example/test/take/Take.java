@@ -4,11 +4,13 @@ import com.example.test.give.Give;
 import com.example.test.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 public class Take {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TAKE_ID")

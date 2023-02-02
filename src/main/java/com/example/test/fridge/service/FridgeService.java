@@ -26,7 +26,6 @@ import java.util.Optional;
 public class FridgeService {
 
     private final FridgeRepository fridgeRepository;
-    private final MessageRepository messageRepository;
     public String testFridge(){
         return "Fridge Test!!";
     }
@@ -83,10 +82,8 @@ public class FridgeService {
     public FridgeDtoResponse getFridge(String id) {
         Long fridge_id = Long.parseLong(id);
         Optional<Fridge> fridge = fridgeRepository.findFridgeById(fridge_id);
-        List<Message> messages = messageRepository.findMessagesByFridgeId(fridge_id);
-        Integer numMessages = messages.size();
         if (fridge.isPresent()){
-            return new FridgeDtoResponse(fridge.get(), numMessages);
+            return new FridgeDtoResponse(fridge.get());
         }
         else {
             throw new RuntimeException();

@@ -17,9 +17,8 @@ public class FridgeDtoResponse {
     private String fridgeImage;
     private Integer numFoods;
     private List<GiveListDto> foodList;
-    private Integer numMessages;
 
-    public FridgeDtoResponse(Fridge fridge, Integer numMessages){
+    public FridgeDtoResponse(Fridge fridge){
         this.name = fridge.getName();
         this.address = fridge.getAddress();
         this.fridgeImage = fridge.getFridgeImage();
@@ -27,7 +26,6 @@ public class FridgeDtoResponse {
         this.lng = fridge.getLng();
         this.foodList = GiveListDto.of(fridge.getGiveList());
         this.numFoods = this.foodList.size();
-        this.numMessages = numMessages;
     }
 }
 

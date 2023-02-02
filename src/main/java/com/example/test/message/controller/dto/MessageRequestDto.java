@@ -10,7 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class MessageRequestDto {
     private String title;
-    private Long sender_id;
+    private Long senderId;
     private String message;
-    private Long food_id;
+    private Long takeId;
 }

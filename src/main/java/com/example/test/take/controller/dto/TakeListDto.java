@@ -16,13 +16,15 @@ public class TakeListDto {
     private String name;
     private String amount;
     private LocalDateTime takeTime;
+    private Boolean isDone;
 
-    public TakeListDto(Long takeId, Long foodId, String name, String amount, LocalDateTime takeTime){
+    public TakeListDto(Long takeId, Long foodId, String name, String amount, LocalDateTime takeTime, Boolean isDone){
         this.takeId = takeId;
         this.foodId = foodId;
         this.name = name;
         this.amount = amount;
         this.takeTime = takeTime;
+        this.isDone = isDone;
     }
 
     public static List<TakeListDto> of(List<Take> takes) {
@@ -31,7 +33,9 @@ public class TakeListDto {
                         take.getItem().getFood().getId(),
                         take.getItem().getFood().getName(),
                         take.getItem().getFood().getAmount(),
-                        take.getTakeTime()))
+                        take.getTakeTime(),
+                        take.getIsDone()
+                        ))
                 .collect(Collectors.toList());
     }
 }

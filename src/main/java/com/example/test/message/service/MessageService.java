@@ -7,13 +7,15 @@ import com.example.test.message.controller.dto.AllMessageDto;
 import com.example.test.message.controller.dto.MessageRequestDto;
 import com.example.test.message.controller.dto.MessageResponseDto;
 import com.example.test.message.repository.MessageRepository;
+import com.example.test.take.Take;
+import com.example.test.take.repository.TakeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,16 +24,24 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final MemberRepository memberRepository;
+    private final TakeRepository takeRepository;
 
     public MessageResponseDto sendMessage(MessageRequestDto messageRequestDto) {
-        Optional<Member> sender = memberRepository.findMemberById(messageRequestDto.getSender_id());
-        //System.out.println("===============sender : " + sender.get().getName());
-        //System.out.println("===============food : " + food.get().getName());
+        Member sender = memberRepository.findMemberById(messageRequestDto.getSenderId()).get();
+        Take item = takeRepository.findTakeById(messageRequestDto.getTakeId()).get();
+        Member receiver = memberRepository.findMemberById(item.getItem().getGiver().getId()).get();
+        LocalDateTime currentTime = LocalDateTime.now();
+
         Message message = new Message(
                 messageRequestDto.getTitle(),
-                messageRequestDto.getMessage()
+                messageRequestDto.getMessage(),
+                sender,
+                item,
+                currentTime
         );
-        message.setSender(sender.get());
+
+        item.setIsDone(true);
+        receiver.setIsAlert(true);
 
         messageRepository.save(message);
         return new MessageResponseDto(message);
