@@ -10,15 +10,16 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 public class Member {
     @Id @Column(name = "MEMBER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String name;
+    @Setter
     private Boolean isAlert;
     private String profileImage;
+    @Setter
     private Boolean isTaker;
     @OneToMany(mappedBy = "giver")
     private List<Give> giveList;

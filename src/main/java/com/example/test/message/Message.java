@@ -19,11 +19,11 @@ public class Message {
     private Long id;
     private String title;
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "SENDER_ID")
     private Member sender;
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member receiver;
+    @ManyToOne
+    @JoinColumn(name = "RECEIVER_ID")
+    private Member receiver;
 
     private String message;
     @OneToOne
@@ -31,14 +31,14 @@ public class Message {
     private Take item;
     private LocalDateTime sendTime;
 
-//    public Message(String title, String message, Member sender, Member receiver, Take item, LocalDateTime sendTime) {
-//        this.title = title;
-//        this.message = message;
-//        this.sender = sender;
-//        this.receiver = receiver;
-//        this.item = item;
-//        this.sendTime = sendTime;
-//    }
+    public Message(String title, String message, Member sender, Member receiver, Take item, LocalDateTime sendTime) {
+        this.title = title;
+        this.message = message;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.item = item;
+        this.sendTime = sendTime;
+    }
 
     public Message(String title, String message, Member sender, Take item, LocalDateTime sendTime) {
         this.title = title;

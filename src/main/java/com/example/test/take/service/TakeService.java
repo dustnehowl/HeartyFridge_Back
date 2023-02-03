@@ -33,8 +33,9 @@ public class TakeService {
         Give item = giveRepository.findGiveById(giveId).get();
         if(item.getIsReserved() == false
                 && takeRepository.findTakesByTakerAndIsDone(taker, false).size() < 2
-                && taker.getIsTaker() == true)
-        {
+                && taker.getIsTaker() == true
+                && item.getGiver() != taker
+        ) {
             item.setIsReserved(true);
             LocalDateTime currentTime = LocalDateTime.now();
 

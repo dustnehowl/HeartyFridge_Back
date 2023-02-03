@@ -27,20 +27,22 @@ public class MessageService {
     private final TakeRepository takeRepository;
 
     public MessageResponseDto sendMessage(MessageRequestDto messageRequestDto) {
-        Member sender = memberRepository.findMemberById(messageRequestDto.getSenderId()).get();
-        Take item = takeRepository.findTakeById(messageRequestDto.getTakeId()).get();
-        Member receiver = memberRepository.findMemberById(item.getItem().getGiver().getId()).get();
+        //Member sender = memberRepository.findMemberById(messageRequestDto.getSenderId()).get();
+        Take takeItem = takeRepository.findTakeById(messageRequestDto.getTakeId()).get();
+        Member sender = memberRepository.findMemberById(takeItem.getTaker().getId()).get();
+        Member receiver = memberRepository.findMemberById(takeItem.getItem().getGiver().getId()).get();
         LocalDateTime currentTime = LocalDateTime.now();
 
         Message message = new Message(
                 messageRequestDto.getTitle(),
                 messageRequestDto.getMessage(),
                 sender,
-                item,
+                receiver,
+                takeItem,
                 currentTime
         );
 
-        item.setIsDone(true);
+        takeItem.setIsDone(true);
         receiver.setIsAlert(true);
 
         messageRepository.save(message);

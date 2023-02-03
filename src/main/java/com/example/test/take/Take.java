@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 public class Take {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TAKE_ID")
@@ -22,6 +21,7 @@ public class Take {
     @OneToOne
     @JoinColumn(name = "GIVE_ID")
     private Give item;
+    @Setter
     private Boolean isDone;
 
     public Take(){}
