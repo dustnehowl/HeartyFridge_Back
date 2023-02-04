@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,8 +37,7 @@ public class FridgeController {
     }
 
     @GetMapping("/getFridge")
-    public Result getFridge(HttpServletRequest request){
-        String id = request.getParameter("id");
+    public Result getFridge(@RequestParam String id){
         System.out.println("============= getFridge" + id+ " =============");
         return new Result(fridgeService.getFridge(id));
     }
