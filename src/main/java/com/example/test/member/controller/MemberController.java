@@ -30,19 +30,14 @@ public class MemberController {
     }
 
     @GetMapping("/getProfile")
-    public Result hello(@RequestParam String id){
-        return new Result(memberService.getFoodsByGiver(id));
+    public ResponseEntity<Result> hello(@RequestParam String id){
+        return ResponseEntity.ok()
+                .body(new Result(memberService.getFoodsByGiver(id)));
     }
 
-    @GetMapping("/saveTest")
-    public String saveTest(){
-        memberService.testMember();
-        return "OK";
-    }
 
     @GetMapping("/all")
-    public List<Member> allUser(){
-        List<Member> allUser = memberService.getAll();
-        return allUser;
+    public Result allUser(){
+        return new Result(memberService.getAll());
     }
 }

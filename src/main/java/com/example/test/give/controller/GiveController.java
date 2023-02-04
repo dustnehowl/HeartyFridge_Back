@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class GiveController {
     private final GiveService giveService;
-    @GetMapping("/test")
-    public String test(){
-        return giveService.test();
-    }
     @PostMapping("/giveFood")
     public Result giveFood(@RequestBody GiveRequestDto giveRequestDto){
         return new Result(giveService.giveFood(giveRequestDto));

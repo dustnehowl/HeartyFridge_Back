@@ -20,5 +20,13 @@ public class AllFridgeDto {
     private double lat;
     private double lng;
 
+    public static AllFridgeDto of(Fridge fridge) {
+        return new AllFridgeDto(fridge.getId(),
+                fridge.getAddress(),
+                fridge.getFridgeImage(),
+                fridge.getName(),
+                fridge.getLat(),
+                fridge.getLng());
+    }
 
 }

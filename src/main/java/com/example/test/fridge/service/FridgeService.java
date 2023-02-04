@@ -19,6 +19,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,21 +32,23 @@ public class FridgeService {
     }
 
     public List<AllFridgeDto> all(){
-        List<Fridge> all = fridgeRepository.findAll();
-        List<AllFridgeDto> allFridgeDtos = new ArrayList<>();
-
-        for(Fridge fridge : all){
-            AllFridgeDto allFridgeDto = new AllFridgeDto(
-                    fridge.getId(),
-                    fridge.getAddress(),
-                    fridge.getFridgeImage(),
-                    fridge.getName(),
-                    fridge.getLat(),
-                    fridge.getLng()
-            );
-            allFridgeDtos.add(allFridgeDto);
-        }
-        return allFridgeDtos;
+//        List<Fridge> all = fridgeRepository.findAll();
+//        List<AllFridgeDto> allFridgeDtos = new ArrayList<>();
+//
+//        for(Fridge fridge : all){
+//            AllFridgeDto allFridgeDto = new AllFridgeDto(
+//                    fridge.getId(),
+//                    fridge.getAddress(),
+//                    fridge.getFridgeImage(),
+//                    fridge.getName(),
+//                    fridge.getLat(),
+//                    fridge.getLng()
+//            );
+//            allFridgeDtos.add(allFridgeDto);
+//        }
+        return fridgeRepository.findAll().stream()
+                .map(AllFridgeDto::of)
+                .collect(Collectors.toList());
     }
 
     public String saveFridge(){
@@ -65,11 +68,8 @@ public class FridgeService {
                 double lat = (double) loc.get("lat");
                 double lng = (double) loc.get("lng");
 
-                Optional<Fridge> fridge = fridgeRepository.findFridgeByAddress(address);
-                if(fridge.isPresent()){
-                    continue;
-                }
-                else fridgeRepository.save(new Fridge(name, address, lat, lng));
+                Fridge fridge = fridgeRepository.findFridgeByAddress(address)
+                        .orElseGet(() -> fridgeRepository.save(new Fridge(name, address, lat, lng)));
             }
             return "Save Done!!";
         }

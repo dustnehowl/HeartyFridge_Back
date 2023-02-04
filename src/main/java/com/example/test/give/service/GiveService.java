@@ -22,9 +22,6 @@ public class GiveService {
     private final FoodRepository foodRepository;
     private final FridgeRepository fridgeRepository;
     private final MemberRepository memberRepository;
-    public String test() {
-        return "OK";
-    }
 
     public GiveResponseDto giveFood(GiveRequestDto giveRequestDto) {
 

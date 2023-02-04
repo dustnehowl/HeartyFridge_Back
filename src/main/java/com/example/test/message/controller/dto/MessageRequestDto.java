@@ -1,5 +1,6 @@
 package com.example.test.message.controller.dto;
 import com.example.test.member.Member;
+import com.example.test.message.Message;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;

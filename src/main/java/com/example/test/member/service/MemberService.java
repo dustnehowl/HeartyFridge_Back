@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -71,13 +72,11 @@ public class MemberService {
 
     }
 
-    public ProfileDto getFoodsByGiver(String id){
+    public ProfileDto getFoodsByGiver(String id) {
         Long memberId = Long.parseLong(id);
         Member member = memberRepository.findMemberById(memberId).get();
         return new ProfileDto(member);
     }
-
-
 
     public AuthTakerDto authTaker(AuthTakerRequest authTakerRequest) {
         // 시리얼 번호로 진품 가품 확인하기!!!
@@ -94,15 +93,21 @@ public class MemberService {
         return new AuthTakerDto(authTakerRequest);
     }
 
-    public static String hex(byte[] array) {
-        StringBuffer sb = new StringBuffer();
+    public List<ProfileDto> getAll(){
+        return memberRepository.findAll().stream()
+                .map(ProfileDto::new)
+                .collect(Collectors.toList());
+    }
+
+    private String hex(byte[] array) {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < array.length; ++i) {
             sb.append(Integer.toHexString((array[i]
                     & 0xFF) | 0x100).substring(1,3));
         }
         return sb.toString();
     }
-    public static String md5Hex (String message) {
+    private String md5Hex (String message) {
         try {
             MessageDigest md =
                     MessageDigest.getInstance("MD5");
@@ -112,18 +117,5 @@ public class MemberService {
         } catch (UnsupportedEncodingException e) {
         }
         return null;
-    }
-
-    @Transactional
-    public void testMember(){
-        Member testMem1 = new Member("yeonsu", "dustnrkfnfn@naver.com");
-        Member testMem2 = new Member("ys","dustnehowl@hanmail.net");
-
-        memberRepository.save(testMem1);
-        memberRepository.save(testMem2);
-    }
-
-    public List<Member> getAll(){
-        return memberRepository.findAll();
     }
 }
