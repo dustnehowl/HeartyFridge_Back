@@ -27,7 +27,6 @@ public class MessageService {
     private final TakeRepository takeRepository;
 
     public MessageResponseDto sendMessage(MessageRequestDto messageRequestDto) {
-        //Member sender = memberRepository.findMemberById(messageRequestDto.getSenderId()).get();
         Take takeItem = takeRepository.findTakeById(messageRequestDto.getTakeId()).get();
         Member sender = memberRepository.findMemberById(takeItem.getTaker().getId()).get();
         Member receiver = memberRepository.findMemberById(takeItem.getItem().getGiver().getId()).get();

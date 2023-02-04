@@ -15,6 +15,25 @@ spring:
         format_sql: true
     show-sql: true
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /api/**
+
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher # for swagger 3.0
+
 security:
   jwt:
     token:

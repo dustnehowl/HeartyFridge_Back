@@ -1,6 +1,7 @@
 package com.example.test.member.service;
 
 import com.example.test.config.security.TokenProvider;
+import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.controller.dto.*;
 import com.example.test.member.repository.MemberRepository;
@@ -25,6 +26,7 @@ import java.util.*;
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final GiveRepository giveRepository;
     private final TokenProvider tokenProvider;
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
