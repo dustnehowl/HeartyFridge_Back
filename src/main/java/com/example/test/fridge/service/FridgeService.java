@@ -27,9 +27,6 @@ import java.util.stream.Collectors;
 public class FridgeService {
 
     private final FridgeRepository fridgeRepository;
-    public String testFridge(){
-        return "Fridge Test!!";
-    }
 
     public List<AllFridgeDto> all(){
 //        List<Fridge> all = fridgeRepository.findAll();

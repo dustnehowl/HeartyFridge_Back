@@ -21,11 +21,6 @@ import java.util.List;
 public class FridgeController {
 
     private final FridgeService fridgeService;
-    @GetMapping("/test")
-    public String test(){
-        return fridgeService.testFridge();
-    }
-
     @GetMapping("/saveFridge")
     public String saveFridge(){
         return fridgeService.saveFridge();
