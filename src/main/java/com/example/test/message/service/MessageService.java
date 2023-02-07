@@ -3,7 +3,6 @@ package com.example.test.message.service;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
 import com.example.test.message.Message;
-import com.example.test.message.controller.dto.AllMessageDto;
 import com.example.test.message.controller.dto.MessageRequestDto;
 import com.example.test.message.controller.dto.MessageResponseDto;
 import com.example.test.message.repository.MessageRepository;
