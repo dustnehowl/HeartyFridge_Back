@@ -27,6 +27,7 @@ public class MessageV2 {
     @JoinColumn(name = "RECEIVER_ID")
     private Member receiver;
     private String message;
+    private Boolean isResponse;
 
     public MessageV2(Give give, LocalDateTime sendTime, Member sender, Member receiver, String message){
         this.give = give;

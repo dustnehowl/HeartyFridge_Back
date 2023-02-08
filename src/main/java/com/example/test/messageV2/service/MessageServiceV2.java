@@ -7,6 +7,7 @@ import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
 import com.example.test.messageV2.MessageV2;
+import com.example.test.messageV2.controller.dto.GiveMessageDto;
 import com.example.test.messageV2.controller.dto.MessageRequestDto2;
 import com.example.test.messageV2.controller.dto.MessageResponseDto2;
 import com.example.test.messageV2.repository.MessageRepositoryV2;
@@ -27,6 +28,11 @@ public class MessageServiceV2 {
 
     public String test() {
         return "OK";
+    }
+
+    public MessageResponseDto2 giveMessage(GiveMessageDto giveMessageDto){
+        MessageV2 messageV2;
+        return new MessageResponseDto2(messageV2);
     }
 
     public MessageResponseDto2 sendMessage(MessageRequestDto2 messageRequestDto2) {
