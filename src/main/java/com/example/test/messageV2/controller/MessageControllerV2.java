@@ -22,4 +22,10 @@ public class MessageControllerV2 {
     public ResponseEntity<Result> sendMessage(@RequestBody MessageRequestDto2 messageRequestDto2){
         return ResponseEntity.ok().body(new Result(messageServiceV2.sendMessage(messageRequestDto2)));
     }
+
+    @GetMapping("/findMessagesByFridge")
+    public ResponseEntity<Result> findMessagesByFridgeId(@RequestParam Long fridgeId){
+        return ResponseEntity.ok().body(new Result(messageServiceV2.findMessagesByFridgeId(fridgeId)));
+    }
+
 }

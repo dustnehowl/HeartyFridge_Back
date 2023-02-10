@@ -2,6 +2,10 @@ package com.example.test.fridge.controller.dto;
 
 import com.example.test.fridge.Fridge;
 import com.example.test.give.controller.dto.GiveListDto;
+import com.example.test.message.Message;
+import com.example.test.messageV2.controller.dto.MessageResponseDto2;
+import com.example.test.messageV2.repository.MessageRepositoryV2;
+import com.example.test.messageV2.service.MessageServiceV2;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,8 +21,9 @@ public class FridgeDtoResponse {
     private String fridgeImage;
     private Integer numFoods;
     private List<GiveListDto> foodList;
+    private List<MessageResponseDto2> messageList;
 
-    public FridgeDtoResponse(Fridge fridge){
+    public FridgeDtoResponse(Fridge fridge, List<MessageResponseDto2> messageResponseDto2s){
         this.name = fridge.getName();
         this.address = fridge.getAddress();
         this.fridgeImage = fridge.getFridgeImage();
@@ -26,6 +31,7 @@ public class FridgeDtoResponse {
         this.lng = fridge.getLng();
         this.foodList = GiveListDto.of(fridge.getGiveList());
         this.numFoods = this.foodList.size();
+        this.messageList = messageResponseDto2s;
     }
 }
 

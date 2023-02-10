@@ -6,6 +6,7 @@ import com.example.test.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -23,11 +24,11 @@ public class MessageV2 {
     @ManyToOne
     @JoinColumn(name = "SENDER_ID")
     private Member sender;
+    @Setter
     @ManyToOne
     @JoinColumn(name = "RECEIVER_ID")
     private Member receiver;
     private String message;
-    private Boolean isResponse;
 
     public MessageV2(Give give, LocalDateTime sendTime, Member sender, Member receiver, String message){
         this.give = give;
@@ -42,4 +43,6 @@ public class MessageV2 {
         this.sender = sender;
         this.message = message;
     }
+
+    public MessageV2() {}
 }

@@ -1,7 +1,7 @@
 package com.example.test.messageV2.service;
 
-import com.example.test.food.Food;
-import com.example.test.food.repository.FoodRepository;
+import com.example.test.fridge.Fridge;
+import com.example.test.fridge.repository.FridgeRepository;
 import com.example.test.give.Give;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
@@ -16,22 +16,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class MessageServiceV2 {
     private final MessageRepositoryV2 messageRepositoryV2;
-    private final FoodRepository foodRepository;
     private final GiveRepository giveRepository;
     private final MemberRepository memberRepository;
+    private final FridgeRepository fridgeRepository;
 
     public String test() {
         return "OK";
     }
 
     public MessageResponseDto2 giveMessage(GiveMessageDto giveMessageDto){
-        MessageV2 messageV2;
+        Give give = giveRepository.findGiveById(giveMessageDto.getGiveId()).get();
+        Member sender = memberRepository.findMemberById(give.getGiver().getId()).get();
+        String message = giveMessageDto.getMessage();
+        LocalDateTime currTime = LocalDateTime.now();
+
+        MessageV2 messageV2 = new MessageV2(
+                give,
+                currTime,
+                sender,
+                message
+        );
+
+        messageRepositoryV2.save(messageV2);
         return new MessageResponseDto2(messageV2);
     }
 
@@ -39,29 +53,39 @@ public class MessageServiceV2 {
         Give give = giveRepository.findGiveById(messageRequestDto2.getGiveId()).get();
         LocalDateTime currTime = LocalDateTime.now();
         String message = messageRequestDto2.getMessage();
-        Boolean isResponse = messageRequestDto2.getIsResponse();
-        MessageV2 messageV2;
-        if(isResponse == true){
-            Member receiver = give.getGiver();
-            Member sender = memberRepository.findMemberById(messageRequestDto2.getSenderId()).get();
-            messageV2 = new MessageV2(
-                    give,
-                    currTime,
-                    sender,
-                    receiver,
-                    message
-            );
-        }
-        else {
-            Member sender = give.getGiver();
-            messageV2 = new MessageV2(
-                    give,
-                    currTime,
-                    sender,
-                    message
-            );
-        }
+        Member receiver = give.getGiver();
+        Member sender = memberRepository.findMemberById(messageRequestDto2.getSenderId()).get();
+        MessageV2 messageV2 = new MessageV2(
+                give,
+                currTime,
+                sender,
+                receiver,
+                message
+        );
+        MessageV2 giveMessage = messageRepositoryV2.findMessageV2ByGive(give).get();
+        giveMessage.setReceiver(sender);
+
         messageRepositoryV2.save(messageV2);
         return new MessageResponseDto2(messageV2);
+    }
+
+    public List<MessageResponseDto2> findMessagesByGiveId(Long giveId){
+        Give give = giveRepository.findGiveById(giveId).get();
+        List<MessageV2> all = messageRepositoryV2.findMessageV2sByGive(give);
+        List<MessageResponseDto2> messageResponseDto2s = new ArrayList<>();
+        for(MessageV2 messageV2 : all) {
+            messageResponseDto2s.add(new MessageResponseDto2(messageV2));
+        }
+        return messageResponseDto2s;
+    }
+
+    public List<MessageResponseDto2> findMessagesByFridgeId(Long fridgeId) {
+        Fridge fridge = fridgeRepository.findFridgeById(fridgeId).get();
+        List<MessageV2> all = messageRepositoryV2.findMessageV2sByGiveFridge(fridge);
+        List<MessageResponseDto2> messageResponseDto2s = new ArrayList<>();
+        for(MessageV2 messageV2 : all){
+            messageResponseDto2s.add(new MessageResponseDto2(messageV2));
+        }
+        return messageResponseDto2s;
     }
 }

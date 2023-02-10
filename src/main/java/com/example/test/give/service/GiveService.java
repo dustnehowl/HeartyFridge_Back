@@ -10,6 +10,8 @@ import com.example.test.give.controller.dto.GiveResponseDto;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
+import com.example.test.messageV2.controller.dto.GiveMessageDto;
+import com.example.test.messageV2.service.MessageServiceV2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class GiveService {
     private final FoodRepository foodRepository;
     private final FridgeRepository fridgeRepository;
     private final MemberRepository memberRepository;
+    private final MessageServiceV2 messageServiceV2;
 
     public GiveResponseDto giveFood(GiveRequestDto giveRequestDto) {
 
@@ -34,6 +37,8 @@ public class GiveService {
         LocalDateTime currentTime = LocalDateTime.now();
         Give give = new Give(currentTime, giver, food, fridge);
         giveRepository.save(give);
+
+        messageServiceV2.giveMessage(new GiveMessageDto(give.getId(), giveRequestDto.getMessage()));
 
         giver.getGiveList().add(give);
         fridge.getGiveList().add(give);

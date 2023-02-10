@@ -5,6 +5,8 @@ import com.example.test.fridge.controller.dto.FridgeDtoResponse;
 import com.example.test.fridge.repository.FridgeRepository;
 import com.example.test.message.Message;
 import com.example.test.message.repository.MessageRepository;
+import com.example.test.messageV2.controller.dto.MessageResponseDto2;
+import com.example.test.messageV2.service.MessageServiceV2;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 public class FridgeService {
 
     private final FridgeRepository fridgeRepository;
+    private final MessageServiceV2 messageServiceV2;
 
     public List<AllFridgeDto> all(){
 //        List<Fridge> all = fridgeRepository.findAll();
@@ -80,7 +83,8 @@ public class FridgeService {
         Long fridge_id = Long.parseLong(id);
         Optional<Fridge> fridge = fridgeRepository.findFridgeById(fridge_id);
         if (fridge.isPresent()){
-            return new FridgeDtoResponse(fridge.get());
+            List<MessageResponseDto2> messageResponseDto2s = messageServiceV2.findMessagesByFridgeId(fridge_id);
+            return new FridgeDtoResponse(fridge.get(), messageResponseDto2s);
         }
         else {
             throw new RuntimeException();

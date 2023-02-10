@@ -6,6 +6,5 @@ import lombok.Data;
 public class MessageRequestDto2 {
     private String message;
     private Long giveId;
-    private Boolean isResponse;
     private Long senderId;
 }
