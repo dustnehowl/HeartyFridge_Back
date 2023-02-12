@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class FridgeDtoResponse {
+    private Long fridgeId;
     private String name;
     private String address;
     private double lat;
@@ -26,6 +27,7 @@ public class FridgeDtoResponse {
     private List<MessageResponseDto2> messageList;
 
     public FridgeDtoResponse(Fridge fridge, List<MessageResponseDto2> messageResponseDto2s){
+        this.fridgeId = fridge.getId();
         this.name = fridge.getName();
         this.address = fridge.getAddress();
         this.fridgeImage = fridge.getFridgeImage();
