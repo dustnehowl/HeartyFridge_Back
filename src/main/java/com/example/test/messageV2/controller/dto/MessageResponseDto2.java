@@ -5,6 +5,7 @@ import com.example.test.give.controller.dto.GiveListDto;
 import com.example.test.messageV2.MessageV2;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 public class MessageResponseDto2 {
     private Long messageId;
     private String senderName;
+    private LocalDateTime sendTime;
     private String receiverName;
     private String foodName;
     private String fridgeName;
@@ -19,6 +21,7 @@ public class MessageResponseDto2 {
     public MessageResponseDto2(MessageV2 messageV2) {
         this.messageId = messageV2.getId();
         this.senderName = messageV2.getSender().getName();
+        this.sendTime = messageV2.getSendTime();
         if(messageV2.getReceiver() != null)
             this.receiverName = messageV2.getReceiver().getName();
         else this.receiverName = "몰?루";
