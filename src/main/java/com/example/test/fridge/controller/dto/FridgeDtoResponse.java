@@ -9,6 +9,7 @@ import com.example.test.messageV2.service.MessageServiceV2;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class FridgeDtoResponse {
     private double lng;
     private String fridgeImage;
     private Integer numFoods;
+    private Integer numMessages;
     private List<GiveListDto> foodList;
     private List<MessageResponseDto2> messageList;
 
@@ -32,6 +34,7 @@ public class FridgeDtoResponse {
         this.foodList = GiveListDto.of(fridge.getGiveList());
         this.numFoods = this.foodList.size();
         this.messageList = messageResponseDto2s;
+        this.numMessages = this.messageList.size();
     }
 }
 
