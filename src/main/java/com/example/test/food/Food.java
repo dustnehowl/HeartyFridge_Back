@@ -3,6 +3,7 @@ package com.example.test.food;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,12 +18,12 @@ public class Food {
     private String message;
     private String amount;
     private LocalDateTime expiration;
-    public Food(String name, String category, String message, String amount){
+    public Food(String name, String category, String message, String amount, LocalDateTime expiration){
         this.name = name;
         this.category = category;
         this.message = message;
         this.amount = amount;
-        this.expiration = LocalDateTime.now();
+        this.expiration = expiration;
     }
     public Food(){}
 }

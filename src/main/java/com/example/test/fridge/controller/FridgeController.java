@@ -31,6 +31,11 @@ public class FridgeController {
         return new Result<>(fridgeService.all());
     }
 
+    @GetMapping("/getAll")
+    public Result getAll(){
+        return new Result<>(fridgeService.getall());
+    }
+
     @GetMapping("/getFridge")
     public Result getFridge(@RequestParam String id){
         System.out.println("============= getFridge" + id+ " =============");

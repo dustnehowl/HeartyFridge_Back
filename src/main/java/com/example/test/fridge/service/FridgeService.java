@@ -50,6 +50,19 @@ public class FridgeService {
                 .map(AllFridgeDto::of)
                 .collect(Collectors.toList());
     }
+    public List<FridgeDtoResponse> getall(){
+        List<Fridge> all = fridgeRepository.findAll();
+        List<FridgeDtoResponse> fridgeDtoResponses = new ArrayList<>();
+
+        for(Fridge fridge : all){
+            List<MessageResponseDto2> messageResponseDto2s = messageServiceV2.findMessagesByFridgeId(fridge.getId());
+            FridgeDtoResponse fridgeDtoResponse = new FridgeDtoResponse(
+                    fridge,messageResponseDto2s
+            );
+            fridgeDtoResponses.add(fridgeDtoResponse);
+        }
+        return fridgeDtoResponses;
+    }
 
     public String saveFridge(){
 

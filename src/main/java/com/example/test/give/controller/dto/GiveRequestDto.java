@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class GiveRequestDto {
     private String name;
-    //private LocalDateTime expiration;
+    private LocalDateTime expiration;
     private String amount;
     private String category;
     private String message;
@@ -16,7 +16,7 @@ public class GiveRequestDto {
     private Long giverId;
 
     public Food toEntity() {
-        return new Food(this.name, this.category, this.message, this.amount);
+        return new Food(this.name, this.category, this.message, this.amount, this.expiration);
     }
 
     public GiveRequestDto(){}

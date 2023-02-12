@@ -1,15 +1,12 @@
 package com.example.test.member.controller;
 
 import com.example.test.config.generic.Result;
-import com.example.test.member.Member;
 import com.example.test.member.controller.dto.*;
 import com.example.test.member.service.MemberService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -32,7 +29,7 @@ public class MemberController {
     @GetMapping("/getProfile")
     public ResponseEntity<Result> hello(@RequestParam String id){
         return ResponseEntity.ok()
-                .body(new Result(memberService.getFoodsByGiver(id)));
+                .body(new Result(memberService.getProfile(id)));
     }
 
 
