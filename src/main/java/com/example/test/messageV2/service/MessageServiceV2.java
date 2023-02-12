@@ -34,16 +34,19 @@ public class MessageServiceV2 {
 
     public MessageResponseDto2 giveMessage(GiveMessageDto giveMessageDto){
         Give give = giveRepository.findGiveById(giveMessageDto.getGiveId()).get();
+        Fridge fridge = fridgeRepository.findFridgeById(give.getFridge().getId()).get();
         Member sender = memberRepository.findMemberById(give.getGiver().getId()).get();
         String message = giveMessageDto.getMessage();
         LocalDateTime currTime = LocalDateTime.now();
 
         MessageV2 messageV2 = new MessageV2(
                 give,
+                fridge,
                 currTime,
                 sender,
                 message
         );
+        fridge.getMessageList().add(messageV2);
 
         messageRepositoryV2.save(messageV2);
         return new MessageResponseDto2(messageV2);
@@ -51,12 +54,14 @@ public class MessageServiceV2 {
 
     public MessageResponseDto2 sendMessage(MessageRequestDto2 messageRequestDto2) {
         Give give = giveRepository.findGiveById(messageRequestDto2.getGiveId()).get();
+        Fridge fridge = fridgeRepository.findFridgeById(give.getFridge().getId()).get();
         LocalDateTime currTime = LocalDateTime.now();
         String message = messageRequestDto2.getMessage();
         Member receiver = give.getGiver();
         Member sender = memberRepository.findMemberById(messageRequestDto2.getSenderId()).get();
         MessageV2 messageV2 = new MessageV2(
                 give,
+                fridge,
                 currTime,
                 sender,
                 receiver,
@@ -64,6 +69,8 @@ public class MessageServiceV2 {
         );
         MessageV2 giveMessage = messageRepositoryV2.findMessageV2ByGive(give).get();
         giveMessage.setReceiver(sender);
+
+        fridge.getMessageList().add(giveMessage);
 
         messageRepositoryV2.save(messageV2);
         return new MessageResponseDto2(messageV2);

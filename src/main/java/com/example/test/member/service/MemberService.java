@@ -5,6 +5,9 @@ import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.controller.dto.*;
 import com.example.test.member.repository.MemberRepository;
+import com.example.test.take.Take;
+import com.example.test.take.controller.dto.TakeListDto;
+import com.example.test.take.repository.TakeRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final GiveRepository giveRepository;
+    private final TakeRepository takeRepository;
     private final TokenProvider tokenProvider;
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
@@ -73,7 +77,13 @@ public class MemberService {
     public ProfileDto getProfile(String id) {
         Long memberId = Long.parseLong(id);
         Member member = memberRepository.findMemberById(memberId).get();
-        return new ProfileDto(member);
+        List<Take> reservationList = takeRepository.findTakesByTakerAndIsDone(member, false);
+        List<TakeListDto> takeListDtos = TakeListDto.of(reservationList);
+
+        ProfileDto profileDto = new ProfileDto(member);
+        profileDto.setReservationList(takeListDtos);
+
+        return profileDto;
     }
 
     public AuthTakerDto authTaker(AuthTakerRequest authTakerRequest) {

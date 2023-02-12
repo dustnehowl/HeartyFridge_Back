@@ -22,6 +22,7 @@ public class ProfileDto {
     private Integer numTake;
     private List<GiveListDto> giveList;
     private List<TakeListDto> takeList;
+    private List<TakeListDto> reservationList;
 
     public ProfileDto(Member member){
         this.id = member.getId();

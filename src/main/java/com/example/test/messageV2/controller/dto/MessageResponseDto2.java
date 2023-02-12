@@ -1,7 +1,12 @@
 package com.example.test.messageV2.controller.dto;
 
+import com.example.test.give.Give;
+import com.example.test.give.controller.dto.GiveListDto;
 import com.example.test.messageV2.MessageV2;
 import lombok.Data;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class MessageResponseDto2 {
@@ -20,5 +25,11 @@ public class MessageResponseDto2 {
         this.foodName = messageV2.getGive().getFood().getName();
         this.fridgeName = messageV2.getGive().getFridge().getName();
         this.message = messageV2.getMessage();
+    }
+
+    public static List<MessageResponseDto2> of(List<MessageV2> messageV2s) {
+        return messageV2s.stream()
+                .map(messageV2 -> new MessageResponseDto2(messageV2))
+                .collect(Collectors.toList());
     }
 }
