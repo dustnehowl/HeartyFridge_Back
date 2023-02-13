@@ -26,22 +26,16 @@ public class AllFridgeDto {
     private double lng;
     private Integer numFoods;
     private Integer numMessages;
-    private List<GiveListDto> giveList;
-    private List<MessageResponseDto2> messageList;
 
     public static AllFridgeDto of(Fridge fridge) {
-        List<GiveListDto> giveList = GiveListDto.of(fridge.getGiveList());
-        List<MessageResponseDto2> messageList = MessageResponseDto2.of(fridge.getMessageList());
         return new AllFridgeDto(fridge.getId(),
                 fridge.getAddress(),
                 fridge.getFridgeImage(),
                 fridge.getName(),
                 fridge.getLat(),
                 fridge.getLng(),
-                giveList.size(),
-                messageList.size(),
-                giveList,
-                messageList
+                fridge.getGiveCount(),
+                fridge.getMessageCount()
         );
     }
 

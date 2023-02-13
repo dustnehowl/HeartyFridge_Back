@@ -5,6 +5,7 @@ import com.example.test.messageV2.controller.dto.MessageResponseDto2;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 
 import java.util.ArrayList;
@@ -22,6 +23,13 @@ public class Fridge {
     private String name;
     private double lat;
     private double lng;
+    @Formula("(select count(1) from give g where g.fridge_id = fridge_id)")
+    private int giveCount;
+
+    @Formula("(select count(1) from messageV2 m where m.fridge_id = fridge_id)")
+    private int messageCount;
+
+
     @OneToMany(mappedBy = "fridge")
     private List<Give> giveList = new ArrayList<>();
     @OneToMany(mappedBy = "fridge")

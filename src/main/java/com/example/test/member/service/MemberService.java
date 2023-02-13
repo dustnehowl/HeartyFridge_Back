@@ -77,7 +77,9 @@ public class MemberService {
     public ProfileDto getProfile(String id) {
         Long memberId = Long.parseLong(id);
         Member member = memberRepository.findMemberById(memberId).get();
-        List<Take> reservationList = takeRepository.findTakesByTakerAndIsDone(member, false);
+        List<Take> reservationList = takeRepository.findAll();
+
+
         List<TakeListDto> takeListDtos = TakeListDto.of(reservationList);
 
         ProfileDto profileDto = new ProfileDto(member);

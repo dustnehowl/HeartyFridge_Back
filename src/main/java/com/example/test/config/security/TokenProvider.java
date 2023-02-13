@@ -1,5 +1,6 @@
 package com.example.test.config.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -42,5 +43,14 @@ public class TokenProvider {
 
 
         return accessToken;
+    }
+
+    public boolean validateAccessToken(String accessToken) {
+        try {
+            Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
