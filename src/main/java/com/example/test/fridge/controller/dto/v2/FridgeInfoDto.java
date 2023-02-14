@@ -37,5 +37,16 @@ public class FridgeInfoDto {
         ).collect(Collectors.toList());
     }
 
+    public static FridgeInfoDto from(Fridge fridge){
+        return new FridgeInfoDto(
+                fridge.getId(),
+                fridge.getName(),
+                fridge.getAddress(),
+                fridge.getFridgeImage(),
+                fridge.getLat(),
+                fridge.getLng()
+        );
+    }
+
 
 }

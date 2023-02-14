@@ -1,8 +1,14 @@
 package com.example.test.fridge.service;
+import com.example.test.bookmark.repository.BookmarkRepository;
 import com.example.test.fridge.Fridge;
 import com.example.test.fridge.controller.dto.AllFridgeDto;
 import com.example.test.fridge.controller.dto.FridgeDtoResponse;
+import com.example.test.fridge.controller.dto.v2.AllFridgeResponse;
+import com.example.test.fridge.controller.dto.v2.FridgeDto;
+import com.example.test.fridge.controller.dto.v2.FridgeInfoDto;
 import com.example.test.fridge.repository.FridgeRepository;
+import com.example.test.member.Member;
+import com.example.test.member.repository.MemberRepository;
 import com.example.test.message.Message;
 import com.example.test.message.repository.MessageRepository;
 import com.example.test.messageV2.controller.dto.MessageResponseDto2;
@@ -22,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +37,8 @@ public class FridgeService {
 
     private final FridgeRepository fridgeRepository;
     private final MessageServiceV2 messageServiceV2;
+    private final BookmarkRepository bookmarkRepository;
+    private final MemberRepository memberRepository;
 
     public List<AllFridgeDto> all(){
 //        List<Fridge> all = fridgeRepository.findAll();
@@ -50,18 +59,18 @@ public class FridgeService {
                 .map(AllFridgeDto::of)
                 .collect(Collectors.toList());
     }
-    public List<FridgeDtoResponse> getall(){
+    public AllFridgeResponse getall(Long memberId){
+        Member member = memberRepository.findMemberById(memberId).get();
         List<Fridge> all = fridgeRepository.findAll();
-        List<FridgeDtoResponse> fridgeDtoResponses = new ArrayList<>();
+        List<Fridge> bookmarks = bookmarkRepository.findBookmarkFridgesByMember(member);
+        List<Long> bookmarksIndex = bookmarks.stream().map(
+                fridge -> fridge.getId()
+        ).collect(Collectors.toList());
 
-        for(Fridge fridge : all){
-            List<MessageResponseDto2> messageResponseDto2s = messageServiceV2.findMessagesByFridgeId(fridge.getId());
-            FridgeDtoResponse fridgeDtoResponse = new FridgeDtoResponse(
-                    fridge,messageResponseDto2s
-            );
-            fridgeDtoResponses.add(fridgeDtoResponse);
-        }
-        return fridgeDtoResponses;
+        return new AllFridgeResponse(
+                FridgeDto.of(all),
+                bookmarksIndex
+        );
     }
 
     public String saveFridge(){

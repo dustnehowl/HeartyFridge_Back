@@ -32,8 +32,8 @@ public class FridgeController {
     }
 
     @GetMapping("/getAll")
-    public Result getAll(){
-        return new Result<>(fridgeService.getall());
+    public Result getAll(@RequestParam Long memberId){
+        return new Result(fridgeService.getall(memberId));
     }
 
     @GetMapping("/getFridge")
