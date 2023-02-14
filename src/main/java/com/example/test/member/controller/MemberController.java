@@ -31,6 +31,11 @@ public class MemberController {
         return ResponseEntity.ok()
                 .body(new Result(memberService.getProfile(id)));
     }
+    @GetMapping("/getProfile2")
+    public ResponseEntity<Result> getProfile(@RequestParam Long memberId){
+        return ResponseEntity.ok().body(new Result(memberService.getProfile2(memberId)));
+    }
+
 
 
     @GetMapping("/all")

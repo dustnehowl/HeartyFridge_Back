@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class MessageResponseDto2 {
     private Long messageId;
     private String senderName;
+    private Long giveId;
     private LocalDateTime sendTime;
     private String receiverName;
     private String foodName;
@@ -21,6 +22,7 @@ public class MessageResponseDto2 {
     public MessageResponseDto2(MessageV2 messageV2) {
         this.messageId = messageV2.getId();
         this.senderName = messageV2.getSender().getName();
+        this.giveId = messageV2.getGive().getId();
         this.sendTime = messageV2.getSendTime();
         if(messageV2.getReceiver() != null)
             this.receiverName = messageV2.getReceiver().getName();

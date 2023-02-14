@@ -1,12 +1,20 @@
 package com.example.test.member.service;
 
+import com.example.test.bookmark.repository.BookmarkRepository;
 import com.example.test.config.security.TokenProvider;
+import com.example.test.fridge.Fridge;
+import com.example.test.fridge.controller.dto.v2.FridgeInfoDto;
+import com.example.test.give.Give;
+import com.example.test.give.controller.dto.v2.GiveDto;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.controller.dto.*;
+import com.example.test.member.controller.dto.v2.MemberProfileResponse;
+import com.example.test.member.controller.dto.v2.ProfileDto2;
 import com.example.test.member.repository.MemberRepository;
 import com.example.test.take.Take;
 import com.example.test.take.controller.dto.TakeListDto;
+import com.example.test.take.controller.dto.v2.TakeDto;
 import com.example.test.take.repository.TakeRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +39,7 @@ public class MemberService {
     private final GiveRepository giveRepository;
     private final TakeRepository takeRepository;
     private final TokenProvider tokenProvider;
+    private final BookmarkRepository bookmarkRepository;
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
     //private final TokenProvider tokenProvider;
@@ -127,5 +136,18 @@ public class MemberService {
         } catch (UnsupportedEncodingException e) {
         }
         return null;
+    }
+
+    public MemberProfileResponse getProfile2(Long memberId) {
+        Member member = memberRepository.findMemberById(memberId).get();
+        ProfileDto2 profile = ProfileDto2.from(member);
+        List<Give> gives = giveRepository.findGivesByGiver(member);
+        List<Take> takes = takeRepository.findTakesByTaker(member);
+        List<Take> reservations = takes.stream().filter(
+                take -> take.getIsDone() == Boolean.FALSE
+        ).collect(Collectors.toList());
+
+        List<Fridge> bookmarks = bookmarkRepository.findBookmarkFridgesByMember(member);
+        return new MemberProfileResponse(profile, TakeDto.of(reservations), GiveDto.of(gives), TakeDto.of(takes), FridgeInfoDto.of(bookmarks));
     }
 }
