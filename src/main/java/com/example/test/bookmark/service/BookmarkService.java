@@ -10,6 +10,8 @@ import com.example.test.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BookmarkService {
@@ -24,6 +26,10 @@ public class BookmarkService {
     public BookmarkResponse addBookmark(Long memberId, Long fridgeId) {
         Member member = memberRepository.findMemberById(memberId).get();
         Fridge fridge = fridgeRepository.findFridgeById(fridgeId).get();
+
+        Optional<Bookmark> bookmarkByMemberAndFridge = bookmarkRepository.findBookmarkByMemberAndFridge(member, fridge);
+
+        if(bookmarkByMemberAndFridge.isPresent()) throw new RuntimeException();
 
         Bookmark bookmark = new Bookmark(member, fridge);
         bookmarkRepository.save(bookmark);
