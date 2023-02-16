@@ -26,7 +26,7 @@ public class Fridge {
     @Formula("(select count(1) from give g where g.fridge_id = fridge_id)")
     private int giveCount;
 
-    @Formula("(select count(1) from messageV2 m where m.fridge_id = fridge_id)")
+    @Formula("(select count(1) from messagev2 m where m.fridge_id = fridge_id)")
     private int messageCount;
 
 
