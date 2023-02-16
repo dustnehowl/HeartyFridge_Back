@@ -147,6 +147,7 @@ public class MemberService {
                 take -> take.getIsDone() == Boolean.FALSE
         ).collect(Collectors.toList());
 
+
         List<Fridge> bookmarks = bookmarkRepository.findBookmarkFridgesByMember(member);
         return new MemberProfileResponse(profile, TakeDto.of(reservations), GiveDto.of(gives), TakeDto.of(takes), FridgeInfoDto.of(bookmarks));
     }
