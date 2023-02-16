@@ -41,4 +41,10 @@ public class FridgeController {
         System.out.println("============= getFridge" + id+ " =============");
         return new Result(fridgeService.getFridge(id));
     }
+
+    @GetMapping("/getFridge2")
+    public Result getFridge(@RequestParam Long fridgeId){
+        System.out.println("============= getFridge" + fridgeId+ " =============");
+        return new Result(fridgeService.getFridge2(fridgeId));
+    }
 }

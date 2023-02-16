@@ -6,12 +6,19 @@ import com.example.test.fridge.controller.dto.FridgeDtoResponse;
 import com.example.test.fridge.controller.dto.v2.AllFridgeResponse;
 import com.example.test.fridge.controller.dto.v2.FridgeDto;
 import com.example.test.fridge.controller.dto.v2.FridgeInfoDto;
+import com.example.test.fridge.controller.dto.v2.FridgeResponse;
 import com.example.test.fridge.repository.FridgeRepository;
+import com.example.test.give.Give;
+import com.example.test.give.controller.dto.v2.GiveDto;
+import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
 import com.example.test.message.Message;
 import com.example.test.message.repository.MessageRepository;
+import com.example.test.messageV2.MessageV2;
 import com.example.test.messageV2.controller.dto.MessageResponseDto2;
+import com.example.test.messageV2.controller.dto.v2.MessageInFridgeDto;
+import com.example.test.messageV2.repository.MessageRepositoryV2;
 import com.example.test.messageV2.service.MessageServiceV2;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -39,6 +46,8 @@ public class FridgeService {
     private final MessageServiceV2 messageServiceV2;
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
+    private final GiveRepository giveRepository;
+    private final MessageRepositoryV2 messageRepositoryV2;
 
     public List<AllFridgeDto> all(){
 //        List<Fridge> all = fridgeRepository.findAll();
@@ -111,5 +120,17 @@ public class FridgeService {
         else {
             throw new RuntimeException();
         }
+    }
+
+    public FridgeResponse getFridge2(Long fridgeId){
+        Fridge fridge = fridgeRepository.findFridgeById(fridgeId).get();
+        List<Give> giveList = giveRepository.findGivesByFridge(fridge);
+        List<MessageV2> messageList = messageRepositoryV2.findMessageV2sByGiveFridge(fridge);
+
+        return new FridgeResponse(
+                FridgeInfoDto.from(fridge),
+                GiveDto.of(giveList),
+                MessageInFridgeDto.of(messageList)
+        );
     }
 }
