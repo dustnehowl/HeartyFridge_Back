@@ -1,5 +1,6 @@
 package com.example.test.give.controller.dto.v2;
 
+import com.example.test.food.Food;
 import com.example.test.give.Give;
 import lombok.Data;
 
@@ -11,15 +12,13 @@ import java.util.stream.Collectors;
 public class GiveDto {
     private Long giveId;
     private LocalDateTime giveTime;
-    private String foodName;
-    private String amount;
+    private Food food;
     private String fridgeName;
 
-    public GiveDto(Long giveId, LocalDateTime giveTime, String foodName, String amount, String fridgeName) {
+    public GiveDto(Long giveId, LocalDateTime giveTime, Food food, String fridgeName) {
         this.giveId = giveId;
         this.giveTime = giveTime;
-        this.foodName = foodName;
-        this.amount = amount;
+        this.food = food;
         this.fridgeName = fridgeName;
     }
 
@@ -28,8 +27,7 @@ public class GiveDto {
                 give -> new GiveDto(
                         give.getId(),
                         give.getGiveTime(),
-                        give.getFood().getName(),
-                        give.getFood().getAmount(),
+                        give.getFood(),
                         give.getFridge().getName()
                 )
         ).collect(Collectors.toList());
