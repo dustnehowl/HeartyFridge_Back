@@ -12,12 +12,14 @@ public class GiveDto {
     private Long giveId;
     private LocalDateTime giveTime;
     private String foodName;
+    private String amount;
     private String fridgeName;
 
-    public GiveDto(Long giveId, LocalDateTime giveTime, String foodName, String fridgeName) {
+    public GiveDto(Long giveId, LocalDateTime giveTime, String foodName, String amount, String fridgeName) {
         this.giveId = giveId;
         this.giveTime = giveTime;
         this.foodName = foodName;
+        this.amount = amount;
         this.fridgeName = fridgeName;
     }
 
@@ -27,6 +29,7 @@ public class GiveDto {
                         give.getId(),
                         give.getGiveTime(),
                         give.getFood().getName(),
+                        give.getFood().getAmount(),
                         give.getFridge().getName()
                 )
         ).collect(Collectors.toList());
