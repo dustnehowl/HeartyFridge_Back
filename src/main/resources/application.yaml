@@ -17,6 +17,15 @@ spring:
 
     show-sql: true
 
+
+
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location:
+            classpath: hopeful-canto-373101-aa354203c638.json
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
