@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class GiveController {
     private final GiveService giveService;
     @PostMapping("/giveFood")
-    public Result giveFood(@RequestBody GiveRequestDto giveRequestDto){
+    public Result giveFood(@ModelAttribute GiveRequestDto giveRequestDto){
         return new Result(giveService.giveFood(giveRequestDto));
     }
 

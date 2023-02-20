@@ -1,4 +1,5 @@
 package com.example.test.fridge.service;
+import com.example.test.bookmark.Bookmark;
 import com.example.test.bookmark.repository.BookmarkRepository;
 import com.example.test.fridge.Fridge;
 import com.example.test.fridge.controller.dto.AllFridgeDto;
@@ -50,24 +51,11 @@ public class FridgeService {
     private final MessageRepositoryV2 messageRepositoryV2;
 
     public List<AllFridgeDto> all(){
-//        List<Fridge> all = fridgeRepository.findAll();
-//        List<AllFridgeDto> allFridgeDtos = new ArrayList<>();
-//
-//        for(Fridge fridge : all){
-//            AllFridgeDto allFridgeDto = new AllFridgeDto(
-//                    fridge.getId(),
-//                    fridge.getAddress(),
-//                    fridge.getFridgeImage(),
-//                    fridge.getName(),
-//                    fridge.getLat(),
-//                    fridge.getLng()
-//            );
-//            allFridgeDtos.add(allFridgeDto);
-//        }
         return fridgeRepository.findAll().stream()
                 .map(AllFridgeDto::of)
                 .collect(Collectors.toList());
     }
+
     public AllFridgeResponse getall(Long memberId){
         Member member = memberRepository.findMemberById(memberId).get();
         List<Fridge> all = fridgeRepository.findAll();

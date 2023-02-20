@@ -7,6 +7,7 @@ import com.example.test.fridge.controller.dto.FridgeDtoResponse;
 import com.example.test.fridge.service.FridgeService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,23 +27,26 @@ public class FridgeController {
         return fridgeService.saveFridge();
     }
 
-    @GetMapping("/all")
-    public Result all(){
-        return new Result<>(fridgeService.all());
-    }
+    //Legacy
+//    @GetMapping("/all")
+//    public Result all(){
+//        return new Result<>(fridgeService.all());
+//    }
+//    @GetMapping("/getFridge")
+//    public Result getFridge(@RequestParam String id){
+//        System.out.println("============= getFridge" + id+ " =============");
+//        return new Result(fridgeService.getFridge(id));
+//    }
+
 
     @GetMapping("/getAll")
     public Result getAll(@RequestParam Long memberId){
         return new Result(fridgeService.getall(memberId));
     }
 
-    @GetMapping("/getFridge")
-    public Result getFridge(@RequestParam String id){
-        System.out.println("============= getFridge" + id+ " =============");
-        return new Result(fridgeService.getFridge(id));
-    }
 
-    @GetMapping("/getFridge2")
+
+    @GetMapping(value = "/getFridge2")
     public Result getFridge(@RequestParam Long fridgeId){
         System.out.println("============= getFridge" + fridgeId+ " =============");
         return new Result(fridgeService.getFridge2(fridgeId));

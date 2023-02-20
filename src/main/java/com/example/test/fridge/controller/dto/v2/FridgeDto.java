@@ -2,11 +2,13 @@ package com.example.test.fridge.controller.dto.v2;
 
 import com.example.test.fridge.Fridge;
 import lombok.Data;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@Setter
 public class FridgeDto {
     private FridgeInfoDto fridgeInfo;
     private Integer numFoods;

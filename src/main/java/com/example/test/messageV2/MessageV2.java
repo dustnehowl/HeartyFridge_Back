@@ -22,6 +22,7 @@ public class MessageV2 {
     @JoinColumn(name = "GIVE_ID")
     private Give give;
     private LocalDateTime sendTime;
+
     @ManyToOne
     @JoinColumn(name = "FRIDGE_ID")
     private Fridge fridge;
