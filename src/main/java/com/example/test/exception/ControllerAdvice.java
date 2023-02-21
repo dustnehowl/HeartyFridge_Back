@@ -15,7 +15,8 @@ public class ControllerAdvice {
             OnReservedFoodException.class,
             TooManyReservedException.class,
             NotTakerException.class,
-            SameGiverTakerException.class
+            SameGiverTakerException.class,
+            DuplicateBookmarkException.class
     })
     public ResponseEntity<BadRequestFailResponse> badRequest(Exception e) {
         return ResponseEntity.badRequest()
@@ -26,7 +27,7 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler({
-
+            BookmarkNotFoundException.class
     })
     public ResponseEntity<NotFoundFailResponse> notFound(Exception e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

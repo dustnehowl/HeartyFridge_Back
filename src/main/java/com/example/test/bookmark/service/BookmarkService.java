@@ -3,6 +3,8 @@ package com.example.test.bookmark.service;
 import com.example.test.bookmark.Bookmark;
 import com.example.test.bookmark.controller.dto.BookmarkResponse;
 import com.example.test.bookmark.repository.BookmarkRepository;
+import com.example.test.exception.BookmarkNotFoundException;
+import com.example.test.exception.DuplicateBookmarkException;
 import com.example.test.fridge.Fridge;
 import com.example.test.fridge.repository.FridgeRepository;
 import com.example.test.member.Member;
@@ -32,7 +34,7 @@ public class BookmarkService {
 
         Optional<Bookmark> bookmarkByMemberAndFridge = bookmarkRepository.findBookmarkByMemberAndFridge(member, fridge);
 
-        if(bookmarkByMemberAndFridge.isPresent()) throw new RuntimeException();
+        if(bookmarkByMemberAndFridge.isPresent()) throw new DuplicateBookmarkException();
 
         Bookmark bookmark = new Bookmark(member, fridge);
         bookmarkRepository.save(bookmark);
@@ -46,7 +48,7 @@ public class BookmarkService {
 
         Optional<Bookmark> bookmarkByMemberAndFridge = bookmarkRepository.findBookmarkByMemberAndFridge(member, fridge);
 
-        if(bookmarkByMemberAndFridge.isEmpty()) throw new RuntimeException();
+        if(bookmarkByMemberAndFridge.isEmpty()) throw new BookmarkNotFoundException();
 
         bookmarkRepository.delete(bookmarkByMemberAndFridge.get());
         return "Delete complete";
