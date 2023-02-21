@@ -7,6 +7,7 @@ import com.example.test.fridge.repository.FridgeRepository;
 import com.example.test.give.Give;
 import com.example.test.give.controller.dto.GiveRequestDto;
 import com.example.test.give.controller.dto.GiveResponseDto;
+import com.example.test.give.controller.dto.v2.GiveDto;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.image.controller.dto.ImageRequest;
 import com.example.test.image.controller.dto.ImageResponse;
@@ -60,4 +61,7 @@ public class GiveService {
         return new GiveResponseDto(give);
     }
 
+    public GiveDto getGive(Long giveId) {
+        return GiveDto.from(giveRepository.findGiveById(giveId).get());
+    }
 }

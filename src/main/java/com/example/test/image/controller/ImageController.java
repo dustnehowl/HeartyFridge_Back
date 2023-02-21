@@ -26,7 +26,7 @@ public class ImageController {
         return ResponseEntity.ok().body(new Result(imageService.getImagesByGive(giveId)));
     }
 
-    @PostMapping("/test")
+    @PostMapping("/saveImage")
     public ResponseEntity<Void> test(@ModelAttribute T request) {
         imageService.saveImage(new ImageRequest(null, request.getMultipartFile()));
         return ResponseEntity.ok().build();

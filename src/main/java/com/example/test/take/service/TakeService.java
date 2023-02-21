@@ -1,5 +1,9 @@
 package com.example.test.take.service;
 
+import com.example.test.exception.NotTakerException;
+import com.example.test.exception.OnReservedFoodException;
+import com.example.test.exception.SameGiverTakerException;
+import com.example.test.exception.TooManyReservedException;
 import com.example.test.give.Give;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
@@ -31,24 +35,20 @@ public class TakeService {
 
         Member taker = memberRepository.findMemberById(memberId).get();
         Give item = giveRepository.findGiveById(giveId).get();
-        if(item.getIsReserved() == false
-                && takeRepository.findTakesByTakerAndIsDone(taker, false).size() < 2
-                && taker.getIsTaker() == true
-                && item.getGiver() != taker
-        ) {
-            item.setIsReserved(true);
-            LocalDateTime currentTime = LocalDateTime.now();
 
-            Take take = new Take(currentTime, taker, item);
-            taker.getTakeList().add(take);
+        if(item.getIsReserved()) throw new OnReservedFoodException();
+        if(takeRepository.findTakesByTakerAndIsDone(taker, false).size() >= 2) throw new TooManyReservedException();
+        if(!taker.getIsTaker()) throw new NotTakerException();
+        if(item.getGiver() == taker) throw new SameGiverTakerException();
 
-            takeRepository.save(take);
-            return new TakeResponseDto(take);
-        }
-        else{
-            //에러 핸들링 추가해야함...
-            throw new RuntimeException();
-        }
+        item.setIsReserved(true);
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        Take take = new Take(currentTime, taker, item);
+        taker.getTakeList().add(take);
+
+        takeRepository.save(take);
+        return new TakeResponseDto(take);
     }
 
     public Integer numTakesNotDone(String member_id){

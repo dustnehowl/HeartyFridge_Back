@@ -1,5 +1,5 @@
 package com.example.test.fridge.service;
-import com.example.test.bookmark.Bookmark;
+
 import com.example.test.bookmark.repository.BookmarkRepository;
 import com.example.test.fridge.Fridge;
 import com.example.test.fridge.controller.dto.AllFridgeDto;
@@ -14,8 +14,6 @@ import com.example.test.give.controller.dto.v2.GiveDto;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
-import com.example.test.message.Message;
-import com.example.test.message.repository.MessageRepository;
 import com.example.test.messageV2.MessageV2;
 import com.example.test.messageV2.controller.dto.MessageResponseDto2;
 import com.example.test.messageV2.controller.dto.v2.MessageInFridgeDto;
@@ -32,11 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -44,30 +42,22 @@ import java.util.stream.Stream;
 public class FridgeService {
 
     private final FridgeRepository fridgeRepository;
-    private final MessageServiceV2 messageServiceV2;
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
     private final GiveRepository giveRepository;
     private final MessageRepositoryV2 messageRepositoryV2;
 
-    public List<AllFridgeDto> all(){
-        return fridgeRepository.findAll().stream()
-                .map(AllFridgeDto::of)
-                .collect(Collectors.toList());
-    }
-
-    public AllFridgeResponse getall(Long memberId){
+    // 230220
+    public AllFridgeResponse getAll(Long memberId){
         Member member = memberRepository.findMemberById(memberId).get();
         List<Fridge> all = fridgeRepository.findAll();
-        List<Fridge> bookmarks = bookmarkRepository.findBookmarkFridgesByMember(member);
-        List<Long> bookmarksIndex = bookmarks.stream().map(
-                fridge -> fridge.getId()
-        ).collect(Collectors.toList());
+        Set<Fridge> bookmarks = new HashSet<>(bookmarkRepository.findBookmarkFridgesByMember(member));
 
-        return new AllFridgeResponse(
-                FridgeDto.of(all),
-                bookmarksIndex
-        );
+        List<FridgeDto> fridgeDtoList = all.stream()
+                .map(fridge -> FridgeDto.from(fridge, bookmarks.contains(fridge)))
+                .collect(Collectors.toList());
+
+        return new AllFridgeResponse(fridgeDtoList);
     }
 
     public String saveFridge(){
@@ -95,18 +85,6 @@ public class FridgeService {
         catch(IOException | ParseException e)
         {
             throw new RuntimeException(e);
-        }
-    }
-
-    public FridgeDtoResponse getFridge(String id) {
-        Long fridge_id = Long.parseLong(id);
-        Optional<Fridge> fridge = fridgeRepository.findFridgeById(fridge_id);
-        if (fridge.isPresent()){
-            List<MessageResponseDto2> messageResponseDto2s = messageServiceV2.findMessagesByFridgeId(fridge_id);
-            return new FridgeDtoResponse(fridge.get(), messageResponseDto2s);
-        }
-        else {
-            throw new RuntimeException();
         }
     }
 

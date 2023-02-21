@@ -10,10 +10,8 @@ import java.util.stream.Collectors;
 @Data
 public class AllFridgeResponse {
     private List<FridgeDto> fridgeList;
-    private List<Long> bookmarks;
 
-    public AllFridgeResponse(List<FridgeDto> fridgeList, List<Long> bookmarks){
+    public AllFridgeResponse(List<FridgeDto> fridgeList){
         this.fridgeList = fridgeList;
-        this.bookmarks = bookmarks;
     }
 }

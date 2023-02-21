@@ -29,7 +29,6 @@ public class Fridge {
     @Formula("(select count(1) from messagev2 m where m.fridge_id = fridge_id)")
     private int messageCount;
 
-
     @OneToMany(mappedBy = "fridge")
     private List<Give> giveList = new ArrayList<>();
     @OneToMany(mappedBy = "fridge")

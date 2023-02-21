@@ -16,4 +16,9 @@ public class GiveController {
         return new Result(giveService.giveFood(giveRequestDto));
     }
 
+    @GetMapping("/getGive")
+    public Result getGive(@RequestParam Long giveId){
+        return new Result(giveService.getGive(giveId));
+    }
+
 }

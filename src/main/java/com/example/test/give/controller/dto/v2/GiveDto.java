@@ -22,6 +22,15 @@ public class GiveDto {
         this.fridgeName = fridgeName;
     }
 
+    public static GiveDto from(Give give){
+        return new GiveDto(
+                give.getId(),
+                give.getGiveTime(),
+                give.getFood(),
+                give.getFridge().getName()
+        );
+    }
+
     public static List<GiveDto> of(List<Give> gives){
         return gives.stream().map(
                 give -> new GiveDto(
