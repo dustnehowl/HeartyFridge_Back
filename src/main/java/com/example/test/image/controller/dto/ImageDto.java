@@ -12,21 +12,18 @@ public class ImageDto {
     private Long imageId;
     private String originalFileName;
     private String uuidFileName;
-    private Give give;
 
-    public ImageDto(Long imageId, String originalFileName, String uuidFileName, Give give) {
+    public ImageDto(Long imageId, String originalFileName, String uuidFileName) {
         this.imageId = imageId;
         this.originalFileName = originalFileName;
         this.uuidFileName = uuidFileName;
-        this.give = give;
     }
 
     public static ImageDto from(Image image){
         return new ImageDto(
                 image.getId(),
                 image.getOriginalFileName(),
-                image.getUuidFileName(),
-                image.getGive()
+                image.getUuidFileName()
         );
     }
 

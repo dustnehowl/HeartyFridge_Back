@@ -1,7 +1,7 @@
 package com.example.test.image.controller;
 
 import com.example.test.config.generic.Result;
-import com.example.test.image.controller.dto.ImageRequest;
+import com.example.test.image.controller.dto.ImageListRequest;
 import com.example.test.image.service.ImageService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,16 +26,15 @@ public class ImageController {
         return ResponseEntity.ok().body(new Result(imageService.getImagesByGive(giveId)));
     }
 
-    @PostMapping("/saveImage")
-    public ResponseEntity<Void> test(@ModelAttribute T request) {
-        imageService.saveImage(new ImageRequest(null, request.getMultipartFile()));
+    @PostMapping("/saveImageList")
+    public ResponseEntity<Void> saveImageList(@ModelAttribute ImageListRequest request){
+        imageService.saveImageList(request);
         return ResponseEntity.ok().build();
     }
 
     @Data
     @AllArgsConstructor
     public static class T {
-
         private MultipartFile multipartFile;
     }
 }

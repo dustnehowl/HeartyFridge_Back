@@ -3,9 +3,8 @@ package com.example.test.image.service;
 import com.example.test.give.Give;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.image.Image;
-import com.example.test.image.controller.dto.ImageDto;
-import com.example.test.image.controller.dto.ImageRequest;
-import com.example.test.image.controller.dto.ImageResponse;
+import com.example.test.image.controller.ImageController;
+import com.example.test.image.controller.dto.*;
 import com.example.test.image.repository.ImageRepository;
 import com.google.cloud.storage.*;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 public class ImageService {
-    private final String baseUri = "https://storage.cloud.google.com/slowy_storage123";
+    //private final String baseUri = "https://storage.cloud.google.com/slowy_storage123";
     private final ApplicationContext applicationContext;
     private final ImageRepository imageRepository;
     private final GiveRepository giveRepository;
@@ -46,44 +45,11 @@ public class ImageService {
             throw new RuntimeException(e);
         }
     }
-    public ImageResponse saveImage(ImageRequest imageRequest) {
-        Give give = imageRequest.getGive();
-        MultipartFile multipartFile = imageRequest.getImage();
-        String originalFilename = multipartFile.getOriginalFilename();
-        String storeFilename = createStoreFileName(originalFilename);
 
-        Image image = new Image(originalFilename, storeFilename, give);
-        imageRepository.save(image);
-
-        // imageRequest 에서 멀티파트 이미지들 빼와서 클라우드에 저장해야한다.
-        String uuidFileName = image.getUuidFileName();
-        try {
-            imageRequest.getImage().transferTo(new File("/Users/gim-yeonsu/" +uuidFileName));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-//        Bucket bucket = storage.create(BucketInfo.of("slowy_storage123"));
-
-
-        try {
-            storage.create(
-                    BlobInfo.newBuilder("slowy_storage123", uuidFileName)
-                            .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllAuthenticatedUsers(), Acl.Role.READER))))
-                            .build(),
-                    Files.readAllBytes(Paths.get("/Users/gim-yeonsu/" +uuidFileName)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return new ImageResponse(ImageDto.of(image), baseUri);
-    }
-
-    public ImageResponse getImagesByGive(Long giveId){
-        List<Image> images = imageRepository.findImagesByGive(
-                giveRepository.findGiveById(giveId).get());
-
-        return new ImageResponse(ImageDto.of(images), baseUri);
+    public ImageListResponse getImagesByGive(Long giveId){
+        Give give = giveRepository.findGiveById(giveId).get();
+        List<Image> images = imageRepository.findImagesByGive(give);
+        return new ImageListResponse(giveId, ImageDto.of(images));
     }
 
     private String createStoreFileName(String originalFilename) {
@@ -95,5 +61,35 @@ public class ImageService {
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
+    }
+
+    public ImageListResponse saveImageList(ImageListRequest request) {
+        Give give = giveRepository.findGiveById(request.getGiveId()).get();
+
+        List<MultipartFile> multipartFiles = request.getImages();
+        List<Image> images = new ArrayList<>();
+        for(MultipartFile multipartFile : multipartFiles){
+            String originalFilename = multipartFile.getOriginalFilename();
+            String storeFilename = createStoreFileName(originalFilename);
+
+            Image image = new Image(originalFilename, storeFilename, give);
+            imageRepository.save(image);
+            images.add(image);
+
+            String uuidFileName = image.getUuidFileName();
+            try{
+                //multipartFile.transferTo(new File("/Users/gim-yeonsu/"+ uuidFileName));
+                storage.create(
+                        BlobInfo.newBuilder("slowy_storage123", uuidFileName)
+                                .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllAuthenticatedUsers(), Acl.Role.READER))))
+                                .setContentType("image/png")
+                                .build(),
+                        multipartFile.getInputStream());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return new ImageListResponse(request.getGiveId(), ImageDto.of(images));
     }
 }

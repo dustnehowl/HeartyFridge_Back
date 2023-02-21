@@ -18,7 +18,6 @@ public class GiveRequestDto {
     private String message;
     private Long fridgeId;
     private Long giverId;
-    private List<MultipartFile> images;
 
     public Food toEntity() {
         return new Food(

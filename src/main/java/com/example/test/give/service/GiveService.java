@@ -9,8 +9,6 @@ import com.example.test.give.controller.dto.GiveRequestDto;
 import com.example.test.give.controller.dto.GiveResponseDto;
 import com.example.test.give.controller.dto.v2.GiveDto;
 import com.example.test.give.repository.GiveRepository;
-import com.example.test.image.controller.dto.ImageRequest;
-import com.example.test.image.controller.dto.ImageResponse;
 import com.example.test.image.service.ImageService;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
@@ -22,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,11 +44,6 @@ public class GiveService {
         LocalDateTime currentTime = LocalDateTime.now();
         Give give = new Give(currentTime, giver, food, fridge);
         Give save = giveRepository.save(give);
-
-        List<ImageResponse> collect = giveRequestDto.getImages().stream()
-                .map(multipartFile -> new ImageRequest(save, multipartFile))
-                .map(imageService::saveImage)
-                .toList();
 
         messageServiceV2.giveMessage(new GiveMessageDto(give.getId(), giveRequestDto.getMessage()));
 
