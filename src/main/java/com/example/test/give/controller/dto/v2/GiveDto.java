@@ -14,12 +14,14 @@ public class GiveDto {
     private LocalDateTime giveTime;
     private Food food;
     private String fridgeName;
+    private Boolean isReserved;
 
-    public GiveDto(Long giveId, LocalDateTime giveTime, Food food, String fridgeName) {
+    public GiveDto(Long giveId, LocalDateTime giveTime, Food food, String fridgeName, Boolean isReserved) {
         this.giveId = giveId;
         this.giveTime = giveTime;
         this.food = food;
         this.fridgeName = fridgeName;
+        this.isReserved = isReserved;
     }
 
     public static GiveDto from(Give give){
@@ -27,7 +29,8 @@ public class GiveDto {
                 give.getId(),
                 give.getGiveTime(),
                 give.getFood(),
-                give.getFridge().getName()
+                give.getFridge().getName(),
+                give.getIsReserved()
         );
     }
 
@@ -37,7 +40,8 @@ public class GiveDto {
                         give.getId(),
                         give.getGiveTime(),
                         give.getFood(),
-                        give.getFridge().getName()
+                        give.getFridge().getName(),
+                        give.getIsReserved()
                 )
         ).collect(Collectors.toList());
     }
