@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,17 @@ public class BookmarkService {
         bookmarkRepository.save(bookmark);
 
         return BookmarkResponse.from(bookmark);
+    }
+
+    public String delBookmark(Long memberId, Long fridgeId) {
+        Member member = memberRepository.findMemberById(memberId).get();
+        Fridge fridge = fridgeRepository.findFridgeById(fridgeId).get();
+
+        Optional<Bookmark> bookmarkByMemberAndFridge = bookmarkRepository.findBookmarkByMemberAndFridge(member, fridge);
+
+        if(bookmarkByMemberAndFridge.isEmpty()) throw new RuntimeException();
+
+        bookmarkRepository.delete(bookmarkByMemberAndFridge.get());
+        return "Delete complete";
     }
 }
