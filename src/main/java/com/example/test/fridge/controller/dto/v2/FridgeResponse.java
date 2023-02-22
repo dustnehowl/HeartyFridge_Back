@@ -9,12 +9,14 @@ import java.util.List;
 @Data
 public class FridgeResponse {
     private FridgeInfoDto fridgeInfo;
+    private Boolean isBookmark;
     private List<GiveDto> foodList;
     private List<MessageInFridgeDto> messageList;
 
-    public FridgeResponse(FridgeInfoDto fridgeInfo, List<GiveDto> foodList, List<MessageInFridgeDto> messageList){
+    public FridgeResponse(FridgeInfoDto fridgeInfo, List<GiveDto> foodList, List<MessageInFridgeDto> messageList, Boolean isBookmark){
         this.fridgeInfo = fridgeInfo;
         this.foodList = foodList;
         this.messageList = messageList;
+        this.isBookmark = isBookmark;
     }
 }

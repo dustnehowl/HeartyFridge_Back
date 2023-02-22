@@ -2,8 +2,6 @@ package com.example.test.fridge.service;
 
 import com.example.test.bookmark.repository.BookmarkRepository;
 import com.example.test.fridge.Fridge;
-import com.example.test.fridge.controller.dto.AllFridgeDto;
-import com.example.test.fridge.controller.dto.FridgeDtoResponse;
 import com.example.test.fridge.controller.dto.v2.AllFridgeResponse;
 import com.example.test.fridge.controller.dto.v2.FridgeDto;
 import com.example.test.fridge.controller.dto.v2.FridgeInfoDto;
@@ -15,10 +13,8 @@ import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
 import com.example.test.messageV2.MessageV2;
-import com.example.test.messageV2.controller.dto.MessageResponseDto2;
 import com.example.test.messageV2.controller.dto.v2.MessageInFridgeDto;
 import com.example.test.messageV2.repository.MessageRepositoryV2;
-import com.example.test.messageV2.service.MessageServiceV2;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -32,7 +28,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -88,15 +83,19 @@ public class FridgeService {
         }
     }
 
-    public FridgeResponse getFridge2(Long fridgeId){
+    public FridgeResponse getFridge2(Long fridgeId, Long memberId){
         Fridge fridge = fridgeRepository.findFridgeById(fridgeId).get();
+        Member member = memberRepository.findMemberById(memberId).get();
+
+        Set<Fridge> bookmark = bookmarkRepository.findBookmarkFridgesByMemberToSet(member);
         List<Give> giveList = giveRepository.findGivesByFridge(fridge);
         List<MessageV2> messageList = messageRepositoryV2.findMessageV2sByGiveFridge(fridge);
 
         return new FridgeResponse(
                 FridgeInfoDto.from(fridge),
                 GiveDto.of(giveList),
-                MessageInFridgeDto.of(messageList)
+                MessageInFridgeDto.of(messageList),
+                bookmark.contains(fridge)
         );
     }
 }

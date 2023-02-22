@@ -9,6 +9,7 @@ import com.example.test.give.controller.dto.GiveRequestDto;
 import com.example.test.give.controller.dto.GiveResponseDto;
 import com.example.test.give.controller.dto.v2.GiveDto;
 import com.example.test.give.repository.GiveRepository;
+import com.example.test.image.controller.dto.ImageListRequest;
 import com.example.test.image.service.ImageService;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
@@ -35,8 +36,8 @@ public class GiveService {
 
     public GiveResponseDto giveFood(GiveRequestDto giveRequestDto) {
 
-        Member giver = memberRepository.findMemberById(giveRequestDto.getGiverId()).get();
-        Fridge fridge = fridgeRepository.findFridgeById(giveRequestDto.getFridgeId()).get();
+        Member giver = memberRepository.findMemberById(Long.parseLong(giveRequestDto.getGiverId())).get();
+        Fridge fridge = fridgeRepository.findFridgeById(Long.parseLong(giveRequestDto.getFridgeId())).get();
 
         Food food = giveRequestDto.toEntity();
         foodRepository.save(food);
@@ -45,12 +46,13 @@ public class GiveService {
         Give give = new Give(currentTime, giver, food, fridge);
         Give save = giveRepository.save(give);
 
-        messageServiceV2.giveMessage(new GiveMessageDto(give.getId(), giveRequestDto.getMessage()));
+        imageService.saveImageList(new ImageListRequest(save.getId(), giveRequestDto.getImages()));
+        messageServiceV2.giveMessage(new GiveMessageDto(save.getId(), giveRequestDto.getMessage()));
 
-        giver.getGiveList().add(give);
-        fridge.getGiveList().add(give);
+        giver.getGiveList().add(save);
+        fridge.getGiveList().add(save);
 
-        return new GiveResponseDto(give);
+        return new GiveResponseDto(save);
     }
 
     public GiveDto getGive(Long giveId) {

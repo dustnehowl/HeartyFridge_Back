@@ -23,8 +23,8 @@ public class FridgeController {
         return new Result(fridgeService.getAll(memberId));
     }
     @GetMapping(value = "/getFridge2")
-    public Result getFridge(@RequestParam Long fridgeId){
+    public Result getFridge(@RequestParam Long fridgeId, Long memberId){
         System.out.println("============= getFridge" + fridgeId+ " =============");
-        return new Result(fridgeService.getFridge2(fridgeId));
+        return new Result(fridgeService.getFridge2(fridgeId, memberId));
     }
 }
