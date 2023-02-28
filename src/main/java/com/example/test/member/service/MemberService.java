@@ -61,7 +61,11 @@ public class MemberService {
 
             String rest_response2 = response.getBody();
             Map<String, String> stringMap1 = objectMapper.readValue(rest_response2, new TypeReference<Map<String, String>>() {});
+
             String email = stringMap1.get("email");
+            //String email = "dustnrkfnfn@naver.com";
+
+
             String name = stringMap1.get("name");
             String hash = md5Hex(name);
             String gravatar_uri = "http://www.gravatar.com/avatar/" + hash + "?d=mp&s=300";
@@ -70,7 +74,7 @@ public class MemberService {
             Member googleMember = memberRepository.findMemberByEmail(email)
                     .orElseGet(() -> memberRepository.save(new Member(name, email)));
 
-            String s = tokenProvider.generateToken(googleMember.getId());
+            String s = tokenProvider.generateToken2(googleMember.getId());
             TokenDto tokenDto = new TokenDto(s);
             return new ResponseDto(tokenDto, googleMember);
             //return tokenProvider.generateToken(googleMember.getId());

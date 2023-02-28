@@ -14,7 +14,6 @@ public class TakeController {
     public String test(){
         return takeService.test();
     }
-
     @PostMapping("/takeFood")
     public Result takeFood(@RequestParam String memberId, String giveId){
         return new Result(takeService.takeFood(memberId, giveId));
