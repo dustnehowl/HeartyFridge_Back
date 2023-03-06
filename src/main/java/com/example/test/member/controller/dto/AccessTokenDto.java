@@ -8,4 +8,8 @@ import lombok.Getter;
 public class AccessTokenDto {
     private String accessToken;
     public AccessTokenDto(){}
+
+    public AccessTokenDto(String token) {
+        this.accessToken = token;
+    }
 }

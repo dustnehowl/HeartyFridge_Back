@@ -13,12 +13,14 @@ public class TakeDto {
     private LocalDateTime takeTime;
     private String foodName;
     private String fridgeName;
+    private Boolean isDone;
 
-    public TakeDto(Long takeId, LocalDateTime takeTime, String foodName, String fridgeName){
+    public TakeDto(Long takeId, LocalDateTime takeTime, String foodName, String fridgeName, Boolean isDone){
         this.takeId = takeId;
         this.takeTime = takeTime;
         this.foodName = foodName;
         this.fridgeName = fridgeName;
+        this.isDone = isDone;
     }
 
     public static List<TakeDto> of(List<Take> takes){
@@ -27,7 +29,8 @@ public class TakeDto {
                         take.getId(),
                         take.getTakeTime(),
                         take.getItem().getFood().getName(),
-                        take.getItem().getFridge().getName()
+                        take.getItem().getFridge().getName(),
+                        take.getIsDone()
                 )
         ).collect(Collectors.toList());
     }

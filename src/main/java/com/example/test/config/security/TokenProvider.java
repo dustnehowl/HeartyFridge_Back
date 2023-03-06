@@ -44,6 +44,7 @@ public class TokenProvider {
     }
 
     public String generateToken2(Long memberId) {
+
         Instant now = Instant.now(); // 현재 시간
         Date issuedAt = Date.from(now);
         Date expiration = Date.from(now.plusSeconds(3600)); // 토큰 만료 시간: 현재 시간에서 1시간 후

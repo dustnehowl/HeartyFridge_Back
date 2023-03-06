@@ -12,12 +12,16 @@ import com.example.test.member.controller.dto.*;
 import com.example.test.member.controller.dto.v2.MemberProfileResponse;
 import com.example.test.member.controller.dto.v2.ProfileDto2;
 import com.example.test.member.repository.MemberRepository;
+import com.example.test.messageV2.MessageV2;
+import com.example.test.messageV2.controller.dto.v2.MessageDto;
+import com.example.test.messageV2.repository.MessageRepositoryV2;
 import com.example.test.take.Take;
 import com.example.test.take.controller.dto.TakeListDto;
 import com.example.test.take.controller.dto.v2.TakeDto;
 import com.example.test.take.repository.TakeRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -40,6 +44,7 @@ public class MemberService {
     private final TakeRepository takeRepository;
     private final TokenProvider tokenProvider;
     private final BookmarkRepository bookmarkRepository;
+    private final MessageRepositoryV2 messageRepositoryV2;
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
     //private final TokenProvider tokenProvider;
@@ -142,7 +147,8 @@ public class MemberService {
         return null;
     }
 
-    public MemberProfileResponse getProfile2(Long memberId) {
+    public MemberProfileResponse getProfile2(ServletRequest servletRequest) {
+        Long memberId = Long.parseLong((String) servletRequest.getAttribute("memberId"));
         Member member = memberRepository.findMemberById(memberId).get();
         ProfileDto2 profile = ProfileDto2.from(member);
         List<Give> gives = giveRepository.findGivesByGiver(member);
@@ -151,8 +157,29 @@ public class MemberService {
                 take -> take.getIsDone() == Boolean.FALSE
         ).collect(Collectors.toList());
 
+        List<MessageV2> sendMessage = messageRepositoryV2.findMessageV2sBySender(member);
+        List<MessageV2> receiveMessage = messageRepositoryV2.findMessageV2sByReceiver(member);
+
 
         List<Fridge> bookmarks = bookmarkRepository.findBookmarkFridgesByMember(member);
-        return new MemberProfileResponse(profile, TakeDto.of(reservations), GiveDto.of(gives), TakeDto.of(takes), FridgeInfoDto.of(bookmarks));
+        return new MemberProfileResponse(
+                profile,
+                TakeDto.of(reservations),
+                GiveDto.of(gives),
+                TakeDto.of(takes),
+                MessageDto.of(sendMessage),
+                MessageDto.of(receiveMessage),
+                FridgeInfoDto.of(bookmarks)
+        );
+    }
+
+    public AccessTokenDto getToken(Long memberId) {
+        String token = tokenProvider.generateToken2(memberId);
+        return new AccessTokenDto(token);
+    }
+
+    public Long testToken(ServletRequest servletRequest) {
+        Long memberId = Long.parseLong((String)servletRequest.getAttribute("memberId"));
+        return memberId;
     }
 }

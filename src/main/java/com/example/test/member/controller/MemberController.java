@@ -3,6 +3,7 @@ package com.example.test.member.controller;
 import com.example.test.config.generic.Result;
 import com.example.test.member.controller.dto.*;
 import com.example.test.member.service.MemberService;
+import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +33,18 @@ public class MemberController {
                 .body(new Result(memberService.getProfile(id)));
     }
     @GetMapping("/getProfile2")
-    public ResponseEntity<Result> getProfile(@RequestParam Long memberId){
-        return ResponseEntity.ok().body(new Result(memberService.getProfile2(memberId)));
+    public ResponseEntity<Result> getProfile(ServletRequest servletRequest){
+        return ResponseEntity.ok().body(new Result(memberService.getProfile2(servletRequest)));
+    }
+    @GetMapping("/getToken")
+    public Result getToken(@RequestParam Long memberId){
+        return new Result(memberService.getToken(memberId));
     }
 
-
+    @GetMapping("/testToken")
+    public Result testToken(ServletRequest servletRequest){
+        return new Result(memberService.testToken(servletRequest));
+    }
 
     @GetMapping("/all")
     public Result allUser(){
