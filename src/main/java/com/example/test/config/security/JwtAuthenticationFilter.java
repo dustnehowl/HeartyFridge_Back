@@ -29,7 +29,8 @@ public class JwtAuthenticationFilter implements Filter {
 
     private static final String[] whitelist = {"/api/v1/member/googleLogin",
             "/swagger-ui/**", "/webjars/**", "/swagger-resources",
-            "/api/v1/member/all", "/api/v1/member/getToken"};
+            "/api/v1/member/all", "/api/v1/member/getToken"
+    };
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {

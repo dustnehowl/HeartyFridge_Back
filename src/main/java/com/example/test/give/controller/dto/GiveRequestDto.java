@@ -19,7 +19,6 @@ public class GiveRequestDto {
     private String category;
     private String message;
     private String fridgeId;
-    private String giverId;
     private List<MultipartFile> images;
 
     public Food toEntity() {

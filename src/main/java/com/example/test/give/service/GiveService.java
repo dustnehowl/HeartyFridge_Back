@@ -34,9 +34,9 @@ public class GiveService {
     @Value("${spring.cloud.gcp.storage.credentials.location.classpath}")
     private String keyFileName;
 
-    public GiveResponseDto giveFood(GiveRequestDto giveRequestDto) {
+    public GiveResponseDto giveFood(GiveRequestDto giveRequestDto, Long giverId) {
 
-        Member giver = memberRepository.findMemberById(Long.parseLong(giveRequestDto.getGiverId())).get();
+        Member giver = memberRepository.findMemberById(giverId).get();
         Fridge fridge = fridgeRepository.findFridgeById(Long.parseLong(giveRequestDto.getFridgeId())).get();
 
         Food food = giveRequestDto.toEntity();
