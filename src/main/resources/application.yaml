@@ -6,6 +6,13 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+#  main:
+#    allow-bean-definition-overriding: true
 
   jpa:
     hibernate:

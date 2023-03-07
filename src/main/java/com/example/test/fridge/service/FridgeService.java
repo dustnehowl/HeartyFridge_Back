@@ -16,6 +16,7 @@ import com.example.test.messageV2.MessageV2;
 import com.example.test.messageV2.controller.dto.v2.MessageInFridgeDto;
 import com.example.test.messageV2.repository.MessageRepositoryV2;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class FridgeService {
 
     private final FridgeRepository fridgeRepository;
@@ -97,5 +99,17 @@ public class FridgeService {
                 MessageInFridgeDto.of(messageList),
                 bookmark.contains(fridge)
         );
+    }
+    public AllFridgeResponse findByKeyword(Long memberId, String keyword){
+        Member member = memberRepository.findMemberById(memberId).get();
+        log.info("keyword -> {}", keyword);
+        List<Fridge> search = fridgeRepository.search(keyword);
+        Set<Fridge> bookmarks = new HashSet<>(bookmarkRepository.findBookmarkFridgesByMember(member));
+
+        List<FridgeDto> fridgeDtoList = search.stream()
+                .map(fridge -> FridgeDto.from(fridge, bookmarks.contains(fridge)))
+                .collect(Collectors.toList());
+
+        return new AllFridgeResponse(fridgeDtoList);
     }
 }

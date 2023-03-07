@@ -1,13 +1,12 @@
 package com.example.test.fridge.controller;
 
 import com.example.test.config.generic.Result;
+import com.example.test.fridge.controller.dto.v2.SearchRequest;
 import com.example.test.fridge.service.FridgeService;
 import jakarta.servlet.ServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,5 +28,14 @@ public class FridgeController {
         String memberId = (String) servletRequest.getAttribute("memberId");
         System.out.println("============= getFridge" + fridgeId+ " =============");
         return new Result(fridgeService.getFridge2(fridgeId, Long.parseLong(memberId)));
+    }
+
+    @GetMapping("/searchByKeyword")
+    public ResponseEntity<Result> searchByName(@ModelAttribute SearchRequest request, ServletRequest servletRequest){
+        String keyword = request.getKeyword();
+        System.out.println(keyword);
+        String memberId = (String) servletRequest.getAttribute("memberId");
+        //String keyword = searchRequest.getKeyword();
+        return ResponseEntity.ok().body(new Result(fridgeService.findByKeyword(Long.parseLong(memberId), keyword)));
     }
 }
