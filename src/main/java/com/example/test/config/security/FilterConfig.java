@@ -15,6 +15,7 @@ public class FilterConfig {
         filterRegistrationBean.setFilter(new JwtAuthenticationFilter());
         filterRegistrationBean.setOrder(1);
         filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addInitParameter("exclusions","/swagger-ui/**,/v3/api-docs/**");
 
         return filterRegistrationBean;
     }

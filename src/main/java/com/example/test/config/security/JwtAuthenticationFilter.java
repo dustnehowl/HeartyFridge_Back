@@ -12,12 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import javax.crypto.SecretKey;
 import java.io.IOException;
-import java.security.Key;
-import java.util.Base64;
 
 @Slf4j
 public class JwtAuthenticationFilter implements Filter {
@@ -28,22 +23,21 @@ public class JwtAuthenticationFilter implements Filter {
     @Value("${}")
 
     private static final String[] whitelist = {"/api/v1/member/googleLogin",
-            "/swagger-ui/**", "/webjars/**", "/swagger-resources",
+            "/swagger-ui/**", "/webjars/**", "/swagger-resources","/api-docs/**",
             "/api/v1/member/all", "/api/v1/member/getToken"
     };
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         try{
-            System.out.println("hello world!");
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            System.out.println(((HttpServletRequest) request).getRequestURI());
             String jwt = "";
             String bearerToken = httpServletRequest.getHeader("Authorization");
             if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")){
                 jwt = bearerToken.substring(7);
             }
             String requestUrl = httpServletRequest.getRequestURI();
-            System.out.println("여기가 문제인가3");
 
             if (isCheckPath(requestUrl) && (!StringUtils.hasText(jwt) || !validateToken(jwt, httpServletRequest))) {
                 throw new IllegalAccessException("유효하지 않는 토큰입니다");
@@ -60,7 +54,6 @@ public class JwtAuthenticationFilter implements Filter {
             res.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
         }
         catch (Exception e){
-            System.out.println("여긴가?");
             StackTraceElement stackTraceElement = e.getStackTrace()[0];
             log.info("method Name -> {} line Number -> {} class Name -> {}", stackTraceElement.getMethodName(), stackTraceElement.getLineNumber(), stackTraceElement.getClassName());
             HttpServletResponse res = (HttpServletResponse) response;
@@ -69,23 +62,15 @@ public class JwtAuthenticationFilter implements Filter {
     }
 
     private boolean isCheckPath(String requestURI) {
-        System.out.println("hi3333");
         System.out.println(!PatternMatchUtils.simpleMatch(whitelist, requestURI));
         return !PatternMatchUtils.simpleMatch(whitelist, requestURI);
     }
 
     private boolean validateToken(String token, HttpServletRequest servletRequest) {
-        System.out.println("여기다 진짜");
         System.out.println(secretKey);
-//        byte[] decodedKey = Decoders.BASE64.decode(secretKey);
-//        System.out.println("너구나 찾았다");
-//        Key key = Keys.hmacShaKeyFor(decodedKey);
-        System.out.println("여기가 안되는 거지??");
         try {
-            System.out.println("여기가 문제인가1");
             Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
             System.out.println(claims.getSubject());
-            System.out.println("여기가 문제인가2");
             servletRequest.setAttribute("memberId", claims.getSubject());
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
