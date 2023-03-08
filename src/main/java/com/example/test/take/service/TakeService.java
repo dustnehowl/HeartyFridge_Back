@@ -47,7 +47,7 @@ public class TakeService {
         item.setIsReserved(true);
         LocalDateTime currentTime = LocalDateTime.now();
 
-        String noticeMessage = "예약 중인" + item.getFood().getName() + "이 있습니다.";
+        String noticeMessage = "예약 중인 " + item.getFood().getName() + " 이 있습니다.";
         Notification notification = new Notification(taker, noticeMessage, currentTime, false);
         notificationService.notice(notification);
 
