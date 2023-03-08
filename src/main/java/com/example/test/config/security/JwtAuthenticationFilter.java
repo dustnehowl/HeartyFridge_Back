@@ -24,7 +24,8 @@ public class JwtAuthenticationFilter implements Filter {
 
     private static final String[] whitelist = {"/api/v1/member/googleLogin",
             "/swagger-ui/**", "/webjars/**", "/swagger-resources","/api-docs/**",
-            "/api/v1/member/all", "/api/v1/member/getToken","/api/v1/chatgpt/**"
+            "/api/v1/member/all", "/api/v1/member/getToken","/api/v1/chatgpt/**",
+            "/images/**"
     };
 
     @Override
