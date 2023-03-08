@@ -19,15 +19,13 @@ public class MemberProfileResponse {
     private List<TakeDto> takes;
     private List<MessageDto> sendMessages;
     private List<MessageDto> receiveMessages;
-    private List<FridgeInfoDto> bookmarks;
 
-    public MemberProfileResponse(ProfileDto2 profile, List<TakeDto> reservations, List<GiveDto> gives, List<TakeDto> takes, List<MessageDto> sendMessages, List<MessageDto> receiveMessages, List<FridgeInfoDto> bookmarks) {
+    public MemberProfileResponse(ProfileDto2 profile, List<TakeDto> reservations, List<GiveDto> gives, List<TakeDto> takes, List<MessageDto> sendMessages, List<MessageDto> receiveMessages) {
         this.profile = profile;
         this.reservations = reservations;
         this.gives = gives;
         this.takes = takes;
         this.sendMessages = sendMessages;
         this.receiveMessages = receiveMessages;
-        this.bookmarks = bookmarks;
     }
 }

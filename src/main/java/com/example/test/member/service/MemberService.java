@@ -160,16 +160,13 @@ public class MemberService {
         List<MessageV2> sendMessage = messageRepositoryV2.findMessageV2sBySender(member);
         List<MessageV2> receiveMessage = messageRepositoryV2.findMessageV2sByReceiver(member);
 
-
-        List<Fridge> bookmarks = bookmarkRepository.findBookmarkFridgesByMember(member);
         return new MemberProfileResponse(
                 profile,
                 TakeDto.of(reservations),
                 GiveDto.of(gives),
                 TakeDto.of(takes),
                 MessageDto.of(sendMessage),
-                MessageDto.of(receiveMessage),
-                FridgeInfoDto.of(bookmarks)
+                MessageDto.of(receiveMessage)
         );
     }
 
