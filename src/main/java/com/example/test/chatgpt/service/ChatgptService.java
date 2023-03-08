@@ -1,9 +1,14 @@
 package com.example.test.chatgpt.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
+import jakarta.json.JsonObject;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +21,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ChatgptService {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
-    public String test(String apiKey, String text){
+    @Value("${security.chatgpt.api-key}")
+    private String apiKey;
+    public String test(String text){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + apiKey);
@@ -30,7 +37,13 @@ public class ChatgptService {
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> response = restTemplate.postForEntity(API_ENDPOINT, requestEntity, Map.class);
-        return response.toString();
+        ResponseEntity<String> response = restTemplate.postForEntity(API_ENDPOINT, requestEntity, String.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String responseBody = response.getBody();
+            return responseBody;
+        } else {
+            throw new RuntimeException();
+        }
     }
 }

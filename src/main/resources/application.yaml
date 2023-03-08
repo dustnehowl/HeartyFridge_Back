@@ -57,6 +57,8 @@ security:
     token:
       secret-key: aGVhcnR5RnJpZGdlbW9kdW1vZHV3a2ZlaG9UZG1hdXN3aGdycFRla2doa2RseGxkZGxyamZmaHNtc3doYXFud2hyZ2tzcGRscmpzZGpFbw==
   uri: http://localhost:8080/
+  chatgpt:
+    api-key: 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
 
 
 server:

@@ -16,7 +16,6 @@ public class ChatgptController {
     public Result test(@RequestBody ChatgptRequest request){
         String text = request.getText();
         System.out.println(text);
-        String apiKey = "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";
-        return new Result(chatgptService.test(apiKey, text));
+        return new Result(chatgptService.test(text));
     }
 }
