@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class ChatgptController {
     private final ChatgptService chatgptService;
 
-    @GetMapping("/generateText")
+    @PostMapping("/generateText")
     public Result test(@RequestBody ChatgptRequest request){
         String text = request.getText();
         System.out.println(text);
-        String apiKey = "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";
+        String apiKey = "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";
         return new Result(chatgptService.test(apiKey, text));
     }
 }
