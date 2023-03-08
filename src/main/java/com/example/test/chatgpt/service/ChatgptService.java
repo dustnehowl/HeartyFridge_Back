@@ -23,6 +23,6 @@ public class ChatgptService {
         for(CompletionChoice choice : choices){
             System.out.println(choice.getText());
         }
-        return "bye-bye";
+        return choices.get(1).toString();
     }
 }
