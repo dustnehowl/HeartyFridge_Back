@@ -6,6 +6,8 @@ import com.example.test.message.Message;
 import com.example.test.message.controller.dto.MessageRequestDto;
 import com.example.test.message.controller.dto.MessageResponseDto;
 import com.example.test.message.repository.MessageRepository;
+import com.example.test.notification.Notification;
+import com.example.test.notification.service.NotificationService;
 import com.example.test.take.Take;
 import com.example.test.take.repository.TakeRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final MemberRepository memberRepository;
     private final TakeRepository takeRepository;
+    private final NotificationService notificationService;
 
     public MessageResponseDto sendMessage(MessageRequestDto messageRequestDto) {
         Take takeItem = takeRepository.findTakeById(messageRequestDto.getTakeId()).get();
@@ -42,6 +45,10 @@ public class MessageService {
 
         takeItem.setIsDone(true);
         receiver.setIsAlert(true);
+
+        String noticeMessage = takeItem.getItem().getFood().getName().toString() + "에 대한 메세지가 있습니다.";
+        Notification notification = new Notification(receiver,noticeMessage, currentTime, false);
+        notificationService.notice(notification);
 
         messageRepository.save(message);
         return new MessageResponseDto(message);

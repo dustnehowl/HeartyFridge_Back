@@ -8,6 +8,8 @@ import com.example.test.give.Give;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
+import com.example.test.notification.Notification;
+import com.example.test.notification.service.NotificationService;
 import com.example.test.take.Take;
 import com.example.test.take.controller.dto.TakeResponseDto;
 import com.example.test.take.repository.TakeRepository;
@@ -25,6 +27,7 @@ public class TakeService {
     private final TakeRepository takeRepository;
     private final GiveRepository giveRepository;
     private final MemberRepository memberRepository;
+    private final NotificationService notificationService;
     public String test() {
         return "OK";
     }
@@ -43,6 +46,10 @@ public class TakeService {
 
         item.setIsReserved(true);
         LocalDateTime currentTime = LocalDateTime.now();
+
+        String noticeMessage = "예약 중인" + item.getFood().getName() + "이 있습니다.";
+        Notification notification = new Notification(taker, noticeMessage, currentTime, false);
+        notificationService.notice(notification);
 
         Take take = new Take(currentTime, taker, item);
         taker.getTakeList().add(take);
