@@ -1,0 +1,67 @@
+spring:
+  datasource:
+    # 로컬일 시 localhost:3306
+    # docker에서 실행할 시 test_db:3306
+    url: jdbc:mysql://test_db:3306/mydb?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  #  main:
+  #    allow-bean-definition-overriding: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+
+    show-sql: true
+
+
+
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location:
+            classpath: hopeful-canto-373101-aa354203c638.json
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /api/**
+
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher # for swagger 3.0
+
+security:
+  jwt:
+    token:
+      secret-key: aGVhcnR5RnJpZGdlbW9kdW1vZHV3a2ZlaG9UZG1hdXN3aGdycFRla2doa2RseGxkZGxyamZmaHNtc3doYXFud2hyZ2tzcGRscmpzZGpFbw==
+  uri: http://localhost:8080/
+  chatgpt:
+    api-key: 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
+
+
+server:
+  servlet:
+    encoding:
+      charset: utf-8
