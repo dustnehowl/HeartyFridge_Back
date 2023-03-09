@@ -191,8 +191,8 @@ public class MemberService {
                 TakeDto.of(reservations),
                 GiveDtoV2.of(gives),
                 TakeDtoV2.of(takes),
-                MessageDto.of(sendMessage),
-                MessageDto.of(receiveMessage)
+                MessageDto.of2(sendMessage, "send"),
+                MessageDto.of2(receiveMessage, "receive")
         );
     }
 
