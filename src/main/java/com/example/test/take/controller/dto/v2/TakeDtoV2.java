@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Data
 public class TakeDtoV2 {
     private Long id;
+    private String type;
     private LocalDateTime time;
     private String foodName;
     private String fridgeName;
@@ -20,6 +21,7 @@ public class TakeDtoV2 {
 
     public TakeDtoV2(Long id, LocalDateTime time, String foodName, String fridgeName, String fridgeAddress, boolean isDone) {
         this.id = id;
+        this.type = "take";
         this.time = time;
         this.foodName = foodName;
         this.fridgeName = fridgeName;
