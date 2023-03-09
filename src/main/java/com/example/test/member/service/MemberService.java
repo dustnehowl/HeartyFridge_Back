@@ -6,10 +6,12 @@ import com.example.test.fridge.Fridge;
 import com.example.test.fridge.controller.dto.v2.FridgeInfoDto;
 import com.example.test.give.Give;
 import com.example.test.give.controller.dto.v2.GiveDto;
+import com.example.test.give.controller.dto.v2.GiveDtoV2;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.member.Member;
 import com.example.test.member.controller.dto.*;
 import com.example.test.member.controller.dto.v2.MemberProfileResponse;
+import com.example.test.member.controller.dto.v2.MemberProfileResponseV2;
 import com.example.test.member.controller.dto.v2.ProfileDto2;
 import com.example.test.member.repository.MemberRepository;
 import com.example.test.messageV2.MessageV2;
@@ -18,6 +20,7 @@ import com.example.test.messageV2.repository.MessageRepositoryV2;
 import com.example.test.take.Take;
 import com.example.test.take.controller.dto.TakeListDto;
 import com.example.test.take.controller.dto.v2.TakeDto;
+import com.example.test.take.controller.dto.v2.TakeDtoV2;
 import com.example.test.take.repository.TakeRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -165,6 +168,29 @@ public class MemberService {
                 TakeDto.of(reservations),
                 GiveDto.of(gives),
                 TakeDto.of(takes),
+                MessageDto.of(sendMessage),
+                MessageDto.of(receiveMessage)
+        );
+    }
+
+    public MemberProfileResponseV2 getProfile3(ServletRequest servletRequest) {
+        Long memberId = Long.parseLong((String) servletRequest.getAttribute("memberId"));
+        Member member = memberRepository.findMemberById(memberId).get();
+        ProfileDto2 profile = ProfileDto2.from(member);
+        List<Give> gives = giveRepository.findGivesByGiver(member);
+        List<Take> takes = takeRepository.findTakesByTaker(member);
+        List<Take> reservations = takes.stream().filter(
+                take -> take.getIsDone() == Boolean.FALSE
+        ).collect(Collectors.toList());
+
+        List<MessageV2> sendMessage = messageRepositoryV2.findMessageV2sBySender(member);
+        List<MessageV2> receiveMessage = messageRepositoryV2.findMessageV2sByReceiver(member);
+
+        return new MemberProfileResponseV2(
+                profile,
+                TakeDto.of(reservations),
+                GiveDtoV2.of(gives),
+                TakeDtoV2.of(takes),
                 MessageDto.of(sendMessage),
                 MessageDto.of(receiveMessage)
         );
