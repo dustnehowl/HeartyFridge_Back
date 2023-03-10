@@ -191,7 +191,7 @@ public class MemberService {
 
         return new MemberProfileResponseV2(
                 profile,
-                TakeDto.of(reservations),
+                TakeDtoV2.of(reservations),
                 GiveDtoV2.of(gives),
                 TakeDtoV2.of(takes2),
                 MessageDto.of2(sendMessage, "send"),

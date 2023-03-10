@@ -18,13 +18,13 @@ import java.util.List;
 @Data
 public class MemberProfileResponseV2 {
     private ProfileDto2 profile;
-    private List<TakeDto> reservations;
+    private List<TakeDtoV2> reservations;
     private List<GiveDtoV2> gives;
     private List<TakeDtoV2> takes;
     private List<MessageDto> sendMessages;
     private List<MessageDto> receiveMessages;
 
-    public MemberProfileResponseV2(ProfileDto2 profile, List<TakeDto> reservations, List<GiveDtoV2> gives, List<TakeDtoV2> takes, List<MessageDto> sendMessages, List<MessageDto> receiveMessages) {
+    public MemberProfileResponseV2(ProfileDto2 profile, List<TakeDtoV2> reservations, List<GiveDtoV2> gives, List<TakeDtoV2> takes, List<MessageDto> sendMessages, List<MessageDto> receiveMessages) {
         this.profile = profile;
         this.reservations = reservations;
         this.gives = gives;
