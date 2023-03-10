@@ -180,7 +180,10 @@ public class MemberService {
         List<Give> gives = giveRepository.findGivesByGiver(member);
         List<Take> takes = takeRepository.findTakesByTaker(member);
         List<Take> reservations = takes.stream().filter(
-                take -> take.getIsDone() == Boolean.FALSE
+                take -> take.getStatus() == Take.Status.PENDING
+        ).collect(Collectors.toList());
+        List<Take> takes2 = takes.stream().filter(
+                take -> take.getStatus() != Take.Status.PENDING
         ).collect(Collectors.toList());
 
         List<MessageV2> sendMessage = messageRepositoryV2.findMessageV2sBySender(member);
@@ -190,7 +193,7 @@ public class MemberService {
                 profile,
                 TakeDto.of(reservations),
                 GiveDtoV2.of(gives),
-                TakeDtoV2.of(takes),
+                TakeDtoV2.of(takes2),
                 MessageDto.of2(sendMessage, "send"),
                 MessageDto.of2(receiveMessage, "receive")
         );

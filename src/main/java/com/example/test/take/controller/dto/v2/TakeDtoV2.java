@@ -18,8 +18,9 @@ public class TakeDtoV2 {
     private String fridgeName;
     private String fridgeAddress;
     private Boolean isDone;
+    private Take.Status status;
 
-    public TakeDtoV2(Long id, LocalDateTime time, String foodName, String fridgeName, String fridgeAddress, boolean isDone) {
+    public TakeDtoV2(Long id, LocalDateTime time, String foodName, String fridgeName, String fridgeAddress, boolean isDone, Take.Status status) {
         this.id = id;
         this.type = "take";
         this.time = time;
@@ -27,6 +28,7 @@ public class TakeDtoV2 {
         this.fridgeName = fridgeName;
         this.fridgeAddress = fridgeAddress;
         this.isDone = isDone;
+        this.status = status;
     }
 
     public TakeDtoV2 from(Take take) {
@@ -36,7 +38,8 @@ public class TakeDtoV2 {
                 take.getItem().getFood().getName(),
                 take.getItem().getFridge().getName(),
                 take.getItem().getFridge().getAddress(),
-                take.getIsDone()
+                take.getIsDone(),
+                take.getStatus()
         );
     }
 
@@ -48,7 +51,8 @@ public class TakeDtoV2 {
                         take.getItem().getFood().getName(),
                         take.getItem().getFridge().getName(),
                         take.getItem().getFridge().getAddress(),
-                        take.getIsDone()
+                        take.getIsDone(),
+                        take.getStatus()
                 )
         ).collect(Collectors.toList());
     }

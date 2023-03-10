@@ -10,7 +10,10 @@ import com.example.test.messageV2.MessageV2;
 import com.example.test.messageV2.controller.dto.GiveMessageDto;
 import com.example.test.messageV2.controller.dto.MessageRequestDto2;
 import com.example.test.messageV2.controller.dto.MessageResponseDto2;
+import com.example.test.messageV2.controller.dto.v2.TakeMessageRequest;
 import com.example.test.messageV2.repository.MessageRepositoryV2;
+import com.example.test.take.Take;
+import com.example.test.take.repository.TakeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,7 @@ public class MessageServiceV2 {
     private final GiveRepository giveRepository;
     private final MemberRepository memberRepository;
     private final FridgeRepository fridgeRepository;
+    private final TakeRepository takeRepository;
 
     public String test() {
         return "OK";
@@ -94,5 +98,38 @@ public class MessageServiceV2 {
             messageResponseDto2s.add(new MessageResponseDto2(messageV2));
         }
         return messageResponseDto2s;
+    }
+
+    public MessageResponseDto2 takeMessage(Long memberId, TakeMessageRequest takeMessageRequest) {
+        Member sender = findMemberById(memberId);
+        Take take = findTakeById(takeMessageRequest.getTakeId());
+        Member receiver = take.getItem().getGiver();
+        Fridge fridge = take.getItem().getFridge();
+        LocalDateTime currTime = LocalDateTime.now();
+        Give give = take.getItem();
+        String content = takeMessageRequest.getContent();
+
+        MessageV2 messageV2 = new MessageV2(
+                give,
+                fridge,
+                currTime,
+                sender,
+                receiver,
+                content
+        );
+
+        take.setStatus(Take.Status.COMPLETED);
+        messageRepositoryV2.save(messageV2);
+        return new MessageResponseDto2(messageV2);
+    }
+
+    private Member findMemberById(Long memberId) {
+        return memberRepository.findMemberById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
+    }
+
+    private Take findTakeById(Long takeId) {
+        return takeRepository.findTakeById(takeId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid take id: " + takeId));
     }
 }

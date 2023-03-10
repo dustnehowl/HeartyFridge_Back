@@ -32,12 +32,11 @@ public class TakeService {
         return "OK";
     }
 
-    public TakeResponseDto takeFood(String member_id, String give_id) {
+    public TakeResponseDto takeFood(String member_id, Long give_id) {
         Long memberId = Long.parseLong(member_id);
-        Long giveId = Long.parseLong(give_id);
 
         Member taker = memberRepository.findMemberById(memberId).get();
-        Give item = giveRepository.findGiveById(giveId).get();
+        Give item = giveRepository.findGiveById(give_id).get();
 
         if(item.getIsReserved()) throw new OnReservedFoodException();
         if(takeRepository.findTakesByTakerAndIsDone(taker, false).size() >= 2) throw new TooManyReservedException();
@@ -56,6 +55,14 @@ public class TakeService {
 
         takeRepository.save(take);
         return new TakeResponseDto(take);
+    }
+    public String checkTake(Long memberId, Long takeId){
+        Take take = takeRepository.findTakeById(takeId).get();
+        if(take.getStatus() == Take.Status.PENDING && take.getTaker().getId() == memberId){
+            take.setStatus(Take.Status.IN_PROGRESS);
+            return takeId.toString() + " IN PROGRESS!";
+        }
+        else throw new RuntimeException();
     }
 
     public Integer numTakesNotDone(String member_id){

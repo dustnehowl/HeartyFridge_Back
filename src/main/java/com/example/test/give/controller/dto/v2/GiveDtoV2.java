@@ -2,6 +2,7 @@ package com.example.test.give.controller.dto.v2;
 
 import com.example.test.food.Food;
 import com.example.test.give.Give;
+import com.example.test.take.Take;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -17,8 +18,9 @@ public class GiveDtoV2 {
     private String fridgeName;
     private String fridgeAddress;
     private Boolean isDone;
+    private Take.Status status;
 
-    public GiveDtoV2(Long id, LocalDateTime time, String foodName, String fridgeName, String fridgeAddress, boolean isDone) {
+    public GiveDtoV2(Long id, LocalDateTime time, String foodName, String fridgeName, String fridgeAddress, boolean isDone, Take.Status status) {
         this.id = id;
         this.type = "give";
         this.time = time;
@@ -26,6 +28,7 @@ public class GiveDtoV2 {
         this.fridgeName = fridgeName;
         this.fridgeAddress = fridgeAddress;
         this.isDone = isDone;
+        this.status = status;
     }
 
     public GiveDtoV2 from(Give give) {
@@ -35,7 +38,8 @@ public class GiveDtoV2 {
                 give.getFood().getName(),
                 give.getFridge().getName(),
                 give.getFridge().getAddress(),
-                true
+                true,
+                Take.Status.COMPLETED
         );
     }
 
@@ -47,7 +51,8 @@ public class GiveDtoV2 {
                         give.getFood().getName(),
                         give.getFridge().getName(),
                         give.getFridge().getAddress(),
-                        true
+                        true,
+                        Take.Status.COMPLETED
                 )
         ).collect(Collectors.toList());
     }
