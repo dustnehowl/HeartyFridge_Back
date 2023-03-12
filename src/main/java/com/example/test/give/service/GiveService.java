@@ -8,6 +8,7 @@ import com.example.test.give.Give;
 import com.example.test.give.controller.dto.GiveRequestDto;
 import com.example.test.give.controller.dto.GiveResponseDto;
 import com.example.test.give.controller.dto.v2.GiveDto;
+import com.example.test.give.controller.dto.v2.GiveDtoV2;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.image.controller.dto.ImageListRequest;
 import com.example.test.image.service.ImageService;
@@ -57,5 +58,11 @@ public class GiveService {
 
     public GiveDto getGive(Long giveId) {
         return GiveDto.from(giveRepository.findGiveById(giveId).get());
+    }
+
+    public List<GiveDtoV2> getGives(Long giverId) {
+        Member giver = memberRepository.findMemberById(giverId).get();
+        List<Give> gives = giveRepository.findGivesByGiver(giver);
+        return GiveDtoV2.of(gives);
     }
 }

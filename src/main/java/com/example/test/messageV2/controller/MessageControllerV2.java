@@ -29,6 +29,16 @@ public class MessageControllerV2 {
         String memberId = (String) servletRequest.getAttribute("memberId");
         return ResponseEntity.ok().body(new Result(messageServiceV2.takeMessage(Long.parseLong(memberId), takeMessageRequest)));
     }
+    @GetMapping("/getSendMessages")
+    public ResponseEntity<Result> getSendMessages(ServletRequest servletRequest){
+        String memberId = (String) servletRequest.getAttribute("memberId");
+        return ResponseEntity.ok().body(new Result(messageServiceV2.getSendMessages(Long.parseLong(memberId))));
+    }
+    @GetMapping("/getReceiveMessages")
+    public ResponseEntity<Result> getReceiveMessages(ServletRequest servletRequest){
+        String memberId = (String) servletRequest.getAttribute("memberId");
+        return ResponseEntity.ok().body(new Result(messageServiceV2.getReceiveMessages(Long.parseLong(memberId))));
+    }
 
     @GetMapping("/findMessagesByFridge")
     public ResponseEntity<Result> findMessagesByFridgeId(@RequestParam Long fridgeId){

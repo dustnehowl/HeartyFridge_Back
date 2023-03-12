@@ -10,6 +10,7 @@ import com.example.test.messageV2.MessageV2;
 import com.example.test.messageV2.controller.dto.GiveMessageDto;
 import com.example.test.messageV2.controller.dto.MessageRequestDto2;
 import com.example.test.messageV2.controller.dto.MessageResponseDto2;
+import com.example.test.messageV2.controller.dto.v2.MessageDto;
 import com.example.test.messageV2.controller.dto.v2.TakeMessageRequest;
 import com.example.test.messageV2.repository.MessageRepositoryV2;
 import com.example.test.take.Take;
@@ -122,7 +123,16 @@ public class MessageServiceV2 {
         messageRepositoryV2.save(messageV2);
         return new MessageResponseDto2(messageV2);
     }
-
+    public List<MessageDto> getSendMessages(Long senderId) {
+        Member sender = findMemberById(senderId);
+        List<MessageV2> messages = messageRepositoryV2.findMessageV2sBySender(sender);
+        return MessageDto.of2(messages,"send");
+    }
+    public List<MessageDto> getReceiveMessages(Long receiverId) {
+        Member receiver = findMemberById(receiverId);
+        List<MessageV2> messages = messageRepositoryV2.findMessageV2sBySender(receiver);
+        return MessageDto.of2(messages,"receive");
+    }
     private Member findMemberById(Long memberId) {
         return memberRepository.findMemberById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
@@ -132,4 +142,5 @@ public class MessageServiceV2 {
         return takeRepository.findTakeById(takeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid take id: " + takeId));
     }
+
 }

@@ -172,6 +172,10 @@ public class MemberService {
                 MessageDto.of(receiveMessage)
         );
     }
+    public ProfileDto2 getOnlyProfile(Long memberId){
+        Member member = memberRepository.findMemberById(memberId).get();
+        return ProfileDto2.from(member);
+    }
 
     public MemberProfileResponseV2 getProfile3(ServletRequest servletRequest) {
         Long memberId = Long.parseLong((String) servletRequest.getAttribute("memberId"));

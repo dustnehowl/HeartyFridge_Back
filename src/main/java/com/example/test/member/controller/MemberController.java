@@ -28,9 +28,10 @@ public class MemberController {
     }
 
     @GetMapping("/getProfile")
-    public ResponseEntity<Result> hello(@RequestParam String id){
+    public ResponseEntity<Result> hello(ServletRequest servletRequest){
+        String memberId = (String) servletRequest.getAttribute("memberId");
         return ResponseEntity.ok()
-                .body(new Result(memberService.getProfile(id)));
+                .body(new Result(memberService.getOnlyProfile(Long.parseLong(memberId))));
     }
     @GetMapping("/getProfile2")
     public ResponseEntity<Result> getProfile(ServletRequest servletRequest){

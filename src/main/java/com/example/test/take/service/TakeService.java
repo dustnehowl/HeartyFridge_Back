@@ -12,6 +12,7 @@ import com.example.test.notification.Notification;
 import com.example.test.notification.service.NotificationService;
 import com.example.test.take.Take;
 import com.example.test.take.controller.dto.TakeResponseDto;
+import com.example.test.take.controller.dto.v2.TakeDtoV2;
 import com.example.test.take.repository.TakeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -71,5 +73,32 @@ public class TakeService {
 
         List<Take> takeListNotDone = takeRepository.findTakesByTakerAndIsDone(taker, false);
         return takeListNotDone.size();
+    }
+
+    public List<TakeDtoV2> getReservation(Long takerId) {
+        Member taker = findMemberById(takerId);
+        List<Take> takes = findTakesByTaker(taker);
+        List<Take> reservations = takes.stream().filter(
+                take -> take.getStatus() == Take.Status.PENDING
+        ).toList();
+        return TakeDtoV2.of(reservations);
+    }
+
+    public List<TakeDtoV2> getTakes(Long takerId){
+        Member taker = findMemberById(takerId);
+        List<Take> takes = findTakesByTaker(taker);
+        List<Take> takes2 = takes.stream().filter(
+                take -> take.getStatus() != Take.Status.PENDING
+        ).toList();
+        return TakeDtoV2.of(takes2);
+    }
+
+    private List<Take> findTakesByTaker(Member taker){
+        return takeRepository.findTakesByTaker(taker);
+    }
+
+    private Member findMemberById(Long memberId) {
+        return memberRepository.findMemberById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
     }
 }

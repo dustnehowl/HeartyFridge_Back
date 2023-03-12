@@ -22,6 +22,20 @@ public class TakeController {
         System.out.println("giveId = " + giveId.toString());
         return new Result(takeService.takeFood(memberId, giveId));
     }
+    @GetMapping("/getReservation")
+    public ResponseEntity<Result> getReservation(ServletRequest servletRequest){
+        String takerId = (String) servletRequest.getAttribute("memberId");
+        return ResponseEntity.ok().body(
+                new Result(takeService.getReservation(Long.parseLong(takerId)))
+        );
+    }
+    @GetMapping("/getTakes")
+    public ResponseEntity<Result> getTakes(ServletRequest servletRequest){
+        String takerId = (String) servletRequest.getAttribute("memberId");
+        return ResponseEntity.ok().body(
+                new Result(takeService.getTakes(Long.parseLong(takerId)))
+        );
+    }
 
     @PutMapping("/checkFood")
     public ResponseEntity<Result> checkFood(ServletRequest servletRequest, @RequestParam Long takeId){

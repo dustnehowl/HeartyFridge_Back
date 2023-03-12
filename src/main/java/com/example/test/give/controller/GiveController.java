@@ -6,6 +6,7 @@ import com.example.test.give.controller.dto.v2.GiveFormDataRequest;
 import com.example.test.give.service.GiveService;
 import jakarta.servlet.ServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,13 @@ public class GiveController {
     public Result giveFood(ServletRequest servletRequest, @ModelAttribute GiveRequestDto giveRequestDto){
         String giverId = (String) servletRequest.getAttribute("memberId");
         return new Result(giveService.giveFood(giveRequestDto, Long.parseLong(giverId)));
+    }
+    @GetMapping("/getGives")
+    public ResponseEntity<Result> getGives(ServletRequest servletRequest){
+        String giverId = (String) servletRequest.getAttribute("memberId");
+        return ResponseEntity.ok().body(
+                new Result(giveService.getGives(Long.parseLong(giverId)))
+        );
     }
 
     @GetMapping("/getGive")
