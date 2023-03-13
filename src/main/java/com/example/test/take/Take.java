@@ -39,6 +39,9 @@ public class Take {
         this.isDone = false;
         this.status = Status.PENDING;
     }
+    public Boolean isPending(){
+        return this.getStatus() == Status.PENDING;
+    }
     public void setStatus(Status status) {
         this.status = status;
     }

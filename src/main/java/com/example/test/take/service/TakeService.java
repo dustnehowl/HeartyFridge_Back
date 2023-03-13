@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,10 +35,11 @@ public class TakeService {
         return "OK";
     }
 
+    @Transactional
     public TakeResponseDto takeFood(String member_id, Long give_id) {
         Long memberId = Long.parseLong(member_id);
 
-        Member taker = memberRepository.findMemberById(memberId).get();
+        Member taker = findMemberById(memberId);
         Give item = giveRepository.findGiveById(give_id).get();
 
         if(item.getIsReserved()) throw new OnReservedFoodException();
@@ -58,10 +60,11 @@ public class TakeService {
         takeRepository.save(take);
         return new TakeResponseDto(take);
     }
+    @Transactional
     public String checkTake(Long memberId, Long takeId){
-        Take take = takeRepository.findTakeById(takeId).get();
-        if(take.getStatus() == Take.Status.PENDING && take.getTaker().getId() == memberId){
-            take.setStatus(Take.Status.IN_PROGRESS);
+        Take take = findTakeById(takeId);
+        if(take.isPending() && takeBelongsToMember(take, memberId)){
+            updateTakeStatus(take, Take.Status.IN_PROGRESS);
             return takeId.toString() + " IN PROGRESS!";
         }
         else throw new RuntimeException();
@@ -69,7 +72,7 @@ public class TakeService {
 
     public Integer numTakesNotDone(String member_id){
         Long memberId = Long.parseLong(member_id);
-        Member taker = memberRepository.findMemberById(memberId).get();
+        Member taker = findMemberById(memberId);
 
         List<Take> takeListNotDone = takeRepository.findTakesByTakerAndIsDone(taker, false);
         return takeListNotDone.size();
@@ -78,21 +81,29 @@ public class TakeService {
     public List<TakeDtoV2> getReservation(Long takerId) {
         Member taker = findMemberById(takerId);
         List<Take> takes = findTakesByTaker(taker);
-        List<Take> reservations = takes.stream().filter(
-                take -> take.getStatus() == Take.Status.PENDING
-        ).toList();
+        List<Take> reservations = takes.stream().filter(take -> take.isPending()).toList();
         return TakeDtoV2.of(reservations);
     }
 
     public List<TakeDtoV2> getTakes(Long takerId){
         Member taker = findMemberById(takerId);
         List<Take> takes = findTakesByTaker(taker);
-        List<Take> takes2 = takes.stream().filter(
-                take -> take.getStatus() != Take.Status.PENDING
-        ).toList();
+        List<Take> takes2 = takes.stream().filter(take -> !take.isPending()).toList();
         return TakeDtoV2.of(takes2);
     }
 
+    private boolean takeBelongsToMember(Take take, Long memberId) {
+        return take.getTaker().getId().equals(memberId);
+    }
+
+    private void updateTakeStatus(Take take, Take.Status status) {
+        take.setStatus(status);
+        takeRepository.save(take);
+    }
+    private Take findTakeById(Long takeId) {
+        return takeRepository.findTakeById(takeId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid take id: " + takeId));
+    }
     private List<Take> findTakesByTaker(Member taker){
         return takeRepository.findTakesByTaker(taker);
     }
