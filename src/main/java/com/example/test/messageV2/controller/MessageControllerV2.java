@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v2/message")
+@RequestMapping("/api/v1/message")
 @RequiredArgsConstructor
 public class MessageControllerV2 {
     private final MessageServiceV2 messageServiceV2;

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/message")
+@RequestMapping("/api/v3/message")
 @RequiredArgsConstructor
 public class MessageController {
 
