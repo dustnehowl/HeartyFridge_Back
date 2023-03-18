@@ -5,6 +5,7 @@ import com.example.test.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +17,7 @@ public class Give {
     @Column(name = "GIVE_ID")
     private Long id;
     private LocalDateTime giveTime;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member giver;
     @OneToOne

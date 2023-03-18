@@ -1,5 +1,9 @@
 package com.example.test.config.security;
 
+import com.example.test.exception.auth.ExpiredException;
+import com.example.test.exception.auth.IllegalException;
+import com.example.test.exception.auth.MalformedException;
+import com.example.test.exception.auth.UnsupportedException;
 import com.google.auth.oauth2.JwtProvider;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -76,17 +80,17 @@ public class JwtAuthenticationFilter implements Filter {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
-            throw e;
+            throw new MalformedException();
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
-            throw e;
+            throw new ExpiredException(e);
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
-            throw e;
+            throw new UnsupportedException();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             log.info("JWT 토큰이 잘못되었습니다.");
-            throw e;
+            throw new IllegalException();
         }
     }
 }
