@@ -47,7 +47,7 @@ public class MessageService {
         receiver.setIsAlert(true);
 
         String noticeMessage = takeItem.getItem().getFood().getName().toString() + "에 대한 메세지가 있습니다.";
-        Notification notification = new Notification(receiver,noticeMessage, currentTime, false);
+        Notification notification = new Notification(receiver,noticeMessage,"message", currentTime, false);
         notificationService.notice(notification);
 
         messageRepository.save(message);

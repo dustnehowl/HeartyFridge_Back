@@ -19,13 +19,15 @@ public class Notification {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
     private String message;
+    private String type;
     private LocalDate noticeTime;
     @Setter
     private Boolean isCheck;
 
-    public Notification(Member member, String message, LocalDateTime noticeTime, Boolean isCheck){
+    public Notification(Member member, String message, String type, LocalDateTime noticeTime, Boolean isCheck){
         this.member = member;
         this.message = message;
+        this.type = type;
         this.noticeTime = noticeTime.toLocalDate();
         this.isCheck = isCheck;
     }

@@ -51,7 +51,7 @@ public class TakeService {
         LocalDateTime currentTime = LocalDateTime.now();
 
         String noticeMessage = "예약 중인 " + item.getFood().getName() + " 이 있습니다.";
-        Notification notification = new Notification(taker, noticeMessage, currentTime, false);
+        Notification notification = new Notification(taker, noticeMessage,"reserve", currentTime, false);
         notificationService.notice(notification);
 
         Take take = new Take(currentTime, taker, item);

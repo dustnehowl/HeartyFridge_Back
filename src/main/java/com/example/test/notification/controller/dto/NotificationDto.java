@@ -11,12 +11,14 @@ import java.util.stream.Collectors;
 public class NotificationDto {
     private Long notificationId;
     private String message;
+    private String type;
     private LocalDate noticeDate;
     private Boolean isCheck;
 
-    public NotificationDto(Long notificationId, String message, LocalDate noticeTime, Boolean isCheck) {
+    public NotificationDto(Long notificationId, String message, String type, LocalDate noticeTime, Boolean isCheck) {
         this.notificationId = notificationId;
         this.message = message;
+        this.type = type;
         this.noticeDate = noticeTime;
         this.isCheck = isCheck;
     }
@@ -25,6 +27,7 @@ public class NotificationDto {
         return new NotificationDto(
             notification.getId(),
             notification.getMessage(),
+            notification.getType(),
             notification.getNoticeTime(),
             notification.getIsCheck()
         );
@@ -34,6 +37,7 @@ public class NotificationDto {
                 notification -> new NotificationDto(
                         notification.getId(),
                         notification.getMessage(),
+                        notification.getType(),
                         notification.getNoticeTime(),
                         notification.getIsCheck()
                 )
