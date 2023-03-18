@@ -7,11 +7,13 @@ import com.example.test.notification.controller.dto.NotificationDto;
 import com.example.test.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final MemberRepository memberRepository;
@@ -35,6 +37,7 @@ public class NotificationService {
     public String checkNotice(Long notificationId){
         Notification notification = notificationRepository.findNotificationsById(notificationId);
         notification.setIsCheck(true);
+        notificationRepository.save(notification);
         return "확인 완료!";
     }
 }
