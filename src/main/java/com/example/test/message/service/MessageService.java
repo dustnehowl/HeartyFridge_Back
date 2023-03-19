@@ -48,7 +48,7 @@ public class MessageService {
 
         String noticeMessage = takeItem.getItem().getFood().getName().toString() + "에 대한 메세지가 있습니다.";
         Notification notification = new Notification(receiver,noticeMessage,"message", currentTime, false);
-        notificationService.notice(notification);
+        notificationService.makeNotice(notification);
 
         messageRepository.save(message);
         return new MessageResponseDto(message);

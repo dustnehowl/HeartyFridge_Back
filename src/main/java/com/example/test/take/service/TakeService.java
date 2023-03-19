@@ -20,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +50,7 @@ public class TakeService {
 
         String noticeMessage = "예약 중인 " + item.getFood().getName() + " 이 있습니다.";
         Notification notification = new Notification(taker, noticeMessage,"reserve", currentTime, false);
-        notificationService.notice(notification);
+        notificationService.makeNotice(notification);
 
         Take take = new Take(currentTime, taker, item);
         taker.getTakeList().add(take);

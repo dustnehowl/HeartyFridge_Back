@@ -29,7 +29,7 @@ public class NotificationService {
         return NotificationDto.of(notifications);
     }
 
-    public NotificationDto notice(Notification notification){
+    public NotificationDto makeNotice(Notification notification){
         notificationRepository.save(notification);
         return NotificationDto.from(notification);
     }
