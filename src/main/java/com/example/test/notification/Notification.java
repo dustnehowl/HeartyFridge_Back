@@ -12,6 +12,10 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 public class Notification {
+    public enum Category {
+        MESSAGE,
+        TAKE
+    }
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NOTIFICATION_ID")
     private Long id;
@@ -19,6 +23,7 @@ public class Notification {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
     private String message;
+    private Category category;
     private String type;
     private LocalDate noticeTime;
     @Setter
