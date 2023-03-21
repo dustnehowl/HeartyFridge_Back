@@ -15,15 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MessageControllerV2 {
     private final MessageServiceV2 messageServiceV2;
-    @GetMapping("/test")
-    public String test(){
-        return messageServiceV2.test();
-    }
-
-    @PostMapping("/sendMessage")
-    public ResponseEntity<Result> sendMessage(@RequestBody MessageRequestDto2 messageRequestDto2){
-        return ResponseEntity.ok().body(new Result(messageServiceV2.sendMessage(messageRequestDto2)));
-    }
     @PostMapping("/takeMessage")
     public ResponseEntity<Result> takeMessage(ServletRequest servletRequest, @RequestBody TakeMessageRequest takeMessageRequest){
         String memberId = (String) servletRequest.getAttribute("memberId");
