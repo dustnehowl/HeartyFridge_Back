@@ -21,10 +21,6 @@ public class Member {
     private String profileImage;
     @Setter
     private Boolean isTaker;
-    @OneToMany(mappedBy = "giver")
-    private List<Give> giveList;
-    @OneToMany(mappedBy = "taker")
-    private List<Take> takeList;
     private LocalDate joinDate;
 
     public Member(){

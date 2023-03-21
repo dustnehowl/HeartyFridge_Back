@@ -33,10 +33,12 @@ public class BookmarkService {
         Fridge fridge = fridgeRepository.findFridgeById(fridgeId).get();
 
         Optional<Bookmark> bookmarkByMemberAndFridge = bookmarkRepository.findBookmarkByMemberAndFridge(member, fridge);
-
         if(bookmarkByMemberAndFridge.isPresent()) throw new DuplicateBookmarkException();
 
-        Bookmark bookmark = new Bookmark(member, fridge);
+        Bookmark bookmark = Bookmark.builder()
+                .fridge(fridge)
+                .member(member)
+                .build();
         bookmarkRepository.save(bookmark);
 
         return BookmarkResponse.from(bookmark);

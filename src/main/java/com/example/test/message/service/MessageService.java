@@ -43,14 +43,18 @@ public class MessageService {
                 currentTime
         );
 
-        takeItem.setIsDone(true);
-        receiver.setIsAlert(true);
+        String noticeMessage = takeItem.getItem().getFood().getName().toString() + " 에 대한 메세지가 있습니다.";
+        Notification notification = Notification.builder()
+                .member(receiver)
+                .message(noticeMessage)
+                .category(Notification.Category.MESSAGE)
+                .noticeTime(currentTime)
+                .isCheck(false)
+                .build();
 
-        String noticeMessage = takeItem.getItem().getFood().getName().toString() + "에 대한 메세지가 있습니다.";
-        Notification notification = new Notification(receiver,noticeMessage,"message", currentTime, false);
         notificationService.makeNotice(notification);
-
         messageRepository.save(message);
+
         return new MessageResponseDto(message);
     }
 

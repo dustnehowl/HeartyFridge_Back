@@ -3,6 +3,7 @@ package com.example.test.notification;
 import com.example.test.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class Notification {
     public enum Category {
         MESSAGE,
-        TAKE
+        RESERVE
     }
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NOTIFICATION_ID")
@@ -23,16 +24,17 @@ public class Notification {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
     private String message;
-    private Category category;
-    private String type;
+    private Category type;
+    //private String type;
     private LocalDate noticeTime;
     @Setter
     private Boolean isCheck;
 
-    public Notification(Member member, String message, String type, LocalDateTime noticeTime, Boolean isCheck){
+    @Builder
+    public Notification(Member member, String message,Category category, LocalDateTime noticeTime, Boolean isCheck){
         this.member = member;
         this.message = message;
-        this.type = type;
+        this.type = category;
         this.noticeTime = noticeTime.toLocalDate();
         this.isCheck = isCheck;
     }

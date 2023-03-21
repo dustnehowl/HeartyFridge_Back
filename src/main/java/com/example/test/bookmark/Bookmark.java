@@ -4,6 +4,7 @@ import com.example.test.fridge.Fridge;
 import com.example.test.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -22,6 +23,7 @@ public class Bookmark {
 
     public Bookmark() {}
 
+    @Builder
     public Bookmark(Member member, Fridge fridge) {
         this.member = member;
         this.fridge = fridge;

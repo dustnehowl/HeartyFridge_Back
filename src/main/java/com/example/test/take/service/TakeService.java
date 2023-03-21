@@ -49,12 +49,16 @@ public class TakeService {
         LocalDateTime currentTime = LocalDateTime.now();
 
         String noticeMessage = "예약 중인 " + item.getFood().getName() + " 이 있습니다.";
-        Notification notification = new Notification(taker, noticeMessage,"reserve", currentTime, false);
+        Notification notification = Notification.builder()
+                .member(taker)
+                .message(noticeMessage)
+                .category(Notification.Category.RESERVE)
+                .noticeTime(currentTime)
+                .isCheck(false)
+                .build();
         notificationService.makeNotice(notification);
 
         Take take = new Take(currentTime, taker, item);
-        taker.getTakeList().add(take);
-
         takeRepository.save(take);
         return new TakeResponseDto(take);
     }
