@@ -25,16 +25,15 @@ public class Notification {
     private Member member;
     private String message;
     private Category type;
-    //private String type;
     private LocalDate noticeTime;
     @Setter
     private Boolean isCheck;
 
     @Builder
-    public Notification(Member member, String message,Category category, LocalDateTime noticeTime, Boolean isCheck){
+    public Notification(Member member, String message, Category type, LocalDateTime noticeTime, Boolean isCheck){
         this.member = member;
         this.message = message;
-        this.type = category;
+        this.type = type;
         this.noticeTime = noticeTime.toLocalDate();
         this.isCheck = isCheck;
     }

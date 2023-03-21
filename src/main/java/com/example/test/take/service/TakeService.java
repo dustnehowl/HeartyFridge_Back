@@ -52,7 +52,7 @@ public class TakeService {
         Notification notification = Notification.builder()
                 .member(taker)
                 .message(noticeMessage)
-                .category(Notification.Category.RESERVE)
+                .type(Notification.Category.RESERVE)
                 .noticeTime(currentTime)
                 .isCheck(false)
                 .build();
