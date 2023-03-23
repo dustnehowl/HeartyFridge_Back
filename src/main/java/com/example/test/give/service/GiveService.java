@@ -50,7 +50,6 @@ public class GiveService {
         imageService.saveImageList(new ImageListRequest(save.getId(), giveRequestDto.getImages()));
         messageServiceV2.giveMessage(new GiveMessageDto(save.getId(), giveRequestDto.getMessage()));
 
-        giver.getGiveList().add(save);
         fridge.getGiveList().add(save);
 
         return new GiveResponseDto(save);

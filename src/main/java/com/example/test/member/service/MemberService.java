@@ -95,19 +95,6 @@ public class MemberService {
 
     }
 
-    public ProfileDto getProfile(String id) {
-        Long memberId = Long.parseLong(id);
-        Member member = memberRepository.findMemberById(memberId).get();
-        List<Take> reservationList = takeRepository.findAll();
-
-
-        List<TakeListDto> takeListDtos = TakeListDto.of(reservationList);
-
-        ProfileDto profileDto = new ProfileDto(member);
-        profileDto.setReservationList(takeListDtos);
-
-        return profileDto;
-    }
 
     public AuthTakerDto authTaker(AuthTakerRequest authTakerRequest) {
         // 시리얼 번호로 진품 가품 확인하기!!!
@@ -122,12 +109,6 @@ public class MemberService {
             else throw new RuntimeException();
         }
         return new AuthTakerDto(authTakerRequest);
-    }
-
-    public List<ProfileDto> getAll(){
-        return memberRepository.findAll().stream()
-                .map(ProfileDto::new)
-                .collect(Collectors.toList());
     }
 
     private String hex(byte[] array) {

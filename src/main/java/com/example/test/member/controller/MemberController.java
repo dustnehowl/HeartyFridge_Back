@@ -51,8 +51,4 @@ public class MemberController {
         return new Result(memberService.testToken(servletRequest));
     }
 
-    @GetMapping("/all")
-    public Result allUser(){
-        return new Result(memberService.getAll());
-    }
 }

@@ -1,7 +1,6 @@
 package com.example.test.member.controller.dto.v2;
 
 import com.example.test.member.Member;
-import com.example.test.member.controller.dto.ProfileDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -13,6 +13,9 @@ import com.example.test.messageV2.controller.dto.MessageResponseDto2;
 import com.example.test.messageV2.controller.dto.v2.MessageDto;
 import com.example.test.messageV2.controller.dto.v2.TakeMessageRequest;
 import com.example.test.messageV2.repository.MessageRepositoryV2;
+import com.example.test.notification.Notification;
+import com.example.test.notification.repository.NotificationRepository;
+import com.example.test.notification.service.NotificationService;
 import com.example.test.take.Take;
 import com.example.test.take.repository.TakeRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,7 @@ public class MessageServiceV2 {
     private final MemberRepository memberRepository;
     private final FridgeRepository fridgeRepository;
     private final TakeRepository takeRepository;
+    private final NotificationService notificationService;
 
     public String test() {
         return "OK";
@@ -51,7 +55,7 @@ public class MessageServiceV2 {
                 sender,
                 message
         );
-        fridge.getMessageList().add(messageV2);
+//        fridge.getMessageList().add(messageV2);
 
         messageRepositoryV2.save(messageV2);
         return new MessageResponseDto2(messageV2);
@@ -97,6 +101,17 @@ public class MessageServiceV2 {
 
         take.setStatus(Take.Status.COMPLETED);
         messageRepositoryV2.save(messageV2);
+        String noticeMessage = take.getItem().getFood().getName().toString() + " 에 대한 메세지가 있습니다.";
+        Notification notification = Notification.builder()
+                .member(receiver)
+                .message(noticeMessage)
+                .type(Notification.Category.MESSAGE)
+                .noticeTime(currTime)
+                .isCheck(false)
+                .build();
+
+        notificationService.makeNotice(notification);
+
         return new MessageResponseDto2(messageV2);
     }
     public List<MessageDto> getSendMessages(Long senderId) {

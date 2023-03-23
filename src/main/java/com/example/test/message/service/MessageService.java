@@ -47,7 +47,7 @@ public class MessageService {
         Notification notification = Notification.builder()
                 .member(receiver)
                 .message(noticeMessage)
-                .category(Notification.Category.MESSAGE)
+                .type(Notification.Category.MESSAGE)
                 .noticeTime(currentTime)
                 .isCheck(false)
                 .build();
