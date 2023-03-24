@@ -119,7 +119,7 @@ public class MessageServiceV2 {
     }
     public List<MessageDto> getReceiveMessages(Long receiverId) {
         Member receiver = findMemberById(receiverId);
-        List<MessageV2> messages = messageRepositoryV2.findMessageV2sBySender(receiver);
+        List<MessageV2> messages = messageRepositoryV2.findMessageV2sByReceiver(receiver);
         return MessageDto.of2(messages,"receive");
     }
     private Member findMemberById(Long memberId) {

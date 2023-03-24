@@ -20,7 +20,7 @@ services:
 
     container_name: test_server
     build: ./
-    image: dustnehowl/test:0.0.105
+    image: dustnehowl/test:0.0.106
     environment:
       - TZ=Asia/Seoul
     ports:
