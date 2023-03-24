@@ -39,9 +39,10 @@ public class TakeService {
 
         Member taker = findMemberById(memberId);
         Give item = giveRepository.findGiveById(give_id).get();
+        int numNotDone = numTakesNotDone(member_id);
 
         if(item.getIsReserved()) throw new OnReservedFoodException();
-        if(takeRepository.findTakesByTakerAndIsDone(taker, false).size() >= 2) throw new TooManyReservedException();
+        if(numNotDone >= 2) throw new TooManyReservedException();
         if(!taker.getIsTaker()) throw new NotTakerException();
         if(item.getGiver() == taker) throw new SameGiverTakerException();
 
@@ -76,8 +77,8 @@ public class TakeService {
         Long memberId = Long.parseLong(member_id);
         Member taker = findMemberById(memberId);
 
-        List<Take> takeListNotDone = takeRepository.findTakesByTakerAndIsDone(taker, false);
-        return takeListNotDone.size();
+        List<Take> takeListPENDING = takeRepository.findTakesByTakerAndStatus(taker, Take.Status.PENDING);
+        return takeListPENDING.size();
     }
 
     public List<TakeDtoV2> getReservation(Long takerId) {

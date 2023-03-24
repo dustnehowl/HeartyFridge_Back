@@ -11,4 +11,5 @@ public interface TakeRepository extends JpaRepository<Take, Long> {
     Optional<Take> findTakeById(Long id);
     List<Take> findTakesByTaker(Member taker);
     List<Take> findTakesByTakerAndIsDone(Member taker, Boolean isDone);
+    List<Take> findTakesByTakerAndStatus(Member taker, Take.Status status);
 }
