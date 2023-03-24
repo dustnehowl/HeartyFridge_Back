@@ -33,14 +33,14 @@ public class MemberController {
         return ResponseEntity.ok()
                 .body(new Result(memberService.getOnlyProfile(Long.parseLong(memberId))));
     }
-    @GetMapping("/getProfile2")
-    public ResponseEntity<Result> getProfile(ServletRequest servletRequest){
-        return ResponseEntity.ok().body(new Result(memberService.getProfile2(servletRequest)));
-    }
-    @GetMapping("/getProfile3")
-    public ResponseEntity<Result> getProfile3(ServletRequest servletRequest){
-        return ResponseEntity.ok().body(new Result(memberService.getProfile3(servletRequest)));
-    }
+//    @GetMapping("/getProfile2")
+//    public ResponseEntity<Result> getProfile(ServletRequest servletRequest){
+//        return ResponseEntity.ok().body(new Result(memberService.getProfile2(servletRequest)));
+//    }
+//    @GetMapping("/getProfile3")
+//    public ResponseEntity<Result> getProfile3(ServletRequest servletRequest){
+//        return ResponseEntity.ok().body(new Result(memberService.getProfile3(servletRequest)));
+//    }
     @GetMapping("/getToken")
     public Result getToken(@RequestParam Long memberId){
         return new Result(memberService.getToken(memberId));
