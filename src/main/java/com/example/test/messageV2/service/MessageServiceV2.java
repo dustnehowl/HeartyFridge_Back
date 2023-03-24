@@ -8,13 +8,11 @@ import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
 import com.example.test.messageV2.MessageV2;
 import com.example.test.messageV2.controller.dto.GiveMessageDto;
-import com.example.test.messageV2.controller.dto.MessageRequestDto2;
 import com.example.test.messageV2.controller.dto.MessageResponseDto2;
 import com.example.test.messageV2.controller.dto.v2.MessageDto;
 import com.example.test.messageV2.controller.dto.v2.TakeMessageRequest;
 import com.example.test.messageV2.repository.MessageRepositoryV2;
 import com.example.test.notification.Notification;
-import com.example.test.notification.repository.NotificationRepository;
 import com.example.test.notification.service.NotificationService;
 import com.example.test.take.Take;
 import com.example.test.take.repository.TakeRepository;
@@ -81,7 +79,7 @@ public class MessageServiceV2 {
         return messageResponseDto2s;
     }
 
-    public MessageResponseDto2 takeMessage(Long memberId, TakeMessageRequest takeMessageRequest) {
+    public MessageResponseDto2 leaveMessage(Long memberId, TakeMessageRequest takeMessageRequest) {
         Member sender = findMemberById(memberId);
         Take take = findTakeById(takeMessageRequest.getTakeId());
         Member receiver = take.getItem().getGiver();
