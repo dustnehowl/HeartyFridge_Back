@@ -37,6 +37,16 @@ public class TakeController {
         );
     }
 
+    @DeleteMapping("/cancel")
+    public ResponseEntity<Result> cancelTake(ServletRequest servletRequest, @RequestParam Long takeId){
+        String takerId = (String) servletRequest.getAttribute("memberId");
+        return ResponseEntity.ok().body(
+                new Result(takeService.cancel(Long.parseLong(takerId), takeId))
+        );
+
+    }
+
+
     @PutMapping("/checkFood")
     public ResponseEntity<Result> checkFood(ServletRequest servletRequest, @RequestParam Long takeId){
         String memberId = (String) servletRequest.getAttribute("memberId");

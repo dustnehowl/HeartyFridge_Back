@@ -115,4 +115,16 @@ public class TakeService {
         return memberRepository.findMemberById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
     }
+
+    public String cancel(Long takerId, Long takeId) {
+        Member taker = findMemberById(takerId);
+        Take take = findTakeById(takeId);
+
+        if(take.getTaker() == taker){
+            take.getItem().setIsReserved(false);
+            takeRepository.delete(take);
+        }
+
+        return "Cancel success!";
+    }
 }
