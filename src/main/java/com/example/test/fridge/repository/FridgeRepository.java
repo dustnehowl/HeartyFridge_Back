@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface FridgeRepository extends JpaRepository<Fridge, Long> {
     Optional<Fridge> findFridgeByAddress(String address);
     Optional<Fridge> findFridgeById(Long id);
-    @Query("SELECT f FROM Fridge f WHERE f.name LIKE %:keyword% OR f.address LIKE %:keyword%")
+    @Query("SELECT f FROM Fridge f WHERE f.name LIKE %:keyword%")
     List<Fridge> search(@Param("keyword") String keyword);
 
 }
