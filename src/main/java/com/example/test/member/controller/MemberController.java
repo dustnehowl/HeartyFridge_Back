@@ -27,6 +27,12 @@ public class MemberController {
         return ResponseEntity.ok().body(memberService.authTaker(authTakerRequest));
     }
 
+    @PutMapping("/cancelTaker")
+    public ResponseEntity<Result> cancelTaker(ServletRequest servletRequest){
+        String memberId = (String) servletRequest.getAttribute("memberId");
+        return ResponseEntity.ok().body(new Result(memberService.cancelTaker(Long.parseLong(memberId))));
+    }
+
     @GetMapping("/getProfile")
     public ResponseEntity<Result> hello(ServletRequest servletRequest){
         String memberId = (String) servletRequest.getAttribute("memberId");

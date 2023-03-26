@@ -193,4 +193,15 @@ public class MemberService {
         Long memberId = Long.parseLong((String)servletRequest.getAttribute("memberId"));
         return memberId;
     }
+
+    public String cancelTaker(long memberId) {
+        Member member = findMemberById(memberId);
+        member.setIsTaker(false);
+        return "Cancel success!";
+    }
+
+    private Member findMemberById(Long memberId) {
+        return memberRepository.findMemberById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid member id: " + memberId));
+    }
 }
