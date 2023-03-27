@@ -22,7 +22,7 @@ public class MemberController {
         return ResponseEntity.ok().body(memberService.googleLogin(accessToken));
     }
 
-    @PostMapping("/authTaker")
+    @PutMapping("/authTaker")
     public ResponseEntity<AuthTakerDto> authTaker(ServletRequest servletRequest, @RequestBody AuthTakerRequest authTakerRequest){
         String memberId = (String) servletRequest.getAttribute("memberId");
         return ResponseEntity.ok().body(memberService.authTaker(Long.parseLong(memberId), authTakerRequest));
