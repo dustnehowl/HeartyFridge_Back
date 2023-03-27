@@ -23,8 +23,9 @@ public class MemberController {
     }
 
     @PostMapping("/authTaker")
-    public ResponseEntity<AuthTakerDto> authTaker(@RequestBody AuthTakerRequest authTakerRequest){
-        return ResponseEntity.ok().body(memberService.authTaker(authTakerRequest));
+    public ResponseEntity<AuthTakerDto> authTaker(ServletRequest servletRequest, @RequestBody AuthTakerRequest authTakerRequest){
+        String memberId = (String) servletRequest.getAttribute("memberId");
+        return ResponseEntity.ok().body(memberService.authTaker(Long.parseLong(memberId), authTakerRequest));
     }
 
     @PutMapping("/cancelTaker")

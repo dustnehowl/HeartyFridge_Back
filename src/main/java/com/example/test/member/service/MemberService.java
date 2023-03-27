@@ -96,18 +96,9 @@ public class MemberService {
     }
 
 
-    public AuthTakerDto authTaker(AuthTakerRequest authTakerRequest) {
-        // 시리얼 번호로 진품 가품 확인하기!!!
-        Boolean is_taker = true;
-        if(is_taker == true){
-            Optional<Member> member = memberRepository.findMemberById(authTakerRequest.getMember_id());
-            if(member.isPresent()){
-                member.get().setIsTaker(true);
-                memberRepository.save(member.get());
-            }
-
-            else throw new RuntimeException();
-        }
+    public AuthTakerDto authTaker(Long memberId, AuthTakerRequest authTakerRequest) {
+        Member member = findMemberById(memberId);
+        member.setIsTaker(true);
         return new AuthTakerDto(authTakerRequest);
     }
 

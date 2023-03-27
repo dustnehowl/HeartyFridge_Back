@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AuthTakerRequest {
-    private Long member_id;
+    private String name;
     private int issueNum;
     private int serialNum1;
     private int serialNum2;

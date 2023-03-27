@@ -9,7 +9,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class AuthTakerDto {
 
-    private Long member_id;
+    private String name;
     private int issueNum;
     private int serialNum1;
     private int serialNum2;
@@ -17,7 +17,7 @@ public class AuthTakerDto {
     private int serialNum4;
 
     public AuthTakerDto(AuthTakerRequest authTakerRequest){
-        this.member_id = authTakerRequest.getMember_id();
+        this.name = authTakerRequest.getName();
         this.issueNum = authTakerRequest.getIssueNum();
         this.serialNum1 = authTakerRequest.getSerialNum1();
         this.serialNum2 = authTakerRequest.getSerialNum2();
