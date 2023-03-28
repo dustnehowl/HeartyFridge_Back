@@ -94,8 +94,6 @@ public class MemberService {
         }
 
     }
-
-
     public AuthTakerDto authTaker(Long memberId, AuthTakerRequest authTakerRequest) {
         Member member = findMemberById(memberId);
         member.setIsTaker(true);

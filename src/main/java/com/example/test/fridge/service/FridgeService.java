@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -111,5 +112,48 @@ public class FridgeService {
                 .collect(Collectors.toList());
 
         return new AllFridgeResponse(fridgeDtoList);
+    }
+
+    public String setKorean(){
+        List<Fridge> fridges = fridgeRepository.findAll();
+        for(Fridge fridge : fridges){
+            fridge.setLanguage1(Fridge.Language.KOREAN);
+        }
+        return "OK! Done!";
+    }
+
+    public String setEnglish(){
+        long fridgeId=0;
+        try {
+            JSONParser parser = new JSONParser();
+            Reader reader = new FileReader("src/main/resources/static/fridge_en4.json");
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+
+            JSONArray jsonArray = (JSONArray) jsonObject.get("data");
+            int jsonSize = jsonArray.size();
+            for(int i=0; i<jsonSize; i++){
+                System.out.println("fridgeId : " + fridgeId);
+                System.out.println("JSON size : " + jsonSize);
+                fridgeId = (long) i+1;
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                String address_en = jsonObject1.get("address_en").toString();
+                String name_en = jsonObject1.get("name_en").toString();
+//                System.out.println("address_en : " + address_en);
+//                System.out.println("name_en : " + name_en);
+
+                Fridge fridge = fridgeRepository.findFridgeById(fridgeId).get();
+                fridge.setAddress_ko(fridge.getAddress());
+                fridge.setName_ko(fridge.getName());
+                fridge.setAddress(address_en);
+                fridge.setName(name_en);
+
+            }
+            return "Save Done!!";
+        }
+        catch(IOException | ParseException e)
+        {
+            System.out.println(fridgeId);
+            throw new RuntimeException(e);
+        }
     }
 }

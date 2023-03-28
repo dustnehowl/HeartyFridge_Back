@@ -38,4 +38,14 @@ public class FridgeController {
         //String keyword = searchRequest.getKeyword();
         return ResponseEntity.ok().body(new Result(fridgeService.findByKeyword(Long.parseLong(memberId), keyword)));
     }
+
+    @PostMapping("/setKorean")
+    public String setKorean(){
+        return fridgeService.setKorean();
+    }
+
+    @PutMapping("/setEnglish")
+    public String setEnglish(){
+        return fridgeService.setEnglish();
+    }
 }

@@ -10,19 +10,22 @@ import java.util.stream.Collectors;
 @Data
 public class MessageDto {
     private Long messageId;
+    private String foodName;
     private String type;
     private String message;
     private String fridgeAddress;
     private LocalDateTime time;
 
-    public MessageDto(Long messageId, String message, String fridgeAddress, LocalDateTime time){
+    public MessageDto(Long messageId, String foodName, String message, String fridgeAddress, LocalDateTime time){
         this.messageId = messageId;
+        this.foodName = foodName;
         this.message = message;
         this.fridgeAddress = fridgeAddress;
         this.time = time;
     }
-    public MessageDto(Long messageId, String message, String fridgeAddress, LocalDateTime time, String type){
+    public MessageDto(Long messageId, String foodName, String message, String fridgeAddress, LocalDateTime time, String type){
         this.messageId = messageId;
+        this.foodName = foodName;
         this.type = type;
         this.message = message;
         this.fridgeAddress = fridgeAddress;
@@ -32,6 +35,7 @@ public class MessageDto {
     public static MessageDto from(MessageV2 messageV2){
         return new MessageDto(
                 messageV2.getId(),
+                messageV2.getGive().getFood().getName(),
                 messageV2.getMessage(),
                 messageV2.getFridge().getAddress(),
                 messageV2.getSendTime()
@@ -42,6 +46,7 @@ public class MessageDto {
         return messageV2s.stream().map(
                messageV2 -> new MessageDto(
                        messageV2.getId(),
+                       messageV2.getGive().getFood().getName(),
                        messageV2.getMessage(),
                        messageV2.getFridge().getAddress(),
                        messageV2.getSendTime()
@@ -52,6 +57,7 @@ public class MessageDto {
         return messageV2s.stream().map(
                 messageV2 -> new MessageDto(
                         messageV2.getId(),
+                        messageV2.getGive().getFood().getName(),
                         messageV2.getMessage(),
                         messageV2.getFridge().getAddress(),
                         messageV2.getSendTime(),

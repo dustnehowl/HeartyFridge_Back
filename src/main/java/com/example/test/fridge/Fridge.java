@@ -13,16 +13,28 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 public class Fridge {
+    public enum Language {
+        KOREAN,
+        ENGLISH
+    }
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FRIDGE_ID")
     private Long id;
+    @Setter
     private String address;
     private String fridgeImage;
+    @Setter
+    private String address_ko;
+    @Setter
+    private String name_ko;
+    @Setter
     private String name;
     private double lat;
     private double lng;
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private Language language1;
     @Formula("(select count(1) from give g where g.fridge_id = fridge_id)")
     private int giveCount;
 
