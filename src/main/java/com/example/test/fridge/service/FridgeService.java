@@ -114,13 +114,13 @@ public class FridgeService {
         return new AllFridgeResponse(fridgeDtoList);
     }
 
-    public String setKorean(){
-        List<Fridge> fridges = fridgeRepository.findAll();
-        for(Fridge fridge : fridges){
-            fridge.setLanguage1(Fridge.Language.KOREAN);
-        }
-        return "OK! Done!";
-    }
+//    public String setKorean(){
+//        List<Fridge> fridges = fridgeRepository.findAll();
+//        for(Fridge fridge : fridges){
+//            fridge.setLanguage1(Fridge.Language.KOREAN);
+//        }
+//        return "OK! Done!";
+//    }
 
     public String setEnglish(){
         long fridgeId=0;

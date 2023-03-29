@@ -39,10 +39,10 @@ public class FridgeController {
         return ResponseEntity.ok().body(new Result(fridgeService.findByKeyword(Long.parseLong(memberId), keyword)));
     }
 
-    @PostMapping("/setKorean")
-    public String setKorean(){
-        return fridgeService.setKorean();
-    }
+//    @PostMapping("/setKorean")
+//    public String setKorean(){
+//        return fridgeService.setKorean();
+//    }
 
     @PutMapping("/setEnglish")
     public String setEnglish(){

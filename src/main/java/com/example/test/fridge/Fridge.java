@@ -32,9 +32,9 @@ public class Fridge {
     private String name;
     private double lat;
     private double lng;
-    @Setter
-    @Enumerated(EnumType.STRING)
-    private Language language1;
+//    @Setter
+//    @Enumerated(EnumType.STRING)
+//    private Language language1;
     @Formula("(select count(1) from give g where g.fridge_id = fridge_id)")
     private int giveCount;
 
