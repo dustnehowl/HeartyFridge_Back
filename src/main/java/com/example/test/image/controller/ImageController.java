@@ -1,6 +1,7 @@
 package com.example.test.image.controller;
 
 import com.example.test.config.generic.Result;
+import com.example.test.give.Give;
 import com.example.test.image.controller.dto.ImageListRequest;
 import com.example.test.image.service.ImageService;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,12 @@ public class ImageController {
         imageService.saveImageList(request);
         return ResponseEntity.ok().build();
     }
+
+//    @PostMapping("/saveImage")
+//    public ResponseEntity<Void> saveImage(@RequestBody MultipartFile request){
+//        imageService.uploadFileToGcs(request,);
+//        return ResponseEntity.ok().build();
+//    }
 
     @Data
     @AllArgsConstructor

@@ -31,7 +31,8 @@ spring:
       storage:
         credentials:
           location:
-            classpath: hopeful-canto-373101-aa354203c638.json
+            classpath: friendly-legacy-382417-5ebd67ec1504.json
+            # classpath: hopeful-canto-373101-aa354203c638.json
 
 springdoc:
   swagger-ui:

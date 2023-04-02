@@ -35,8 +35,44 @@ public class ImageService {
     private final GiveRepository giveRepository;
     private final Storage storage;
 
+    public Image uploadFileToGcs(MultipartFile file, Give give){
+        try
+        {
+            String originalFilename = file.getOriginalFilename();
+            String storeFilename = createStoreFileName(originalFilename);
+
+            Image image = new Image(originalFilename, storeFilename, give);
+            imageRepository.save(image);
+            // 1. MultipartFile 객체에서 파일을 읽어옵니다.
+            byte[] content = file.getBytes();
+
+            // 2. GCS에 연결하고 BlobId를 생성합니다.
+            String bucketName = "slowy_gcs_1";
+            //String objectName = UUID.randomUUID().toString(); // 파일 이름으로 사용할 UUID 생성
+            BlobId blobId = BlobId.of(bucketName, storeFilename);
+
+            // 3. BlobInfo 객체를 생성합니다.
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                    .setContentType(file.getContentType())
+                    .build();
+
+            // 4. Storage 객체를 사용하여 Blob을 업로드합니다.
+            storage.create(blobInfo, content);
+
+            // 5. 업로드된 파일의 URL을 반환합니다.
+            return image;
+        }
+        catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
+    private final String storageBaseUrl = "gs://%s/";
+    private final String bucketId = "friendly-legacy-382417";
+    private final String buckerName = "slowy_gcs_1";
+
     public String get(String filename) {
-        Resource resource = applicationContext.getResource(String.format("gs://%s/" + filename, "hopeful-canto-373101"));
+        Resource resource = applicationContext.getResource(String.format(storageBaseUrl + filename, bucketId));
         try {
             return StreamUtils.copyToString(
                     resource.getInputStream(),
@@ -69,26 +105,8 @@ public class ImageService {
         List<MultipartFile> multipartFiles = request.getImages();
         List<Image> images = new ArrayList<>();
         for(MultipartFile multipartFile : multipartFiles){
-            String originalFilename = multipartFile.getOriginalFilename();
-            String storeFilename = createStoreFileName(originalFilename);
-
-            Image image = new Image(originalFilename, storeFilename, give);
-            imageRepository.save(image);
+            Image image = uploadFileToGcs(multipartFile, give);
             images.add(image);
-
-            String uuidFileName = image.getUuidFileName();
-            try{
-                //multipartFile.transferTo(new File("/Users/gim-yeonsu/"+ uuidFileName));
-                storage.create(
-                        BlobInfo.newBuilder("slowy_storage123", uuidFileName)
-                                .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllAuthenticatedUsers(), Acl.Role.READER))))
-                                .setContentType("image/png")
-                                .build(),
-                        multipartFile.getInputStream());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
         }
         return new ImageListResponse(request.getGiveId(), ImageDto.of(images));
     }
