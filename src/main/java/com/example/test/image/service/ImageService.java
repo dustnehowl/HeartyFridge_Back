@@ -111,12 +111,10 @@ public class ImageService {
     public ImageListResponse saveImageList(ImageListRequest request) {
         Give give = giveRepository.findGiveById(request.getGiveId()).get();
 
-        List<MultipartFile> multipartFiles = request.getImages();
+        MultipartFile multipartFile = request.getImage();
         List<Image> images = new ArrayList<>();
-        for(MultipartFile multipartFile : multipartFiles){
-            Image image = uploadFileToGcs(multipartFile, give);
-            images.add(image);
-        }
+        Image image = uploadFileToGcs(multipartFile, give);
+        images.add(image);
         return new ImageListResponse(request.getGiveId(), ImageDto.of(images));
     }
 }

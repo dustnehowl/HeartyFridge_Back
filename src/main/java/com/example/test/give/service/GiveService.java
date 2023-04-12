@@ -49,7 +49,7 @@ public class GiveService {
         Give give = new Give(currentTime, giver, food, fridge);
         Give save = giveRepository.save(give);
 
-        imageService.saveImageList(new ImageListRequest(save.getId(), giveRequestDto.getImages()));
+        imageService.saveImageList(new ImageListRequest(save.getId(), giveRequestDto.getImage()));
         messageServiceV2.giveMessage(new GiveMessageDto(save.getId(), giveRequestDto.getMessage()));
 
         fridge.getGiveList().add(save);

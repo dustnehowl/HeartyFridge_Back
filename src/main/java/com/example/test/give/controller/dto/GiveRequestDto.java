@@ -19,7 +19,7 @@ public class GiveRequestDto {
     private String category;
     private String message;
     private String fridgeId;
-    private List<MultipartFile> images;
+    private MultipartFile image;
 
     public Food toEntity() {
         return new Food(

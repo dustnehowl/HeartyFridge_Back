@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ImageListRequest {
     private Long giveId;
-    private List<MultipartFile> images;
+    private MultipartFile image;
 }
