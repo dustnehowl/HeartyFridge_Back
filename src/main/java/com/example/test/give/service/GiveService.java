@@ -19,6 +19,7 @@ import com.example.test.messageV2.service.MessageServiceV2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +36,7 @@ public class GiveService {
     @Value("${spring.cloud.gcp.storage.credentials.location.classpath}")
     private String keyFileName;
 
+    @Transactional
     public GiveResponseDto giveFood(GiveRequestDto giveRequestDto, Long giverId) {
 
         Member giver = memberRepository.findMemberById(giverId).get();

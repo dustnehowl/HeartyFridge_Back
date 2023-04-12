@@ -38,26 +38,35 @@ public class ImageService {
     public Image uploadFileToGcs(MultipartFile file, Give give){
         try
         {
+            System.out.println("1");
             String originalFilename = file.getOriginalFilename();
+            System.out.println("2");
             String storeFilename = createStoreFileName(originalFilename);
+            System.out.println("3");
 
             Image image = new Image(originalFilename, storeFilename, give);
+            System.out.println("4");
             imageRepository.save(image);
+            System.out.println("5");
             // 1. MultipartFile 객체에서 파일을 읽어옵니다.
             byte[] content = file.getBytes();
+            System.out.println("6");
 
             // 2. GCS에 연결하고 BlobId를 생성합니다.
             String bucketName = "slowy_gcs_1";
+            System.out.println("7");
             //String objectName = UUID.randomUUID().toString(); // 파일 이름으로 사용할 UUID 생성
             BlobId blobId = BlobId.of(bucketName, storeFilename);
+            System.out.println("8");
 
             // 3. BlobInfo 객체를 생성합니다.
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                     .setContentType(file.getContentType())
                     .build();
-
+            System.out.println("9");
             // 4. Storage 객체를 사용하여 Blob을 업로드합니다.
             storage.create(blobInfo, content);
+            System.out.println("10");
 
             // 5. 업로드된 파일의 URL을 반환합니다.
             return image;
