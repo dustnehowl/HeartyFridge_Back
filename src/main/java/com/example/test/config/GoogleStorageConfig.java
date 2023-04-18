@@ -62,5 +62,4 @@ public class GoogleStorageConfig {
                 .build();
         return storageOptions.getService();
     }
-
 }

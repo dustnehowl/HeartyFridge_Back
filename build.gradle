@@ -27,8 +27,6 @@ dependencies {
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0"
 	implementation 'com.google.cloud:google-cloud-storage:2.0.0'
 
-	//swagger
-
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -41,12 +39,12 @@ dependencies {
 	implementation 'org.elasticsearch:elasticsearch:7.16.2'
 	implementation 'com.theokanning.openai-gpt3-java:service:0.11.0'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
 
-//	implementation "io.springfox:springfox-boot-starter:3.0.0"
-//	implementation "io.springfox:springfox-swagger-ui:3.0.0"
 	//swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// s3 연동
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5', 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 //	//JWT Dependency

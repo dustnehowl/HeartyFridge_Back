@@ -10,7 +10,7 @@ import com.example.test.give.controller.dto.GiveResponseDto;
 import com.example.test.give.controller.dto.v2.GiveDto;
 import com.example.test.give.controller.dto.v2.GiveDtoV2;
 import com.example.test.give.repository.GiveRepository;
-import com.example.test.image.controller.dto.ImageListRequest;
+import com.example.test.image.controller.dto.ImageRequest;
 import com.example.test.image.service.ImageService;
 import com.example.test.member.Member;
 import com.example.test.member.repository.MemberRepository;
@@ -47,14 +47,13 @@ public class GiveService {
 
         LocalDateTime currentTime = LocalDateTime.now();
         Give give = new Give(currentTime, giver, food, fridge);
-        Give save = giveRepository.save(give);
+        giveRepository.save(give);
 
-        imageService.saveImageList(new ImageListRequest(save.getId(), giveRequestDto.getImage()));
-        messageServiceV2.giveMessage(new GiveMessageDto(save.getId(), giveRequestDto.getMessage()));
+        //imageService.saveImageList(new ImageRequest(save.getId(), giveRequestDto.getImage()));
+        imageService.saveImage(new ImageRequest(give.getId(), giveRequestDto.getImage()));
+        messageServiceV2.giveMessage(new GiveMessageDto(give.getId(), giveRequestDto.getMessage()));
 
-        fridge.getGiveList().add(save);
-
-        return new GiveResponseDto(save);
+        return new GiveResponseDto(give);
     }
 
     public GiveDto getGive(Long giveId) {

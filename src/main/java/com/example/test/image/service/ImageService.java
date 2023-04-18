@@ -1,13 +1,15 @@
 package com.example.test.image.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.test.give.Give;
 import com.example.test.give.repository.GiveRepository;
 import com.example.test.image.Image;
-import com.example.test.image.controller.ImageController;
 import com.example.test.image.controller.dto.*;
 import com.example.test.image.repository.ImageRepository;
 import com.google.cloud.storage.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -15,60 +17,63 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ImageService {
-    //private final String baseUri = "https://storage.cloud.google.com/slowy_storage123";
     private final ApplicationContext applicationContext;
     private final ImageRepository imageRepository;
     private final GiveRepository giveRepository;
     private final Storage storage;
+    private final AmazonS3Client amazonS3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    public ImageResponseS3 saveImage(ImageRequest request) {
+        Give give = findGiveById(request.getGiveId());
+        MultipartFile multipartFile = request.getImage();
+        return uploadFileToS3(multipartFile, give);
+    }
+    public ImageResponseS3 uploadFileToS3(MultipartFile file, Give give){
+        try{
+            String originalName = file.getOriginalFilename();
+            String storeFileName = createStoreFileName(originalName);
+
+            ObjectMetadata metadata= new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+            amazonS3Client.putObject(bucket,storeFileName, file.getInputStream(),metadata);
+
+            Image newImage = Image.builder()
+                    .originalFileName(originalName)
+                    .uuidFileName(storeFileName)
+                    .give(give)
+                    .build();
+            imageRepository.save(newImage);
+            return ImageResponseS3.from(newImage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Image uploadFileToGcs(MultipartFile file, Give give){
         try
         {
-            System.out.println("1");
             String originalFilename = file.getOriginalFilename();
-            System.out.println("2");
             String storeFilename = createStoreFileName(originalFilename);
-            System.out.println("3");
-
             Image image = new Image(originalFilename, storeFilename, give);
-            System.out.println("4");
             imageRepository.save(image);
-            System.out.println("5");
-            // 1. MultipartFile 객체에서 파일을 읽어옵니다.
             byte[] content = file.getBytes();
-            System.out.println("6");
-
-            // 2. GCS에 연결하고 BlobId를 생성합니다.
             String bucketName = "slowy_gcs_1";
-            System.out.println("7");
-            //String objectName = UUID.randomUUID().toString(); // 파일 이름으로 사용할 UUID 생성
             BlobId blobId = BlobId.of(bucketName, storeFilename);
-            System.out.println("8");
-
-            // 3. BlobInfo 객체를 생성합니다.
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                     .setContentType(file.getContentType())
                     .build();
-            System.out.println("9");
-            // 4. Storage 객체를 사용하여 Blob을 업로드합니다.
             storage.create(blobInfo, content);
-            System.out.println("10");
-
-            // 5. 업로드된 파일의 URL을 반환합니다.
             return image;
         }
         catch (Exception e) {
@@ -91,10 +96,21 @@ public class ImageService {
         }
     }
 
-    public ImageListResponse getImagesByGive(Long giveId){
+    public ImageResponseS3 getImagesByGive(Long giveId){
         Give give = giveRepository.findGiveById(giveId).get();
         List<Image> images = imageRepository.findImagesByGive(give);
-        return new ImageListResponse(giveId, ImageDto.of(images));
+        Image image = findImagesByGive(give);
+        return ImageResponseS3.from(image);
+    }
+
+    public ImageListResponse saveImageList(ImageRequest request) {
+        Give give = findGiveById(request.getGiveId());
+
+        MultipartFile multipartFile = request.getImage();
+        List<Image> images = new ArrayList<>();
+        Image image = uploadFileToGcs(multipartFile, give);
+        images.add(image);
+        return new ImageListResponse(request.getGiveId(), ImageDto.of(images));
     }
 
     private String createStoreFileName(String originalFilename) {
@@ -102,19 +118,14 @@ public class ImageService {
         String uuid = UUID.randomUUID().toString();
         return uuid + "." + ext;
     }
-
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
-
-    public ImageListResponse saveImageList(ImageListRequest request) {
-        Give give = giveRepository.findGiveById(request.getGiveId()).get();
-
-        MultipartFile multipartFile = request.getImage();
-        List<Image> images = new ArrayList<>();
-        Image image = uploadFileToGcs(multipartFile, give);
-        images.add(image);
-        return new ImageListResponse(request.getGiveId(), ImageDto.of(images));
+    private Give findGiveById(Long giveId){
+        return giveRepository.findGiveById(giveId).orElseThrow(() -> new RuntimeException());
+    }
+    private Image findImagesByGive(Give give){
+        return imageRepository.findImageByGive(give).orElseThrow(() -> new RuntimeException());
     }
 }
